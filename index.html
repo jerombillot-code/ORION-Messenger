@@ -4,668 +4,362 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ORION Messenger</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
 <style>
 :root {
-  --bg:     #070b12;
-  --bg2:    #0c1220;
-  --bg3:    #111a2e;
-  --bg4:    #1a2540;
-  --border: #1e3358;
-  --accent: #00d4ff;
-  --purple: #7c3aed;
-  --green:  #10b981;
-  --red:    #ef4444;
-  --amber:  #f59e0b;
-  --text:   #e2e8f0;
-  --muted:  #4a6080;
-  --mono:   'Courier New', monospace;
-  --sans:   system-ui, sans-serif;
+  --bg:#070b12;--bg2:#0c1220;--bg3:#111a2e;--border:#1e3358;
+  --accent:#00d4ff;--purple:#7c3aed;--green:#10b981;--red:#ef4444;--amber:#f59e0b;
+  --text:#e2e8f0;--muted:#4a6080;--mono:'Courier New',monospace;--sans:system-ui,sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;overflow:hidden;}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);display:flex;flex-direction:column;}
-
-/* NAV */
-nav{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--bg2);flex-shrink:0;gap:10px;}
-.nav-logo{font-family:var(--mono);font-size:16px;letter-spacing:5px;color:var(--accent);white-space:nowrap;}
+nav{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--bg2);flex-shrink:0;gap:10px;flex-wrap:wrap;}
+.nav-logo{font-family:var(--mono);font-size:16px;letter-spacing:5px;color:var(--accent);}
 .nav-mid{display:flex;align-items:center;gap:8px;flex:1;justify-content:center;}
-.room-input{background:var(--bg3);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:12px;padding:6px 12px;border-radius:6px;width:180px;text-align:center;letter-spacing:2px;}
+.room-input{background:var(--bg3);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:12px;padding:6px 12px;border-radius:6px;width:160px;text-align:center;letter-spacing:2px;text-transform:uppercase;}
 .room-input:focus{outline:none;border-color:var(--accent);}
-.join-btn{background:transparent;border:1px solid var(--accent);color:var(--accent);font-family:var(--mono);font-size:10px;letter-spacing:2px;padding:6px 14px;border-radius:6px;cursor:pointer;white-space:nowrap;transition:all .2s;}
+.join-btn{background:transparent;border:1px solid var(--accent);color:var(--accent);font-family:var(--mono);font-size:10px;letter-spacing:2px;padding:6px 14px;border-radius:6px;cursor:pointer;transition:all .2s;}
 .join-btn:hover{background:rgba(0,212,255,.1);}
 .net-pill{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--muted);background:var(--bg3);border:1px solid var(--border);padding:4px 10px;border-radius:20px;white-space:nowrap;}
-.dot{width:6px;height:6px;border-radius:50%;background:var(--muted);flex-shrink:0;}
-.dot.green{background:var(--green);animation:blink 2s infinite;}
-.dot.amber{background:var(--amber);}
-.dot.red{background:var(--red);}
+.ndot{width:6px;height:6px;border-radius:50%;background:var(--muted);flex-shrink:0;}
+.ndot.green{background:var(--green);animation:blink 2s infinite;}
+.ndot.amber{background:var(--amber);}
+.ndot.red{background:var(--red);}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-
-/* LAYOUT */
 .layout{display:flex;flex:1;overflow:hidden;}
-
-/* SIDEBAR */
 .sidebar{width:240px;border-right:1px solid var(--border);display:flex;flex-direction:column;background:var(--bg2);flex-shrink:0;}
 .sb-head{padding:12px 14px;border-bottom:1px solid var(--border);}
 .sb-head h2{font-size:9px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:8px;}
-.my-id-box{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px;cursor:pointer;transition:border-color .2s;}
-.my-id-box:hover{border-color:var(--accent);}
+.my-id-box{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px;}
 .my-id-label{font-size:8px;color:var(--muted);letter-spacing:1px;display:block;margin-bottom:3px;}
 .my-id-val{font-family:var(--mono);font-size:9px;color:var(--accent);word-break:break-all;line-height:1.5;}
-
 .peers-head{padding:10px 14px 6px;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;border-bottom:1px solid var(--border);}
 .peers-list{flex:1;overflow-y:auto;padding:6px 0;}
 .peer-item{padding:10px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(30,51,88,.4);cursor:pointer;transition:background .15s;}
 .peer-item:hover,.peer-item.active{background:var(--bg3);}
 .peer-item.active{border-left:2px solid var(--accent);}
-.avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;flex-shrink:0;border:1px solid;}
-.avatar.me{background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.3);color:var(--accent);}
-.avatar.peer{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.3);color:#a78bfa;}
-.avatar.offline{background:rgba(74,96,128,.1);border-color:rgba(74,96,128,.3);color:var(--muted);}
+.avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;flex-shrink:0;border:1px solid;background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.3);color:#a78bfa;}
 .peer-info{flex:1;min-width:0;}
-.peer-name{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.peer-name{font-size:12px;font-weight:500;}
 .peer-sub{font-size:9px;color:var(--muted);font-family:var(--mono);}
 .unread-badge{background:var(--accent);color:#000;font-size:8px;font-weight:700;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 4px;}
-
-.sb-info{padding:10px 14px;border-top:1px solid var(--border);font-size:9px;color:var(--muted);line-height:1.6;font-family:var(--mono);}
-
-/* CHAT */
-.chat{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);}
+.sb-info{padding:10px 14px;border-top:1px solid var(--border);font-size:9px;color:var(--muted);font-family:var(--mono);line-height:1.8;word-break:break-all;}
+.chat{flex:1;display:flex;flex-direction:column;overflow:hidden;}
 .chat-header{padding:10px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;background:var(--bg2);flex-shrink:0;}
 .chat-header-info{flex:1;min-width:0;}
 .chat-header-name{font-size:13px;font-weight:600;}
-.chat-header-sub{font-size:10px;color:var(--muted);font-family:var(--mono);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.icon-btn{background:none;border:1px solid var(--border);color:var(--muted);width:28px;height:28px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .2s;flex-shrink:0;}
-.icon-btn:hover{border-color:var(--accent);color:var(--accent);}
-
-/* Messages */
+.chat-header-sub{font-size:10px;color:var(--muted);font-family:var(--mono);}
 .messages{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:8px;}
 .sys{text-align:center;font-size:10px;color:var(--muted);font-family:var(--mono);padding:4px 0;}
 .bwrap{display:flex;flex-direction:column;max-width:70%;}
 .bwrap.me{align-self:flex-end;align-items:flex-end;}
 .bwrap.them{align-self:flex-start;align-items:flex-start;}
 .bubble{padding:10px 14px;border-radius:12px;font-size:13px;line-height:1.6;word-break:break-word;}
-.bwrap.me .bubble{background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.2);border-bottom-right-radius:3px;color:var(--text);}
+.bwrap.me .bubble{background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.2);border-bottom-right-radius:3px;}
 .bwrap.them .bubble{background:var(--bg3);border:1px solid var(--border);border-bottom-left-radius:3px;}
 .bmeta{font-size:9px;color:var(--muted);margin-top:3px;display:flex;align-items:center;gap:5px;font-family:var(--mono);}
 .chip{font-size:8px;padding:1px 5px;border-radius:3px;font-family:var(--mono);}
 .chip.ok{background:rgba(16,185,129,.1);color:var(--green);border:1px solid rgba(16,185,129,.2);}
 .chip.bad{background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.2);}
-.chip.hop{background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.2);}
 .chip.rtc{background:rgba(0,212,255,.1);color:var(--accent);border:1px solid rgba(0,212,255,.2);}
-.tick{color:var(--green);font-size:11px;}
-
-/* Input */
+.tick{color:var(--green);}
 .chat-input{padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:8px;align-items:flex-end;background:var(--bg2);flex-shrink:0;}
 .chat-input textarea{flex:1;background:var(--bg3);border:1px solid var(--border);color:var(--text);font-family:var(--sans);font-size:13px;padding:10px 14px;border-radius:10px;resize:none;line-height:1.5;max-height:120px;}
 .chat-input textarea:focus{outline:none;border-color:var(--accent);}
-.send{background:var(--accent);border:none;color:#000;width:40px;height:40px;border-radius:10px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .2s;}
-.send:hover{opacity:.85;}
-
-/* Empty / Welcome */
-.welcome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:32px;}
-.welcome-logo{font-family:var(--mono);font-size:36px;color:var(--accent);letter-spacing:8px;opacity:.6;}
+.send{background:var(--accent);border:none;color:#000;width:40px;height:40px;border-radius:10px;font-size:18px;cursor:pointer;flex-shrink:0;}
+.welcome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:32px;}
+.welcome-logo{font-family:var(--mono);font-size:36px;color:var(--accent);letter-spacing:8px;opacity:.5;}
 .welcome h2{font-family:var(--mono);font-size:13px;letter-spacing:3px;color:var(--muted);}
-.welcome p{font-size:12px;color:var(--muted);text-align:center;line-height:1.8;max-width:320px;}
 .step{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 18px;width:100%;max-width:340px;}
 .step-n{font-family:var(--mono);font-size:9px;color:var(--accent);letter-spacing:2px;margin-bottom:4px;}
-.step-t{font-size:12px;line-height:1.6;color:var(--text);}
-
-/* Modal */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;z-index:100;opacity:0;pointer-events:none;transition:opacity .2s;}
-.overlay.show{opacity:1;pointer-events:all;}
-.panel{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px;width:340px;max-width:92vw;position:relative;max-height:90vh;overflow-y:auto;}
-.panel h2{font-family:var(--mono);font-size:11px;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:16px;}
-.close-btn{position:absolute;top:14px;right:14px;background:none;border:1px solid var(--border);color:var(--muted);width:26px;height:26px;border-radius:6px;cursor:pointer;font-size:13px;}
-.close-btn:hover{border-color:var(--red);color:var(--red);}
-.qr-wrap{background:#fff;padding:14px;border-radius:8px;display:flex;justify-content:center;margin:10px 0;}
-.kbox{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:10px;font-family:var(--mono);font-size:9px;word-break:break-all;line-height:1.6;margin-bottom:8px;}
-.kbox .lbl{color:var(--muted);font-size:8px;letter-spacing:1px;display:block;margin-bottom:3px;}
-.kbox .val{color:var(--accent);}
-.kbox .val.priv{color:var(--amber);}
-.btn{width:100%;background:transparent;border:1px solid var(--accent);color:var(--accent);font-family:var(--mono);font-size:10px;letter-spacing:2px;padding:9px;border-radius:6px;cursor:pointer;text-transform:uppercase;transition:all .2s;margin-top:6px;}
-.btn:hover{background:rgba(0,212,255,.08);}
-
-/* Scrollbar */
+.step-t{font-size:12px;line-height:1.7;color:var(--text);}
+.step-t b{color:var(--accent);}
 ::-webkit-scrollbar{width:3px;}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
-
-@media(max-width:600px){
-  .sidebar{width:200px;}
-  .bwrap{max-width:85%;}
-}
+@media(max-width:560px){.sidebar{width:180px;}.room-input{width:110px;}}
 </style>
 </head>
 <body>
-
-<!-- NAV -->
 <nav>
   <div class="nav-logo">◈ ORION</div>
   <div class="nav-mid">
-    <input class="room-input" id="room-input" placeholder="CODE ROOM" maxlength="12"
-      onkeydown="if(event.key==='Enter')joinRoom()" />
+    <input class="room-input" id="room-input" placeholder="CODE ROOM" maxlength="16"
+      onkeydown="if(event.key==='Enter')joinRoom()"/>
     <button class="join-btn" onclick="joinRoom()">REJOINDRE</button>
   </div>
   <div class="net-pill">
-    <div class="dot" id="net-dot"></div>
-    <span id="net-txt">Hors ligne</span>
+    <div class="ndot" id="net-dot"></div>
+    <span id="net-txt">Connexion…</span>
   </div>
 </nav>
-
-<!-- LAYOUT -->
 <div class="layout">
-
-  <!-- SIDEBAR -->
   <div class="sidebar">
     <div class="sb-head">
       <h2>Mon identité</h2>
-      <div class="my-id-box" onclick="openPanel('panel-id')" title="Voir mon QR">
-        <span class="my-id-label">CLÉ PUBLIQUE (cliquer pour QR)</span>
-        <div class="my-id-val" id="my-pub-short">génération…</div>
+      <div class="my-id-box">
+        <span class="my-id-label">MON PEER ID</span>
+        <div class="my-id-val" id="my-peer-display">génération…</div>
       </div>
     </div>
-
     <div class="peers-head">Pairs connectés</div>
     <div class="peers-list" id="peers-list">
-      <div style="padding:14px;font-size:11px;color:var(--muted);text-align:center;line-height:1.8;">
-        Rejoins une room<br>pour voir les pairs
-      </div>
+      <div style="padding:14px;font-size:11px;color:var(--muted);text-align:center;line-height:1.8;">Rejoins une room<br>pour voir les pairs</div>
     </div>
-
-    <div class="sb-info" id="sb-info">
-      ◈ Aucune room active<br>
-      Messages : 0<br>
-      Pairs : 0
-    </div>
+    <div class="sb-info" id="sb-info">◈ Prêt</div>
   </div>
-
-  <!-- CHAT -->
   <div class="chat" id="chat-area">
     <div class="welcome">
       <div class="welcome-logo">◈</div>
       <h2>ORION MESSENGER</h2>
-      <p>Communication P2P sans SIM, chiffrée E2E.<br>Aucun message ne transite par un serveur.</p>
-      <div class="step"><div class="step-n">ÉTAPE 1</div><div class="step-t">Entre un code room et clique <strong>REJOINDRE</strong>. Partage ce même code à ton contact.</div></div>
-      <div class="step"><div class="step-n">ÉTAPE 2</div><div class="step-t">Quand ton contact rejoint la même room, la connexion WebRTC s'établit automatiquement.</div></div>
-      <div class="step"><div class="step-n">ÉTAPE 3</div><div class="step-t">Les messages passent directement de navigateur en navigateur. Le serveur n'en voit aucun.</div></div>
-    </div>
-  </div>
-
-</div>
-
-<!-- PANEL: Mon identité -->
-<div class="overlay" id="panel-id">
-  <div class="panel">
-    <h2>Mon identité ORION</h2>
-    <button class="close-btn" onclick="closePanel('panel-id')">✕</button>
-    <div class="qr-wrap" id="my-qr"></div>
-    <div class="kbox">
-      <span class="lbl">CLÉ PUBLIQUE</span>
-      <span class="val" id="my-pub-full">—</span>
-    </div>
-    <div class="kbox">
-      <span class="lbl">CLÉ PRIVÉE</span>
-      <span class="val priv">••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••</span>
-    </div>
-    <button class="btn" onclick="copyMyPub()">Copier clé publique</button>
-  </div>
-</div>
-
-<!-- PANEL: Pair info -->
-<div class="overlay" id="panel-peer">
-  <div class="panel">
-    <h2 id="pp-name">Pair</h2>
-    <button class="close-btn" onclick="closePanel('panel-peer')">✕</button>
-    <div class="qr-wrap" id="pp-qr"></div>
-    <div class="kbox">
-      <span class="lbl">CLÉ PUBLIQUE</span>
-      <span class="val" id="pp-pub">—</span>
-    </div>
-    <div class="kbox">
-      <span class="lbl">STATUT WebRTC</span>
-      <span class="val" id="pp-status" style="color:var(--green)">—</span>
+      <div class="step"><div class="step-n">ÉTAPE 1</div><div class="step-t">Entre un <b>code room</b> et clique <b>REJOINDRE</b>.<br>Partage ce même code à ton contact.</div></div>
+      <div class="step"><div class="step-n">ÉTAPE 2</div><div class="step-t">Quand ton contact rejoint la même room, la connexion <b>WebRTC directe</b> s'établit.</div></div>
+      <div class="step"><div class="step-n">ÉTAPE 3</div><div class="step-t">Les messages passent <b>directement</b> de navigateur en navigateur. <b>Zéro serveur.</b></div></div>
+      <div class="step"><div class="step-n">PARTAGE DU LIEN</div><div class="step-t" id="share-link" style="color:var(--accent);font-family:var(--mono);font-size:10px;">Entre un code room pour générer le lien</div></div>
     </div>
   </div>
 </div>
-
 <script>
-/* ══════════════════════════════════════
-   ORION — WebRTC + Ed25519 + Signaling
-   ══════════════════════════════════════ */
+let myPeer=null,myPeerId=null,myNode=null,roomId=null;
+let peers=new Map(),activePeer=null,msgCount=0;
+let roomPeer=null,roomMembers=[];
 
-const SIGNAL_URL = '/api/signal';
-const ICE_SERVERS = [
-  { urls: 'stun:stun.l.google.com:19302' },
-  { urls: 'stun:stun1.l.google.com:19302' }
-];
-
-let myNode   = null;   // { pubHex, keyPair?, fallback }
-let myPeerId = uid();  // identifiant session
-let roomId   = null;
-let peers    = new Map(); // peerId -> { name, pubHex, conn?, chan?, msgs:[], online }
-let activePeer = null;
-let pollTimer  = null;
-let msgCount   = 0;
-
-/* ── INIT ── */
-async function init() {
-  myNode = await makeNode();
-  const short = myNode.pubHex.substring(0,16) + '…';
-  document.getElementById('my-pub-short').textContent = short;
-  document.getElementById('my-pub-full').textContent  = myNode.pubHex;
-  renderMyQR();
-  setNetStatus('off', 'Hors ligne — rejoins une room');
-}
-
-async function makeNode() {
-  try {
-    const kp  = await crypto.subtle.generateKey({name:'Ed25519'},true,['sign','verify']);
-    const raw = await crypto.subtle.exportKey('raw', kp.publicKey);
-    return { keyPair: kp, pubHex: bufToHex(raw), fallback: false };
-  } catch(e) {
-    return { fallback: true, pubHex: bufToHex(crypto.getRandomValues(new Uint8Array(32))) };
-  }
-}
-
-/* ── ROOM ── */
-async function joinRoom() {
-  const val = document.getElementById('room-input').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');
-  if (!val || val.length < 3) { alert('Entre un code room (min 3 caractères)'); return; }
-  if (roomId) leaveRoom();
-  roomId = val;
-  document.getElementById('room-input').value = val;
-  setNetStatus('amber', 'Connexion à la room ' + val + '…');
-  try {
-    await fetch(`${SIGNAL_URL}?action=join&room=${roomId}&peer=${myPeerId}`);
-    setNetStatus('green', 'Room ' + val + ' · en attente de pairs');
-    pollTimer = setInterval(pollPeers, 2000);
+async function init(){
+  myNode=await makeNode();
+  myPeerId='orion-'+Math.random().toString(36).substring(2,8);
+  myPeer=new Peer(myPeerId,{host:'0.peerjs.com',port:443,path:'/',secure:true,
+    config:{iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun1.l.google.com:19302'}]}});
+  myPeer.on('open',id=>{
+    myPeerId=id;
+    document.getElementById('my-peer-display').textContent=id;
+    setNet('green','PeerJS connecté — entre un code room');
     updateSbInfo();
-  } catch(e) {
-    setNetStatus('red', 'Serveur signaling inaccessible');
-  }
+    const urlRoom=new URLSearchParams(location.search).get('room');
+    if(urlRoom){document.getElementById('room-input').value=urlRoom.toUpperCase();joinRoom();}
+  });
+  myPeer.on('error',e=>setNet('red','Erreur PeerJS: '+e.type));
+  myPeer.on('disconnected',()=>{setNet('amber','Reconnexion…');setTimeout(()=>myPeer.reconnect(),2000);});
+  myPeer.on('connection',conn=>setupConn(conn));
 }
 
-function leaveRoom() {
-  if (!roomId) return;
-  clearInterval(pollTimer);
-  fetch(`${SIGNAL_URL}?action=leave&room=${roomId}&peer=${myPeerId}`).catch(()=>{});
-  peers.forEach(p => { try { p.conn && p.conn.close(); } catch(e){} });
-  peers.clear();
-  roomId = null;
-  activePeer = null;
-  renderPeersList();
-  setNetStatus('off', 'Hors ligne');
+async function joinRoom(){
+  const val=document.getElementById('room-input').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');
+  if(!val||val.length<2){alert('Code room trop court (min 2 caractères)');return;}
+  roomId=val;
+  history.replaceState({},'','?room='+val);
+  const shareEl=document.getElementById('share-link');
+  if(shareEl) shareEl.textContent=location.href;
+  setNet('amber','Connexion room '+val+'…');
+  const coordId='orion-coord-'+val.toLowerCase();
+  tryCoord(coordId);
 }
 
-async function pollPeers() {
-  if (!roomId) return;
-  try {
-    const r = await fetch(`${SIGNAL_URL}?action=poll&room=${roomId}&peer=${myPeerId}`);
-    const data = await r.json();
-    for (const remote of (data.peers || [])) {
-      if (!peers.has(remote.peerId)) {
-        await initPeer(remote.peerId, true);
-      }
-      if (remote.sdp && peers.has(remote.peerId)) {
-        await handleSignal(remote.peerId, remote);
-      }
-    }
-    updateSbInfo();
-  } catch(e) { /* signaling temporairement indispo */ }
-}
-
-/* ── WebRTC ── */
-async function initPeer(peerId, initiator) {
-  if (peers.has(peerId)) return;
-  const peerName = 'Pair ' + peerId.substring(0,6);
-  peers.set(peerId, { name: peerName, pubHex: '', msgs: [], online: false, initiator, sdpSent: false });
-  const conn = new RTCPeerConnection({ iceServers: ICE_SERVERS });
-  peers.get(peerId).conn = conn;
-
-  // Data channel
-  if (initiator) {
-    const chan = conn.createDataChannel('orion');
-    setupChannel(peerId, chan);
-  } else {
-    conn.ondatachannel = e => setupChannel(peerId, e.channel);
-  }
-
-  // ICE candidates → signaling
-  const candidates = [];
-  conn.onicecandidate = e => { if (e.candidate) candidates.push(e.candidate); };
-
-  conn.onconnectionstatechange = () => {
-    const state = conn.connectionState;
-    const p = peers.get(peerId);
-    if (!p) return;
-    p.online = state === 'connected';
-    if (state === 'connected') {
-      setNetStatus('green', 'Room ' + roomId + ' · ' + countOnline() + ' pair(s) connecté(s)');
-    }
-    if (state === 'failed' || state === 'disconnected') {
-      p.online = false;
-      setNetStatus('amber', 'Room ' + roomId + ' · pair déconnecté');
-    }
-    renderPeersList();
-    if (activePeer === peerId) renderChatHeader(peerId);
-  };
-
-  if (initiator) {
-    const offer = await conn.createOffer();
-    await conn.setLocalDescription(offer);
-    await delay(500); // laisser ICE se collecter
-    await sendSignal(peerId, { sdp: conn.localDescription, candidates });
-  }
-}
-
-async function handleSignal(peerId, data) {
-  const p = peers.get(peerId);
-  if (!p || !p.conn) return;
-  const conn = p.conn;
-  if (data.sdp && conn.signalingState === 'stable' && !p.initiator) {
-    await conn.setRemoteDescription(new RTCSessionDescription(data.sdp));
-    if (data.candidates) {
-      for (const c of data.candidates) {
-        try { await conn.addIceCandidate(new RTCIceCandidate(c)); } catch(e){}
-      }
-    }
-    const answer  = await conn.createAnswer();
-    await conn.setLocalDescription(answer);
-    await delay(400);
-    const candidates = [];
-    // collect current candidates from local desc
-    await sendSignal(peerId, { sdp: conn.localDescription, candidates });
-  } else if (data.sdp && p.initiator && conn.signalingState === 'have-local-offer') {
-    await conn.setRemoteDescription(new RTCSessionDescription(data.sdp));
-    if (data.candidates) {
-      for (const c of data.candidates) {
-        try { await conn.addIceCandidate(new RTCIceCandidate(c)); } catch(e){}
-      }
-    }
-  }
-}
-
-async function sendSignal(peerId, data) {
-  if (!roomId) return;
-  try {
-    await fetch(`${SIGNAL_URL}?action=signal&room=${roomId}&peer=${myPeerId}`, {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ targetPeer: peerId, ...data })
+function tryCoord(coordId){
+  const c=myPeer.connect(coordId,{reliable:true});
+  let answered=false;
+  c.on('open',()=>{
+    answered=true;
+    c.send(JSON.stringify({type:'announce',peerId:myPeerId}));
+    c.on('data',raw=>{
+      try{
+        const d=JSON.parse(raw);
+        if(d.type==='members'){
+          d.list.forEach(pid=>{if(pid!==myPeerId)connectToPeer(pid);});
+          setNet('green','Room '+roomId+' · en attente de pairs');
+          updateSbInfo();
+        }
+        if(d.type==='new-peer'&&d.peerId!==myPeerId)connectToPeer(d.peerId);
+      }catch(e){}
     });
-  } catch(e) {}
+  });
+  c.on('error',()=>{if(!answered)becomeCoord(coordId);});
+  setTimeout(()=>{if(!answered)becomeCoord(coordId);},3000);
 }
 
-function setupChannel(peerId, chan) {
-  const p = peers.get(peerId);
-  if (!p) return;
-  p.chan = chan;
-  chan.onopen = () => {
-    p.online = true;
-    // Envoyer notre clé publique
-    chan.send(JSON.stringify({ type: 'handshake', pub: myNode.pubHex, name: 'Orion·' + myPeerId.substring(0,4) }));
-    renderPeersList();
-    if (activePeer === peerId) renderChatHeader(peerId);
-    addSysMsg(peerId, 'Connexion WebRTC établie — canal chiffré actif');
-    setNetStatus('green', 'Room ' + roomId + ' · ' + countOnline() + ' pair(s) connecté(s)');
-  };
-  chan.onclose = () => {
-    p.online = false;
-    renderPeersList();
-    addSysMsg(peerId, 'Canal WebRTC fermé');
-  };
-  chan.onmessage = e => receivePacket(peerId, e.data);
-}
-
-/* ── MESSAGES ── */
-async function receivePacket(peerId, raw) {
-  let packet;
-  try { packet = JSON.parse(raw); } catch(e) { return; }
-  const p = peers.get(peerId);
-  if (!p) return;
-
-  if (packet.type === 'handshake') {
-    p.pubHex = packet.pub || '';
-    p.name   = packet.name || p.name;
-    renderPeersList();
-    if (activePeer === peerId) renderChatHeader(peerId);
-    return;
-  }
-
-  if (packet.type === 'msg') {
-    const valid = await verifyPacket(packet, p.pubHex);
-    const msg = {
-      id:    packet.id,
-      from:  'them',
-      text:  packet.text,
-      ts:    packet.ts || Date.now(),
-      sig:   packet.sig,
-      valid,
-      hops:  packet.hops || [],
-      rtc:   true
-    };
-    p.msgs.push(msg);
-    msgCount++;
-    if (activePeer !== peerId) {
-      p.unread = (p.unread || 0) + 1;
-    }
-    renderPeersList();
+function becomeCoord(coordId){
+  if(roomPeer)return;
+  roomMembers=[myPeerId];
+  roomPeer=new Peer(coordId,{host:'0.peerjs.com',port:443,path:'/',secure:true});
+  roomPeer.on('open',()=>{
+    setNet('green','Room '+roomId+' créée · en attente de pairs');
     updateSbInfo();
-    if (activePeer === peerId) {
-      appendMsg(msg);
-      scrollBottom();
-    }
+  });
+  roomPeer.on('connection',conn=>{
+    conn.on('open',()=>{
+      conn.send(JSON.stringify({type:'members',list:roomMembers}));
+    });
+    conn.on('data',raw=>{
+      try{
+        const d=JSON.parse(raw);
+        if(d.type==='announce'&&d.peerId&&!roomMembers.includes(d.peerId)){
+          roomMembers.push(d.peerId);
+          roomMembers.forEach(pid=>{
+            if(pid!==d.peerId){
+              const p=peers.get(pid);
+              if(p&&p.conn&&p.conn.open)p.conn.send(JSON.stringify({type:'new-peer',peerId:d.peerId}));
+            }
+          });
+          if(d.peerId!==myPeerId)connectToPeer(d.peerId);
+        }
+      }catch(e){}
+    });
+  });
+  roomPeer.on('error',()=>{setTimeout(()=>tryCoord(coordId),1000);});
+}
+
+function connectToPeer(peerId){
+  if(peers.has(peerId)||peerId===myPeerId)return;
+  const conn=myPeer.connect(peerId,{reliable:true});
+  setupConn(conn);
+}
+
+function setupConn(conn){
+  const pid=conn.peer;
+  if(peers.has(pid))return;
+  const name='Pair·'+pid.replace('orion-','').substring(0,6);
+  peers.set(pid,{conn,name,pubHex:'',msgs:[],online:false,unread:0});
+  conn.on('open',()=>{
+    const p=peers.get(pid);if(!p)return;
+    p.online=true;
+    conn.send(JSON.stringify({type:'handshake',pub:myNode.pubHex,name:'Orion·'+myPeerId.replace('orion-','').substring(0,4)}));
+    renderPeersList();
+    if(activePeer===pid)renderChatHeader(pid);
+    addSysMsg(pid,'Connexion WebRTC directe établie ✓');
+    setNet('green','Room '+(roomId||'')+' · '+countOnline()+' pair(s) en ligne');
+    updateSbInfo();
+  });
+  conn.on('data',raw=>receiveData(pid,raw));
+  conn.on('close',()=>{
+    const p=peers.get(pid);if(p)p.online=false;
+    renderPeersList();addSysMsg(pid,'Connexion fermée');
+    setNet('amber','Room '+(roomId||'')+' · pair déconnecté');updateSbInfo();
+  });
+  conn.on('error',()=>{const p=peers.get(pid);if(p)p.online=false;renderPeersList();});
+}
+
+async function receiveData(pid,raw){
+  let d;try{d=JSON.parse(raw);}catch(e){return;}
+  const p=peers.get(pid);if(!p)return;
+  if(d.type==='handshake'){p.pubHex=d.pub||'';p.name=d.name||p.name;renderPeersList();if(activePeer===pid)renderChatHeader(pid);return;}
+  if(d.type==='new-peer'&&d.peerId){connectToPeer(d.peerId);return;}
+  if(d.type==='msg'){
+    const valid=await verifyMsg(d,p.pubHex);
+    const msg={id:d.id,from:'them',text:d.text,ts:d.ts||Date.now(),sig:d.sig,valid};
+    p.msgs.push(msg);msgCount++;
+    if(activePeer!==pid)p.unread++;
+    renderPeersList();updateSbInfo();
+    if(activePeer===pid){appendMsg(msg);scrollBottom();}
   }
 }
 
-async function sendMessage() {
-  if (!activePeer) return;
-  const input = document.getElementById('msg-input');
-  if (!input) return;
-  const text = input.value.trim();
-  if (!text) return;
-  input.value = '';
-  input.style.height = 'auto';
-
-  const p = peers.get(activePeer);
-  if (!p || !p.chan || p.chan.readyState !== 'open') {
-    addSysMsg(activePeer, 'Canal non ouvert — attends la connexion WebRTC');
-    return;
-  }
-
-  const sig   = await sign(text);
-  const msgId = uid();
-  const packet = { type:'msg', id: msgId, text, ts: Date.now(), sig, pub: myNode.pubHex, hops: [] };
-  p.chan.send(JSON.stringify(packet));
-
-  const msg = { id: msgId, from: 'me', text, ts: Date.now(), sig, valid: true, hops: [], rtc: true };
-  p.msgs.push(msg);
-  msgCount++;
-  appendMsg(msg);
-  scrollBottom();
-  renderPeersList();
-  updateSbInfo();
+async function sendMessage(){
+  if(!activePeer)return;
+  const input=document.getElementById('msg-input');
+  if(!input)return;
+  const text=input.value.trim();if(!text)return;
+  input.value='';input.style.height='auto';
+  const p=peers.get(activePeer);
+  if(!p||!p.conn||!p.conn.open){addSysMsg(activePeer,'Canal fermé — reconnecte-toi à la room');return;}
+  const sig=await sign(text);
+  const id=Math.random().toString(36).substring(2,10);
+  p.conn.send(JSON.stringify({type:'msg',id,text,ts:Date.now(),sig,pub:myNode.pubHex}));
+  const msg={id,from:'me',text,ts:Date.now(),sig,valid:true};
+  p.msgs.push(msg);msgCount++;
+  appendMsg(msg);scrollBottom();renderPeersList();updateSbInfo();
 }
 
-async function verifyPacket(packet, pubHex) {
-  if (!pubHex || myNode.fallback) return true;
-  try {
-    const pubKey  = await crypto.subtle.importKey('raw', hexToBuf(pubHex), {name:'Ed25519'}, false, ['verify']);
-    const sigBuf  = hexToBuf(packet.sig);
-    const msgBuf  = new TextEncoder().encode(packet.text);
-    return await crypto.subtle.verify({name:'Ed25519'}, pubKey, sigBuf, msgBuf);
-  } catch(e) { return false; }
+async function makeNode(){
+  try{
+    const kp=await crypto.subtle.generateKey({name:'Ed25519'},true,['sign','verify']);
+    const raw=await crypto.subtle.exportKey('raw',kp.publicKey);
+    return{keyPair:kp,pubHex:bufToHex(raw),fallback:false};
+  }catch(e){return{fallback:true,pubHex:bufToHex(crypto.getRandomValues(new Uint8Array(32)))};}
+}
+async function sign(text){
+  if(myNode.fallback)return bufToHex(crypto.getRandomValues(new Uint8Array(32)));
+  try{const s=await crypto.subtle.sign({name:'Ed25519'},myNode.keyPair.privateKey,new TextEncoder().encode(text));return bufToHex(s);}
+  catch(e){return bufToHex(crypto.getRandomValues(new Uint8Array(32)));}
+}
+async function verifyMsg(packet,pubHex){
+  if(!pubHex||myNode.fallback)return true;
+  try{
+    const key=await crypto.subtle.importKey('raw',hexToBuf(pubHex),{name:'Ed25519'},false,['verify']);
+    return await crypto.subtle.verify({name:'Ed25519'},key,hexToBuf(packet.sig),new TextEncoder().encode(packet.text));
+  }catch(e){return false;}
 }
 
-async function sign(text) {
-  if (myNode.fallback) return bufToHex(crypto.getRandomValues(new Uint8Array(32)));
-  try {
-    const sig = await crypto.subtle.sign({name:'Ed25519'}, myNode.keyPair.privateKey, new TextEncoder().encode(text));
-    return bufToHex(sig);
-  } catch(e) { return bufToHex(crypto.getRandomValues(new Uint8Array(32))); }
-}
-
-/* ── RENDER ── */
-function openChatWith(peerId) {
-  activePeer = peerId;
-  const p = peers.get(peerId);
-  if (!p) return;
-  p.unread = 0;
-  renderPeersList();
-
-  document.getElementById('chat-area').innerHTML = `
+function openChatWith(pid){
+  activePeer=pid;const p=peers.get(pid);if(!p)return;
+  p.unread=0;renderPeersList();
+  document.getElementById('chat-area').innerHTML=`
     <div class="chat-header">
-      <div class="avatar peer">${p.name.substring(0,2).toUpperCase()}</div>
+      <div class="avatar">${p.name.substring(0,2).toUpperCase()}</div>
       <div class="chat-header-info">
-        <div class="chat-header-name" id="ch-name">${escHtml(p.name)}</div>
-        <div class="chat-header-sub" id="ch-sub">connexion en cours…</div>
+        <div class="chat-header-name" id="ch-name">${esc(p.name)}</div>
+        <div class="chat-header-sub" id="ch-sub">connexion…</div>
       </div>
-      <button class="icon-btn" onclick="openPeerPanel('${peerId}')" title="Infos pair">ℹ</button>
     </div>
-    <div class="messages" id="msg-list">
-      <div class="sys">Canal WebRTC chiffré E2E · Ed25519 · aucun message ne passe par le serveur</div>
-    </div>
+    <div class="messages" id="msg-list"><div class="sys">Canal WebRTC P2P · Ed25519 · zéro serveur</div></div>
     <div class="chat-input">
       <textarea id="msg-input" placeholder="Message chiffré E2E…" rows="1"
         onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}"
         oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
       <button class="send" onclick="sendMessage()">➤</button>
     </div>`;
-
-  p.msgs.forEach(m => appendMsg(m));
-  scrollBottom();
-  renderChatHeader(peerId);
+  p.msgs.forEach(m=>appendMsg(m));scrollBottom();renderChatHeader(pid);
   document.getElementById('msg-input').focus();
 }
 
-function renderChatHeader(peerId) {
-  const p = peers.get(peerId);
-  const nameEl = document.getElementById('ch-name');
-  const subEl  = document.getElementById('ch-sub');
-  if (!nameEl || !subEl || !p) return;
-  nameEl.textContent = p.name;
-  subEl.textContent  = p.online
-    ? '● WebRTC direct · ' + (p.pubHex ? p.pubHex.substring(0,14)+'…' : 'clé en attente')
-    : '○ connexion en cours…';
+function renderChatHeader(pid){
+  const p=peers.get(pid);
+  const n=document.getElementById('ch-name'),s=document.getElementById('ch-sub');
+  if(!n||!s||!p)return;
+  n.textContent=p.name;
+  s.textContent=p.online?'● WebRTC direct · '+(p.pubHex?p.pubHex.substring(0,14)+'…':'clé en attente'):'○ hors ligne';
 }
-
-function appendMsg(msg) {
-  const el = document.getElementById('msg-list');
-  if (!el) return;
-  const isMe = msg.from === 'me';
-  const hops = msg.hops || [];
-  const div = document.createElement('div');
-  div.className = 'bwrap ' + (isMe ? 'me' : 'them');
-  div.innerHTML = `
-    <div class="bubble">${escHtml(msg.text)}</div>
-    <div class="bmeta">
-      <span>${fmtTime(msg.ts)}</span>
-      ${isMe ? '<span class="tick">✓✓</span>' : ''}
-      <span class="chip ${msg.valid===false?'bad':'ok'}">${msg.valid===false?'INVALIDE':'✓ sig'}</span>
-      ${msg.rtc ? '<span class="chip rtc">WebRTC P2P</span>' : ''}
-      ${hops.length ? `<span class="chip hop">${hops.length} hop</span>` : ''}
-    </div>`;
-  el.appendChild(div);
+function appendMsg(msg){
+  const el=document.getElementById('msg-list');if(!el)return;
+  const isMe=msg.from==='me';
+  const d=document.createElement('div');d.className='bwrap '+(isMe?'me':'them');
+  d.innerHTML=`<div class="bubble">${esc(msg.text)}</div>
+    <div class="bmeta"><span>${fmtTime(msg.ts)}</span>${isMe?'<span class="tick">✓✓</span>':''}
+    <span class="chip ${msg.valid===false?'bad':'ok'}">${msg.valid===false?'INVALIDE':'✓ sig'}</span>
+    <span class="chip rtc">P2P</span></div>`;
+  el.appendChild(d);
 }
-
-function addSysMsg(peerId, text) {
-  if (activePeer !== peerId) return;
-  const el = document.getElementById('msg-list');
-  if (!el) return;
-  const div = document.createElement('div');
-  div.className = 'sys';
-  div.textContent = text;
-  el.appendChild(div);
-  scrollBottom();
+function addSysMsg(pid,text){
+  if(activePeer!==pid)return;
+  const el=document.getElementById('msg-list');if(!el)return;
+  const d=document.createElement('div');d.className='sys';d.textContent=text;el.appendChild(d);scrollBottom();
 }
-
-function scrollBottom() {
-  const el = document.getElementById('msg-list');
-  if (el) el.scrollTop = el.scrollHeight;
-}
-
-function renderPeersList() {
-  const el = document.getElementById('peers-list');
-  if (peers.size === 0) {
-    el.innerHTML = `<div style="padding:14px;font-size:11px;color:var(--muted);text-align:center;line-height:1.8;">
-      ${roomId ? 'En attente de pairs<br>dans la room ' + roomId : 'Rejoins une room'}
-    </div>`;
-    return;
-  }
-  el.innerHTML = '';
-  for (const [peerId, p] of peers) {
-    const last = p.msgs[p.msgs.length - 1];
-    el.innerHTML += `
-      <div class="peer-item ${activePeer===peerId?'active':''}" onclick="openChatWith('${peerId}')">
-        <div class="avatar ${p.online?'peer':'offline'}">${p.name.substring(0,2).toUpperCase()}</div>
-        <div class="peer-info">
-          <div class="peer-name">${escHtml(p.name)}</div>
-          <div class="peer-sub">${p.online ? '● en ligne' : '○ hors ligne'}${last?' · '+escHtml(last.text.substring(0,18)):''}</div>
-        </div>
-        ${p.unread ? `<div class="unread-badge">${p.unread}</div>` : ''}
-      </div>`;
+function scrollBottom(){const e=document.getElementById('msg-list');if(e)e.scrollTop=e.scrollHeight;}
+function renderPeersList(){
+  const el=document.getElementById('peers-list');
+  if(peers.size===0){el.innerHTML=`<div style="padding:14px;font-size:11px;color:var(--muted);text-align:center;line-height:1.8;">${roomId?'En attente de pairs<br>room '+roomId:'Rejoins une room'}</div>`;return;}
+  el.innerHTML='';
+  for(const[pid,p]of peers){
+    const last=p.msgs[p.msgs.length-1];
+    el.innerHTML+=`<div class="peer-item ${activePeer===pid?'active':''}" onclick="openChatWith('${pid}')">
+      <div class="avatar">${p.name.substring(0,2).toUpperCase()}</div>
+      <div class="peer-info"><div class="peer-name">${esc(p.name)}</div>
+      <div class="peer-sub">${p.online?'● en ligne':'○ hors ligne'}${last?' · '+esc(last.text.substring(0,16)):''}</div></div>
+      ${p.unread?`<div class="unread-badge">${p.unread}</div>`:''}</div>`;
   }
 }
-
-function updateSbInfo() {
-  document.getElementById('sb-info').innerHTML =
-    `◈ Room : ${roomId || '—'}<br>Messages : ${msgCount}<br>Pairs : ${peers.size} (${countOnline()} en ligne)`;
+function updateSbInfo(){
+  document.getElementById('sb-info').innerHTML=
+    `Room : ${roomId||'—'}<br>Pairs : ${peers.size} (${countOnline()} en ligne)<br>Msgs : ${msgCount}<br><br>ID : ${(myPeerId||'').substring(0,22)}`;
 }
-
-function countOnline() { let n=0; for(const p of peers.values()) if(p.online) n++; return n; }
-
-/* ── PANELS ── */
-function openPanel(id)  { document.getElementById(id).classList.add('show'); }
-function closePanel(id) { document.getElementById(id).classList.remove('show'); }
-document.querySelectorAll('.overlay').forEach(o => o.addEventListener('click', e => { if(e.target===o) o.classList.remove('show'); }));
-
-function openPeerPanel(peerId) {
-  const p = peers.get(peerId);
-  if (!p) return;
-  document.getElementById('pp-name').textContent   = p.name;
-  document.getElementById('pp-pub').textContent    = p.pubHex || '(en attente de handshake)';
-  document.getElementById('pp-status').textContent = p.online ? 'WebRTC connecté · canal ouvert' : 'Hors ligne';
-  const qrEl = document.getElementById('pp-qr');
-  qrEl.innerHTML = '';
-  if (p.pubHex) {
-    try {
-      new QRCode(qrEl, { text: JSON.stringify({orion:1,pub:p.pubHex}), width:140, height:140, colorDark:'#000', colorLight:'#fff', correctLevel: QRCode.CorrectLevel.M });
-    } catch(e) {}
-  } else {
-    qrEl.textContent = 'Clé publique pas encore reçue';
-    qrEl.style.color = '#666';
-  }
-  openPanel('panel-peer');
+function countOnline(){let n=0;for(const p of peers.values())if(p.online)n++;return n;}
+function setNet(state,txt){
+  const d=document.getElementById('net-dot');
+  d.className='ndot'+(state==='green'?' green':state==='amber'?' amber':state==='red'?' red':'');
+  document.getElementById('net-txt').textContent=txt;
 }
-
-function renderMyQR() {
-  const el = document.getElementById('my-qr');
-  if (!el || !myNode) return;
-  el.innerHTML = '';
-  try {
-    new QRCode(el, { text: JSON.stringify({orion:1,pub:myNode.pubHex}), width:160, height:160, colorDark:'#000', colorLight:'#fff', correctLevel: QRCode.CorrectLevel.M });
-  } catch(e) {}
-}
-
-function copyMyPub() {
-  if (myNode) navigator.clipboard.writeText(myNode.pubHex).then(()=>{});
-}
-
-/* ── NET STATUS ── */
-function setNetStatus(state, txt) {
-  const dot = document.getElementById('net-dot');
-  dot.className = 'dot' + (state==='green' ? ' green' : state==='amber' ? ' amber' : state==='red' ? ' red' : '');
-  document.getElementById('net-txt').textContent = txt;
-}
-
-/* ── UTILS ── */
-function uid() { return bufToHex(crypto.getRandomValues(new Uint8Array(8))); }
-function bufToHex(b) { return Array.from(new Uint8Array(b instanceof ArrayBuffer?b:b)).map(x=>x.toString(16).padStart(2,'0')).join(''); }
-function hexToBuf(h) { const b=new Uint8Array(h.length/2); for(let i=0;i<h.length;i+=2)b[i/2]=parseInt(h.substr(i,2),16); return b.buffer; }
-function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function fmtTime(ts) { const d=new Date(ts); return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0'); }
-function delay(ms) { return new Promise(r=>setTimeout(r,ms)); }
-
+function bufToHex(b){return Array.from(new Uint8Array(b instanceof ArrayBuffer?b:b)).map(x=>x.toString(16).padStart(2,'0')).join('');}
+function hexToBuf(h){const b=new Uint8Array(h.length/2);for(let i=0;i<h.length;i+=2)b[i/2]=parseInt(h.substr(i,2),16);return b.buffer;}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function fmtTime(ts){const d=new Date(ts);return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');}
 init();
 </script>
 </body>

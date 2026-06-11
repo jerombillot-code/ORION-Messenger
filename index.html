@@ -6,11 +6,7 @@
 <title>ORION Messenger</title>
 <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
 <style>
-:root {
-  --bg:#070b12;--bg2:#0c1220;--bg3:#111a2e;--border:#1e3358;
-  --accent:#00d4ff;--purple:#7c3aed;--green:#10b981;--red:#ef4444;--amber:#f59e0b;
-  --text:#e2e8f0;--muted:#4a6080;--mono:'Courier New',monospace;--sans:system-ui,sans-serif;
-}
+:root{--bg:#070b12;--bg2:#0c1220;--bg3:#111a2e;--border:#1e3358;--accent:#00d4ff;--green:#10b981;--red:#ef4444;--amber:#f59e0b;--text:#e2e8f0;--muted:#4a6080;--mono:'Courier New',monospace;--sans:system-ui,sans-serif;}
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;overflow:hidden;}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);display:flex;flex-direction:column;}
@@ -19,8 +15,8 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:10px 1
 .nav-mid{display:flex;align-items:center;gap:8px;flex:1;justify-content:center;}
 .room-input{background:var(--bg3);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:12px;padding:6px 12px;border-radius:6px;width:160px;text-align:center;letter-spacing:2px;text-transform:uppercase;}
 .room-input:focus{outline:none;border-color:var(--accent);}
-.join-btn{background:transparent;border:1px solid var(--accent);color:var(--accent);font-family:var(--mono);font-size:10px;letter-spacing:2px;padding:6px 14px;border-radius:6px;cursor:pointer;transition:all .2s;}
-.join-btn:hover{background:rgba(0,212,255,.1);}
+.join-btn{background:var(--accent);border:none;color:#000;font-family:var(--mono);font-size:10px;letter-spacing:2px;padding:6px 14px;border-radius:6px;cursor:pointer;font-weight:700;}
+.join-btn:active{opacity:.85;}
 .net-pill{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--muted);background:var(--bg3);border:1px solid var(--border);padding:4px 10px;border-radius:20px;white-space:nowrap;}
 .ndot{width:6px;height:6px;border-radius:50%;background:var(--muted);flex-shrink:0;}
 .ndot.green{background:var(--green);animation:blink 2s infinite;}
@@ -35,7 +31,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:10px 1
 .my-id-label{font-size:8px;color:var(--muted);letter-spacing:1px;display:block;margin-bottom:3px;}
 .my-id-val{font-family:var(--mono);font-size:9px;color:var(--accent);word-break:break-all;line-height:1.5;}
 .peers-head{padding:10px 14px 6px;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;border-bottom:1px solid var(--border);}
-.peers-list{flex:1;overflow-y:auto;padding:6px 0;}
+.peers-list{flex:1;overflow-y:auto;}
 .peer-item{padding:10px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(30,51,88,.4);cursor:pointer;transition:background .15s;}
 .peer-item:hover,.peer-item.active{background:var(--bg3);}
 .peer-item.active{border-left:2px solid var(--accent);}
@@ -54,15 +50,15 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:10px 1
 .sys{text-align:center;font-size:10px;color:var(--muted);font-family:var(--mono);padding:4px 0;}
 .bwrap{display:flex;flex-direction:column;max-width:70%;}
 .bwrap.me{align-self:flex-end;align-items:flex-end;}
-.bwrap.them{align-self:flex-start;align-items:flex-start;}
+.bwrap.them{align-self:flex-start;}
 .bubble{padding:10px 14px;border-radius:12px;font-size:13px;line-height:1.6;word-break:break-word;}
 .bwrap.me .bubble{background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.2);border-bottom-right-radius:3px;}
 .bwrap.them .bubble{background:var(--bg3);border:1px solid var(--border);border-bottom-left-radius:3px;}
 .bmeta{font-size:9px;color:var(--muted);margin-top:3px;display:flex;align-items:center;gap:5px;font-family:var(--mono);}
-.chip{font-size:8px;padding:1px 5px;border-radius:3px;font-family:var(--mono);}
+.chip{font-size:8px;padding:1px 5px;border-radius:3px;}
 .chip.ok{background:rgba(16,185,129,.1);color:var(--green);border:1px solid rgba(16,185,129,.2);}
 .chip.bad{background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.2);}
-.chip.rtc{background:rgba(0,212,255,.1);color:var(--accent);border:1px solid rgba(0,212,255,.2);}
+.chip.p2p{background:rgba(0,212,255,.1);color:var(--accent);border:1px solid rgba(0,212,255,.2);}
 .tick{color:var(--green);}
 .chat-input{padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:8px;align-items:flex-end;background:var(--bg2);flex-shrink:0;}
 .chat-input textarea{flex:1;background:var(--bg3);border:1px solid var(--border);color:var(--text);font-family:var(--sans);font-size:13px;padding:10px 14px;border-radius:10px;resize:none;line-height:1.5;max-height:120px;}
@@ -112,254 +108,385 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:10px 1
     <div class="welcome">
       <div class="welcome-logo">◈</div>
       <h2>ORION MESSENGER</h2>
-      <div class="step"><div class="step-n">ÉTAPE 1</div><div class="step-t">Entre un <b>code room</b> et clique <b>REJOINDRE</b>.<br>Partage ce même code à ton contact.</div></div>
-      <div class="step"><div class="step-n">ÉTAPE 2</div><div class="step-t">Quand ton contact rejoint la même room, la connexion <b>WebRTC directe</b> s'établit.</div></div>
-      <div class="step"><div class="step-n">ÉTAPE 3</div><div class="step-t">Les messages passent <b>directement</b> de navigateur en navigateur. <b>Zéro serveur.</b></div></div>
-      <div class="step"><div class="step-n">PARTAGE DU LIEN</div><div class="step-t" id="share-link" style="color:var(--accent);font-family:var(--mono);font-size:10px;">Entre un code room pour générer le lien</div></div>
+      <div class="step"><div class="step-n">ÉTAPE 1</div><div class="step-t">Entre un <b>code room</b> et clique <b>REJOINDRE</b>.</div></div>
+      <div class="step"><div class="step-n">ÉTAPE 2</div><div class="step-t">Partage le lien à ton contact :<br><span id="share-link" style="color:var(--accent);font-family:var(--mono);font-size:10px;">Entre un code room…</span></div></div>
+      <div class="step"><div class="step-n">ÉTAPE 3</div><div class="step-t">Quand il rejoint → <b>clique son nom</b> → écris.</div></div>
     </div>
   </div>
 </div>
 <script>
-let myPeer=null,myPeerId=null,myNode=null,roomId=null;
-let peers=new Map(),activePeer=null,msgCount=0;
-let roomPeer=null,roomMembers=[];
+/* ═══════════════════════════════════════════════════════
+   ORION Messenger — système simplifié et robuste
+   
+   Principe : chaque pair tente de se connecter au peer
+   fixe "orion-room-CODE" (le coordinateur).
+   Le premier devient coordinateur, les suivants le contactent.
+   Le coordinateur maintient la liste et connecte tout le monde.
+   Les messages passent en DataChannel P2P direct.
+   ═══════════════════════════════════════════════════════ */
 
-async function init(){
-  myNode=await makeNode();
-  myPeerId='orion-'+Math.random().toString(36).substring(2,8);
-  myPeer=new Peer(myPeerId,{host:'0.peerjs.com',port:443,path:'/',secure:true,
-    config:{iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun1.l.google.com:19302'}]}});
-  myPeer.on('open',id=>{
-    myPeerId=id;
-    document.getElementById('my-peer-display').textContent=id;
-    setNet('green','PeerJS connecté — entre un code room');
+let myPeer   = null;
+let myId     = null;
+let myNode   = null;
+let roomId   = null;
+let activePid= null;
+let peers    = new Map(); // pid -> {conn, name, pub, msgs[], online, unread}
+let msgCount = 0;
+
+// Coord
+let coordId   = null;
+let coordPeer = null; // notre Peer coord (si on est coord)
+let coordConn = null; // notre conn vers le coord (si on est membre)
+let isCoord   = false;
+let members   = [];   // liste des IDs dans la room (maintenu par le coord)
+let joining   = false;
+
+/* ── INIT ── */
+async function init() {
+  myNode = await makeNode();
+  const sid = Math.random().toString(36).substring(2, 8);
+  myId = 'o-' + sid;
+
+  myPeer = new Peer(myId, {
+    host: '0.peerjs.com', port: 443, path: '/', secure: true,
+    config: { iceServers: [
+      { urls: 'stun:stun.l.google.com:19302' },
+      { urls: 'stun:stun1.l.google.com:19302' }
+    ]}
+  });
+
+  myPeer.on('open', id => {
+    myId = id;
+    document.getElementById('my-peer-display').textContent = id;
+    setNet('green', 'Connecté — entre un code room');
+    // rejoindre room depuis URL
+    const r = new URLSearchParams(location.search).get('room');
+    if (r) { document.getElementById('room-input').value = r.toUpperCase(); joinRoom(); }
+  });
+
+  myPeer.on('connection', conn => {
+    // Connexion entrante — pair qui nous contacte directement
+    handleIncoming(conn);
+  });
+
+  myPeer.on('error', e => {
+    if (e.type === 'unavailable-id') { myId = 'o-' + Math.random().toString(36).substring(2,8); myPeer.id = myId; }
+    else setNet('red', 'Erreur: ' + e.type);
+  });
+
+  myPeer.on('disconnected', () => {
+    setNet('amber', 'Reconnexion…');
+    setTimeout(() => { try { myPeer.reconnect(); } catch(e) {} }, 2000);
+  });
+}
+
+/* ── ROOM ── */
+function joinRoom() {
+  const val = document.getElementById('room-input').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');
+  if (!val || val.length < 2) { alert('Code trop court'); return; }
+  if (!myId) { setTimeout(joinRoom, 500); return; }
+  roomId  = val;
+  coordId = 'orion-' + val.toLowerCase();
+  history.replaceState({}, '', '?room=' + val);
+  document.getElementById('share-link').textContent = location.href;
+  setNet('amber', 'Connexion room ' + val + '…');
+  joining = true;
+  attemptJoin();
+}
+
+function attemptJoin() {
+  // Tenter de se connecter au coordinateur
+  const c = myPeer.connect(coordId, { reliable: true });
+  let opened = false;
+
+  c.on('open', () => {
+    opened = true;
+    coordConn = c;
+    isCoord = false;
+    setNet('green', 'Room ' + roomId + ' rejointe');
+    // Demander la liste des membres
+    c.send(JSON.stringify({ type: 'hello', from: myId }));
+    c.on('data', raw => onCoordMsg(raw));
+    c.on('close', () => {
+      coordConn = null;
+      setNet('amber', 'Coord déco — reprise…');
+      setTimeout(attemptJoin, 1500);
+    });
+  });
+
+  c.on('error', () => { if (!opened) becomeCoord(); });
+  setTimeout(() => { if (!opened && joining) becomeCoord(); }, 3000);
+}
+
+function becomeCoord() {
+  if (isCoord || coordPeer) return;
+  isCoord = true;
+  members = [myId];
+
+  coordPeer = new Peer(coordId, {
+    host: '0.peerjs.com', port: 443, path: '/', secure: true,
+    config: { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] }
+  });
+
+  coordPeer.on('open', () => {
+    setNet('green', 'Room ' + roomId + ' créée — en attente');
     updateSbInfo();
-    const urlRoom=new URLSearchParams(location.search).get('room');
-    if(urlRoom){document.getElementById('room-input').value=urlRoom.toUpperCase();joinRoom();}
   });
-  myPeer.on('error',e=>setNet('red','Erreur PeerJS: '+e.type));
-  myPeer.on('disconnected',()=>{setNet('amber','Reconnexion…');setTimeout(()=>myPeer.reconnect(),2000);});
-  myPeer.on('connection',conn=>setupConn(conn));
-}
 
-async function joinRoom(){
-  const val=document.getElementById('room-input').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');
-  if(!val||val.length<2){alert('Code room trop court (min 2 caractères)');return;}
-  roomId=val;
-  history.replaceState({},'','?room='+val);
-  const shareEl=document.getElementById('share-link');
-  if(shareEl) shareEl.textContent=location.href;
-  setNet('amber','Connexion room '+val+'…');
-  const coordId='orion-coord-'+val.toLowerCase();
-  tryCoord(coordId);
-}
-
-function tryCoord(coordId){
-  const c=myPeer.connect(coordId,{reliable:true});
-  let answered=false;
-  c.on('open',()=>{
-    answered=true;
-    c.send(JSON.stringify({type:'announce',peerId:myPeerId}));
-    c.on('data',raw=>{
-      try{
-        const d=JSON.parse(raw);
-        if(d.type==='members'){
-          d.list.forEach(pid=>{if(pid!==myPeerId)connectToPeer(pid);});
-          setNet('green','Room '+roomId+' · en attente de pairs');
-          updateSbInfo();
+  coordPeer.on('connection', conn => {
+    // Un membre se connecte au coord
+    conn.on('open', () => {});
+    conn.on('data', raw => {
+      try {
+        const d = JSON.parse(raw);
+        if (d.type === 'hello' && d.from) {
+          const newPid = d.from;
+          if (!members.includes(newPid)) {
+            // Envoyer la liste AVANT d'ajouter le nouveau
+            const existing = members.filter(id => id !== myId);
+            conn.send(JSON.stringify({ type: 'members', list: existing, you: newPid }));
+            // Dire aux membres existants qu'un nouveau arrive
+            members.forEach(mid => {
+              if (mid !== myId && mid !== newPid) {
+                const p = peers.get(mid);
+                if (p && p.conn && p.conn.open) {
+                  p.conn.send(JSON.stringify({ type: 'new-peer', pid: newPid }));
+                }
+              }
+            });
+            members.push(newPid);
+            // Le coord se connecte aussi au nouveau membre
+            connectTo(newPid);
+          } else {
+            // Reconnnexion — renvoyer la liste
+            const existing = members.filter(id => id !== newPid);
+            conn.send(JSON.stringify({ type: 'members', list: existing, you: newPid }));
+          }
         }
-        if(d.type==='new-peer'&&d.peerId!==myPeerId)connectToPeer(d.peerId);
-      }catch(e){}
+      } catch(e) {}
+    });
+    conn.on('close', () => {
+      // Retirer le membre de la liste (on ne sait pas qui c'est depuis cette conn)
     });
   });
-  c.on('error',()=>{if(!answered)becomeCoord(coordId);});
-  setTimeout(()=>{if(!answered)becomeCoord(coordId);},3000);
-}
 
-function becomeCoord(coordId){
-  if(roomPeer)return;
-  roomMembers=[myPeerId];
-  roomPeer=new Peer(coordId,{host:'0.peerjs.com',port:443,path:'/',secure:true});
-  roomPeer.on('open',()=>{
-    setNet('green','Room '+roomId+' créée · en attente de pairs');
-    updateSbInfo();
+  coordPeer.on('error', e => {
+    if (e.type === 'unavailable-id') {
+      // Quelqu'un d'autre vient de créer — rejoindre
+      isCoord = false; coordPeer = null;
+      setTimeout(attemptJoin, 300);
+    }
   });
-  roomPeer.on('connection',conn=>{
-    conn.on('open',()=>{
-      conn.send(JSON.stringify({type:'members',list:roomMembers}));
-    });
-    conn.on('data',raw=>{
-      try{
-        const d=JSON.parse(raw);
-        if(d.type==='announce'&&d.peerId&&!roomMembers.includes(d.peerId)){
-          roomMembers.push(d.peerId);
-          roomMembers.forEach(pid=>{
-            if(pid!==d.peerId){
-              const p=peers.get(pid);
-              if(p&&p.conn&&p.conn.open)p.conn.send(JSON.stringify({type:'new-peer',peerId:d.peerId}));
-            }
-          });
-          if(d.peerId!==myPeerId)connectToPeer(d.peerId);
-        }
-      }catch(e){}
-    });
-  });
-  roomPeer.on('error',()=>{setTimeout(()=>tryCoord(coordId),1000);});
 }
 
-function connectToPeer(peerId){
-  if(peers.has(peerId)||peerId===myPeerId)return;
-  const conn=myPeer.connect(peerId,{reliable:true});
-  setupConn(conn);
+function onCoordMsg(raw) {
+  try {
+    const d = JSON.parse(raw);
+    if (d.type === 'members') {
+      // Se connecter à tous les membres existants
+      (d.list || []).forEach(pid => { if (pid !== myId) connectTo(pid); });
+    }
+    if (d.type === 'new-peer' && d.pid && d.pid !== myId) {
+      connectTo(d.pid);
+    }
+  } catch(e) {}
 }
 
-function setupConn(conn){
-  const pid=conn.peer;
-  if(peers.has(pid))return;
-  const name='Pair·'+pid.replace('orion-','').substring(0,6);
-  peers.set(pid,{conn,name,pubHex:'',msgs:[],online:false,unread:0});
-  conn.on('open',()=>{
-    const p=peers.get(pid);if(!p)return;
-    p.online=true;
-    conn.send(JSON.stringify({type:'handshake',pub:myNode.pubHex,name:'Orion·'+myPeerId.replace('orion-','').substring(0,4)}));
+/* ── CONNEXIONS P2P ── */
+function connectTo(pid) {
+  if (!pid || pid === myId) return;
+  const ex = peers.get(pid);
+  if (ex && ex.online) return; // déjà connecté
+  if (!ex) peers.set(pid, mkPeer(pid));
+  const conn = myPeer.connect(pid, { reliable: true });
+  attachConn(pid, conn);
+}
+
+function handleIncoming(conn) {
+  const pid = conn.peer;
+  if (!peers.has(pid)) peers.set(pid, mkPeer(pid));
+  // Si on a déjà une connexion ouverte et notre ID est plus petit → ignorer la doublon
+  const ex = peers.get(pid);
+  if (ex.conn && ex.conn.open && myId < pid) { conn.close(); return; }
+  attachConn(pid, conn);
+}
+
+function mkPeer(pid) {
+  return { conn: null, name: 'Pair·' + pid.substring(0, 6), pub: '', msgs: [], online: false, unread: 0 };
+}
+
+function attachConn(pid, conn) {
+  const p = peers.get(pid); if (!p) return;
+  p.conn = conn;
+
+  conn.on('open', () => {
+    p.online = true;
+    // Handshake
+    conn.send(JSON.stringify({ type: 'hi', pub: myNode.pub, name: 'Pair·' + myId.substring(0,6) }));
     renderPeersList();
-    if(activePeer===pid)renderChatHeader(pid);
-    addSysMsg(pid,'Connexion WebRTC directe établie ✓');
-    setNet('green','Room '+(roomId||'')+' · '+countOnline()+' pair(s) en ligne');
+    if (activePid === pid) renderChatHeader(pid);
+    sysMsg(pid, '🔗 Connexion P2P établie');
+    setNet('green', 'Room ' + roomId + ' · ' + countOnline() + ' pair(s)');
     updateSbInfo();
+    // Ouvrir le chat automatiquement si c'est le premier pair
+    if (peers.size === 1 && !activePid) openChat(pid);
   });
-  conn.on('data',raw=>receiveData(pid,raw));
-  conn.on('close',()=>{
-    const p=peers.get(pid);if(p)p.online=false;
-    renderPeersList();addSysMsg(pid,'Connexion fermée');
-    setNet('amber','Room '+(roomId||'')+' · pair déconnecté');updateSbInfo();
+
+  conn.on('data', raw => onData(pid, raw));
+
+  conn.on('close', () => {
+    p.online = false; p.conn = null;
+    renderPeersList();
+    if (activePid === pid) renderChatHeader(pid);
+    sysMsg(pid, '⚠ Déconnecté — reconnexion…');
+    setNet('amber', 'Room ' + roomId + ' · pair déco');
+    updateSbInfo();
+    setTimeout(() => { const pp = peers.get(pid); if (pp && !pp.online) connectTo(pid); }, 3000);
   });
-  conn.on('error',()=>{const p=peers.get(pid);if(p)p.online=false;renderPeersList();});
+
+  conn.on('error', () => { const pp = peers.get(pid); if (pp) { pp.online = false; pp.conn = null; } renderPeersList(); });
 }
 
-async function receiveData(pid,raw){
-  let d;try{d=JSON.parse(raw);}catch(e){return;}
-  const p=peers.get(pid);if(!p)return;
-  if(d.type==='handshake'){p.pubHex=d.pub||'';p.name=d.name||p.name;renderPeersList();if(activePeer===pid)renderChatHeader(pid);return;}
-  if(d.type==='new-peer'&&d.peerId){connectToPeer(d.peerId);return;}
-  if(d.type==='msg'){
-    const valid=await verifyMsg(d,p.pubHex);
-    const msg={id:d.id,from:'them',text:d.text,ts:d.ts||Date.now(),sig:d.sig,valid};
-    p.msgs.push(msg);msgCount++;
-    if(activePeer!==pid)p.unread++;
-    renderPeersList();updateSbInfo();
-    if(activePeer===pid){appendMsg(msg);scrollBottom();}
+/* ── DONNÉES ── */
+async function onData(pid, raw) {
+  let d; try { d = JSON.parse(raw); } catch(e) { return; }
+  const p = peers.get(pid); if (!p) return;
+
+  if (d.type === 'hi') {
+    p.pub  = d.pub  || '';
+    p.name = d.name || p.name;
+    renderPeersList();
+    if (activePid === pid) renderChatHeader(pid);
+    return;
+  }
+  if (d.type === 'new-peer' && d.pid) { connectTo(d.pid); return; }
+  if (d.type === 'msg') {
+    const valid = await verify(d, p.pub);
+    const msg = { from: 'them', text: d.text, ts: d.ts || Date.now(), valid };
+    p.msgs.push(msg); msgCount++;
+    if (activePid !== pid) { p.unread++; renderPeersList(); }
+    else { appendMsg(msg); scrollBottom(); }
+    updateSbInfo();
   }
 }
 
-async function sendMessage(){
-  if(!activePeer)return;
-  const input=document.getElementById('msg-input');
-  if(!input)return;
-  const text=input.value.trim();if(!text)return;
-  input.value='';input.style.height='auto';
-  const p=peers.get(activePeer);
-  if(!p||!p.conn||!p.conn.open){addSysMsg(activePeer,'Canal fermé — reconnecte-toi à la room');return;}
-  const sig=await sign(text);
-  const id=Math.random().toString(36).substring(2,10);
-  p.conn.send(JSON.stringify({type:'msg',id,text,ts:Date.now(),sig,pub:myNode.pubHex}));
-  const msg={id,from:'me',text,ts:Date.now(),sig,valid:true};
-  p.msgs.push(msg);msgCount++;
-  appendMsg(msg);scrollBottom();renderPeersList();updateSbInfo();
+/* ── ENVOYER ── */
+async function sendMessage() {
+  if (!activePid) return;
+  const ta = document.getElementById('msg-input'); if (!ta) return;
+  const text = ta.value.trim(); if (!text) return;
+  ta.value = ''; ta.style.height = 'auto';
+  const p = peers.get(activePid);
+  if (!p || !p.conn || !p.conn.open) { sysMsg(activePid, '⚠ Canal fermé'); return; }
+  const sig = await sign(text);
+  p.conn.send(JSON.stringify({ type: 'msg', text, ts: Date.now(), sig }));
+  const msg = { from: 'me', text, ts: Date.now(), valid: true };
+  p.msgs.push(msg); msgCount++;
+  appendMsg(msg); scrollBottom(); updateSbInfo();
 }
 
-async function makeNode(){
-  try{
-    const kp=await crypto.subtle.generateKey({name:'Ed25519'},true,['sign','verify']);
-    const raw=await crypto.subtle.exportKey('raw',kp.publicKey);
-    return{keyPair:kp,pubHex:bufToHex(raw),fallback:false};
-  }catch(e){return{fallback:true,pubHex:bufToHex(crypto.getRandomValues(new Uint8Array(32)))};}
+/* ── CRYPTO ── */
+async function makeNode() {
+  try {
+    const kp = await crypto.subtle.generateKey({ name: 'Ed25519' }, true, ['sign', 'verify']);
+    const raw = await crypto.subtle.exportKey('raw', kp.publicKey);
+    return { kp, pub: h(raw), fb: false };
+  } catch(e) { return { fb: true, pub: h(crypto.getRandomValues(new Uint8Array(32))) }; }
 }
-async function sign(text){
-  if(myNode.fallback)return bufToHex(crypto.getRandomValues(new Uint8Array(32)));
-  try{const s=await crypto.subtle.sign({name:'Ed25519'},myNode.keyPair.privateKey,new TextEncoder().encode(text));return bufToHex(s);}
-  catch(e){return bufToHex(crypto.getRandomValues(new Uint8Array(32)));}
+async function sign(text) {
+  if (myNode.fb) return h(crypto.getRandomValues(new Uint8Array(32)));
+  try { return h(await crypto.subtle.sign({ name: 'Ed25519' }, myNode.kp.privateKey, enc(text))); }
+  catch(e) { return h(crypto.getRandomValues(new Uint8Array(32))); }
 }
-async function verifyMsg(packet,pubHex){
-  if(!pubHex||myNode.fallback)return true;
-  try{
-    const key=await crypto.subtle.importKey('raw',hexToBuf(pubHex),{name:'Ed25519'},false,['verify']);
-    return await crypto.subtle.verify({name:'Ed25519'},key,hexToBuf(packet.sig),new TextEncoder().encode(packet.text));
-  }catch(e){return false;}
+async function verify(d, pub) {
+  if (!pub || !d.sig || myNode.fb) return true;
+  try {
+    const k = await crypto.subtle.importKey('raw', dh(pub), { name: 'Ed25519' }, false, ['verify']);
+    return await crypto.subtle.verify({ name: 'Ed25519' }, k, dh(d.sig), enc(d.text));
+  } catch(e) { return false; }
 }
 
-function openChatWith(pid){
-  activePeer=pid;const p=peers.get(pid);if(!p)return;
-  p.unread=0;renderPeersList();
-  document.getElementById('chat-area').innerHTML=`
+/* ── RENDER ── */
+function openChat(pid) {
+  activePid = pid;
+  const p = peers.get(pid); if (!p) return;
+  p.unread = 0; renderPeersList();
+  document.getElementById('chat-area').innerHTML = `
     <div class="chat-header">
       <div class="avatar">${p.name.substring(0,2).toUpperCase()}</div>
       <div class="chat-header-info">
         <div class="chat-header-name" id="ch-name">${esc(p.name)}</div>
-        <div class="chat-header-sub" id="ch-sub">connexion…</div>
+        <div class="chat-header-sub" id="ch-sub">…</div>
       </div>
     </div>
-    <div class="messages" id="msg-list"><div class="sys">Canal WebRTC P2P · Ed25519 · zéro serveur</div></div>
+    <div class="messages" id="msg-list"><div class="sys">Canal P2P · Ed25519</div></div>
     <div class="chat-input">
-      <textarea id="msg-input" placeholder="Message chiffré E2E…" rows="1"
+      <textarea id="msg-input" placeholder="Message…" rows="1"
         onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}"
         oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
       <button class="send" onclick="sendMessage()">➤</button>
     </div>`;
-  p.msgs.forEach(m=>appendMsg(m));scrollBottom();renderChatHeader(pid);
+  p.msgs.forEach(m => appendMsg(m));
+  scrollBottom(); renderChatHeader(pid);
   document.getElementById('msg-input').focus();
 }
 
-function renderChatHeader(pid){
-  const p=peers.get(pid);
-  const n=document.getElementById('ch-name'),s=document.getElementById('ch-sub');
-  if(!n||!s||!p)return;
-  n.textContent=p.name;
-  s.textContent=p.online?'● WebRTC direct · '+(p.pubHex?p.pubHex.substring(0,14)+'…':'clé en attente'):'○ hors ligne';
+function renderChatHeader(pid) {
+  const p = peers.get(pid);
+  const n = document.getElementById('ch-name'), s = document.getElementById('ch-sub');
+  if (!n || !s || !p) return;
+  n.textContent = p.name;
+  s.textContent = p.online ? '● P2P · ' + (p.pub ? p.pub.substring(0,14)+'…' : '…') : '○ hors ligne';
 }
-function appendMsg(msg){
-  const el=document.getElementById('msg-list');if(!el)return;
-  const isMe=msg.from==='me';
-  const d=document.createElement('div');d.className='bwrap '+(isMe?'me':'them');
-  d.innerHTML=`<div class="bubble">${esc(msg.text)}</div>
-    <div class="bmeta"><span>${fmtTime(msg.ts)}</span>${isMe?'<span class="tick">✓✓</span>':''}
-    <span class="chip ${msg.valid===false?'bad':'ok'}">${msg.valid===false?'INVALIDE':'✓ sig'}</span>
-    <span class="chip rtc">P2P</span></div>`;
+function appendMsg(msg) {
+  const el = document.getElementById('msg-list'); if (!el) return;
+  const isMe = msg.from === 'me';
+  const d = document.createElement('div'); d.className = 'bwrap ' + (isMe ? 'me' : 'them');
+  d.innerHTML = `<div class="bubble">${esc(msg.text)}</div>
+    <div class="bmeta"><span>${ft(msg.ts)}</span>${isMe?'<span class="tick">✓✓</span>':''}
+    <span class="chip ${msg.valid===false?'bad':'ok'}">${msg.valid===false?'⚠':'✓'} sig</span>
+    <span class="chip p2p">P2P</span></div>`;
   el.appendChild(d);
 }
-function addSysMsg(pid,text){
-  if(activePeer!==pid)return;
-  const el=document.getElementById('msg-list');if(!el)return;
-  const d=document.createElement('div');d.className='sys';d.textContent=text;el.appendChild(d);scrollBottom();
+function sysMsg(pid, text) {
+  if (activePid !== pid) return;
+  const el = document.getElementById('msg-list'); if (!el) return;
+  const d = document.createElement('div'); d.className = 'sys'; d.textContent = text;
+  el.appendChild(d); scrollBottom();
 }
-function scrollBottom(){const e=document.getElementById('msg-list');if(e)e.scrollTop=e.scrollHeight;}
-function renderPeersList(){
-  const el=document.getElementById('peers-list');
-  if(peers.size===0){el.innerHTML=`<div style="padding:14px;font-size:11px;color:var(--muted);text-align:center;line-height:1.8;">${roomId?'En attente de pairs<br>room '+roomId:'Rejoins une room'}</div>`;return;}
-  el.innerHTML='';
-  for(const[pid,p]of peers){
-    const last=p.msgs[p.msgs.length-1];
-    el.innerHTML+=`<div class="peer-item ${activePeer===pid?'active':''}" onclick="openChatWith('${pid}')">
+function scrollBottom() { const e = document.getElementById('msg-list'); if (e) e.scrollTop = e.scrollHeight; }
+function renderPeersList() {
+  const el = document.getElementById('peers-list');
+  if (peers.size === 0) {
+    el.innerHTML = `<div style="padding:14px;font-size:11px;color:var(--muted);text-align:center;line-height:1.8;">${roomId?'En attente<br>room '+roomId:'Rejoins une room'}</div>`;
+    return;
+  }
+  el.innerHTML = '';
+  for (const [pid, p] of peers) {
+    const last = p.msgs[p.msgs.length-1];
+    el.innerHTML += `<div class="peer-item ${activePid===pid?'active':''}" onclick="openChat('${esc(pid)}')">
       <div class="avatar">${p.name.substring(0,2).toUpperCase()}</div>
       <div class="peer-info"><div class="peer-name">${esc(p.name)}</div>
-      <div class="peer-sub">${p.online?'● en ligne':'○ hors ligne'}${last?' · '+esc(last.text.substring(0,16)):''}</div></div>
+      <div class="peer-sub">${p.online?'● en ligne':'○ hors ligne'}${last?' · '+esc(last.text.substring(0,14)):''}</div></div>
       ${p.unread?`<div class="unread-badge">${p.unread}</div>`:''}</div>`;
   }
 }
-function updateSbInfo(){
-  document.getElementById('sb-info').innerHTML=
-    `Room : ${roomId||'—'}<br>Pairs : ${peers.size} (${countOnline()} en ligne)<br>Msgs : ${msgCount}<br><br>ID : ${(myPeerId||'').substring(0,22)}`;
+function updateSbInfo() {
+  document.getElementById('sb-info').innerHTML =
+    `Room : ${roomId||'—'}<br>Pairs : ${peers.size} (${countOnline()} en ligne)<br>Msgs : ${msgCount}`;
 }
-function countOnline(){let n=0;for(const p of peers.values())if(p.online)n++;return n;}
-function setNet(state,txt){
-  const d=document.getElementById('net-dot');
-  d.className='ndot'+(state==='green'?' green':state==='amber'?' amber':state==='red'?' red':'');
-  document.getElementById('net-txt').textContent=txt;
+function countOnline() { let n=0; for(const p of peers.values()) if(p.online) n++; return n; }
+function setNet(s, t) {
+  const d = document.getElementById('net-dot');
+  d.className = 'ndot'+(s==='green'?' green':s==='amber'?' amber':s==='red'?' red':'');
+  document.getElementById('net-txt').textContent = t;
 }
-function bufToHex(b){return Array.from(new Uint8Array(b instanceof ArrayBuffer?b:b)).map(x=>x.toString(16).padStart(2,'0')).join('');}
-function hexToBuf(h){const b=new Uint8Array(h.length/2);for(let i=0;i<h.length;i+=2)b[i/2]=parseInt(h.substr(i,2),16);return b.buffer;}
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function fmtTime(ts){const d=new Date(ts);return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');}
+/* ── UTILS ── */
+function enc(s) { return new TextEncoder().encode(s); }
+function h(b) { return Array.from(new Uint8Array(b instanceof ArrayBuffer?b:b)).map(x=>x.toString(16).padStart(2,'0')).join(''); }
+function dh(s) { const b=new Uint8Array(s.length/2); for(let i=0;i<s.length;i+=2)b[i/2]=parseInt(s.substr(i,2),16); return b.buffer; }
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function ft(ts) { const d=new Date(ts); return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0'); }
 init();
 </script>
 </body>

@@ -824,21 +824,43 @@ function processBot(query){
   return defs[Math.floor(Math.random()*defs.length)];
 }
 
-function askBot(query){
+const BOT_HISTORY=[];
+
+async function askBot(query){
   const el=document.getElementById('msg-list');if(!el)return;
+
+  // Typing indicator
   const typing=document.createElement('div');
   typing.className='bot-bubble';typing.id='bot-typing';
-  typing.innerHTML='<div class="bot-header"><div class="bot-avatar">🤖</div><div class="bot-name">ORION BOT</div></div><div class="bot-typing"><span></span><span></span><span></span></div>';
+  typing.innerHTML='<div class="bot-header"><div class="bot-avatar">🤖</div><div class="bot-name">ORION BOT · Groq AI</div></div><div class="bot-typing"><span></span><span></span><span></span></div>';
   el.appendChild(typing);scrollBottom();
-  setTimeout(()=>{
+
+  // Ajouter le message à l'historique
+  BOT_HISTORY.push({role:'user', content:query});
+  if(BOT_HISTORY.length>10) BOT_HISTORY.shift();
+
+  try{
+    const resp = await fetch('/api/chat', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ messages: BOT_HISTORY, pseudo: myPseudo||'Joueur' })
+    });
+    const data = await resp.json();
+    if(!resp.ok) throw new Error(data.error||'Erreur serveur');
+    const answer = data.answer;
+    BOT_HISTORY.push({role:'assistant', content:answer});
     document.getElementById('bot-typing')?.remove();
-    addBotBubble(processBot(query));
-  }, 500+Math.random()*400);
+    addBotBubble(answer, true);
+  }catch(e){
+    document.getElementById('bot-typing')?.remove();
+    // Fallback sur le bot local si le proxy échoue
+    addBotBubble(processBot(query), false);
+  }
 }
-function addBotBubble(text){
+function addBotBubble(text, isGroq=false){
   const el=document.getElementById('msg-list');if(!el)return;
   const d=document.createElement('div');d.className='bot-bubble';
-  d.innerHTML=`<div class="bot-header"><div class="bot-avatar">🤖</div><div class="bot-name">ORION BOT</div></div>
+  d.innerHTML=`<div class="bot-header"><div class="bot-avatar">🤖</div><div class="bot-name">ORION BOT${isGroq?' · <span style="color:var(--green);font-size:9px;">Groq AI ⚡</span>':''}</div></div>
     <div class="bot-text">${esc(text)}</div>
     <div class="bot-hint">Visible uniquement par toi · tape @bot [question]</div>`;
   el.appendChild(d);scrollBottom();

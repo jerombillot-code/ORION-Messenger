@@ -532,11 +532,18 @@ async function init(){
     if(r){document.getElementById('room-input').value=r.toUpperCase();joinRoom();}
   });
   myPeer.on('connection',conn=>handleIncoming(conn));
-  myPeer.on('call',call=>{call.answer();call.on('stream',stream=>{
-    const v=document.createElement('video');v.srcObject=stream;v.autoplay=true;v.playsInline=true;
-    v.style.cssText='width:100%;max-height:280px;border-radius:14px;margin:8px 0;border:1px solid rgba(184,0,255,.3);';
-    const el=document.getElementById('msg-list');if(el){el.appendChild(v);scrollBottom();}
-  });});
+  myPeer.on('call',call=>{
+  call.answer();
+  window.activeCall=call;
+  call.on('stream',stream=>{
+    window.remoteStream=stream;
+    window.remoteStreamPid=call.peer;
+    // Afficher dans un overlay fixe — persiste même si on change de vue
+    showRemoteStream(stream, call.peer);
+  });
+  call.on('close',()=>{ document.getElementById('remote-preview')?.remove(); window.remoteStream=null; });
+  call.on('error',()=>{ document.getElementById('remote-preview')?.remove(); window.remoteStream=null; });
+});
   myPeer.on('error',e=>setNet('red','Erreur: '+e.type));
   myPeer.on('disconnected',()=>{setNet('amber','Reconnexion…');setTimeout(()=>{try{myPeer.reconnect();}catch(e){}},2000);});
 }
@@ -1018,9 +1025,59 @@ function focusBotInput(){
 }
 async function doScreenShare(){
   if(!activePid)return;
-  try{const stream=await navigator.mediaDevices.getDisplayMedia({video:{frameRate:30},audio:true});
-    myPeer.call(activePid,stream);sysMsg(activePid,'📺 Partage d\'écran démarré');
-    stream.getVideoTracks()[0].onended=()=>sysMsg(activePid,'⏹ Partage arrêté');}catch(e){}
+  try{
+    const stream=await navigator.mediaDevices.getDisplayMedia({video:{frameRate:30},audio:true});
+    myPeer.call(activePid,stream);
+
+    // Afficher un preview local pour celui qui partage
+    const existing=document.getElementById('local-preview');
+    if(existing)existing.remove();
+    const wrap=document.createElement('div');
+    wrap.id='local-preview';
+    wrap.style.cssText='position:fixed;bottom:80px;right:16px;z-index:200;width:240px;background:#000;border-radius:12px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.6);border:2px solid rgba(184,0,255,.5);';
+    wrap.innerHTML='<div style="background:linear-gradient(135deg,rgba(112,0,255,.8),rgba(255,45,143,.8));padding:5px 10px;display:flex;align-items:center;justify-content:space-between;"><span style="font-size:10px;font-weight:700;color:#fff;">📺 Mon écran</span><button onclick="document.getElementById(\'local-preview\').remove();localStream&&localStream.getTracks().forEach(t=>t.stop());" style="background:none;border:none;color:#fff;font-size:14px;cursor:pointer;">✕</button></div><video id="local-video" autoplay muted playsinline style="width:100%;max-height:140px;object-fit:contain;display:block;"></video>';
+    document.body.appendChild(wrap);
+    document.getElementById('local-video').srcObject=stream;
+
+    // Stocker le stream pour pouvoir l'arrêter
+    window.localStream=stream;
+    sysMsg(activePid,'📺 Partage d\'écran démarré — preview visible en bas à droite');
+
+    stream.getVideoTracks()[0].onended=()=>{
+      document.getElementById('local-preview')?.remove();
+      window.localStream=null;
+      // Notifier tous les pairs connectés
+      const pid=activePid;
+      if(pid){ const p=peers.get(pid); if(p&&p.conn&&p.conn.open) sysMsg(pid,'⏹ Partage arrêté'); }
+    };
+  }catch(e){}
+}
+
+/* Afficher le stream reçu dans un overlay fixe persistant */
+function showRemoteStream(stream, fromPid){
+  document.getElementById('remote-preview')?.remove();
+  const pname = peers.get(fromPid)?.name || 'Pair';
+  const wrap=document.createElement('div');
+  wrap.id='remote-preview';
+  wrap.style.cssText='position:fixed;bottom:80px;left:16px;z-index:200;width:280px;background:#000;border-radius:12px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.7);border:2px solid rgba(0,255,179,.4);';
+  wrap.innerHTML=`
+    <div style="background:linear-gradient(135deg,rgba(0,160,100,.8),rgba(0,212,255,.8));padding:5px 10px;display:flex;align-items:center;justify-content:space-between;">
+      <span style="font-size:10px;font-weight:700;color:#fff;">📺 ${pname} partage son écran</span>
+      <button onclick="document.getElementById('remote-preview').remove();window.remoteStream=null;" style="background:none;border:none;color:#fff;font-size:14px;cursor:pointer;">✕</button>
+    </div>
+    <video id="remote-video" autoplay playsinline style="width:100%;max-height:160px;object-fit:contain;display:block;"></video>
+    <div style="padding:5px 10px;display:flex;gap:6px;">
+      <button onclick="expandRemote()" style="flex:1;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:10px;font-weight:600;padding:4px;border-radius:6px;cursor:pointer;">⛶ Agrandir</button>
+    </div>`;
+  document.body.appendChild(wrap);
+  document.getElementById('remote-video').srcObject=stream;
+}
+
+function expandRemote(){
+  const v=document.getElementById('remote-video');
+  if(!v)return;
+  if(v.requestFullscreen) v.requestFullscreen();
+  else if(v.webkitRequestFullscreen) v.webkitRequestFullscreen();
 }
 
 function renderChatHeader(pid){

@@ -52,6 +52,16 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:10px 1
 .my-id-box{background:rgba(184,0,255,.08);border:1px solid rgba(184,0,255,.2);border-radius:12px;padding:8px 10px;}
 .my-id-label{font-size:8px;font-weight:700;color:var(--p3);letter-spacing:2px;display:block;margin-bottom:3px;text-transform:uppercase;}
 .my-id-val{font-family:var(--mono);font-size:8px;color:rgba(240,230,255,.7);word-break:break-all;line-height:1.5;}
+.pseudo-wrap{margin-top:8px;}
+.pseudo-display{display:flex;align-items:center;gap:6px;cursor:pointer;padding:6px 8px;border-radius:10px;border:1px solid rgba(184,0,255,.2);background:rgba(184,0,255,.06);transition:all .2s;}
+.pseudo-display:hover{border-color:var(--p1);background:rgba(184,0,255,.12);}
+.pseudo-name{font-size:13px;font-weight:700;color:var(--p3);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.pseudo-edit-icon{font-size:12px;opacity:.6;}
+.pseudo-input-wrap{display:none;flex-direction:column;gap:6px;margin-top:6px;}
+.pseudo-input-wrap.show{display:flex;}
+.pseudo-input{background:rgba(255,255,255,.06);border:1px solid rgba(184,0,255,.4);color:var(--text);font-family:var(--sans);font-size:13px;font-weight:700;padding:6px 10px;border-radius:10px;width:100%;outline:none;}
+.pseudo-input:focus{border-color:var(--p1);box-shadow:0 0 12px rgba(184,0,255,.2);}
+.pseudo-save{background:linear-gradient(135deg,var(--g1),var(--p2));border:none;color:#fff;font-size:11px;font-weight:700;padding:6px 12px;border-radius:50px;cursor:pointer;width:100%;}
 .peers-head{padding:8px 14px 5px;font-size:9px;font-weight:700;letter-spacing:2px;color:var(--muted);text-transform:uppercase;border-bottom:1px solid var(--border);}
 .peers-list{flex:1;overflow-y:auto;}
 .peer-item{padding:10px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(180,0,255,.06);cursor:pointer;transition:all .15s;}
@@ -173,8 +183,19 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:10px 1
   <div class="sidebar">
     <div class="sb-head">
       <h2>Mon profil</h2>
-      <div class="my-id-box">
-        <span class="my-id-label">Mon ID</span>
+      <div class="pseudo-wrap">
+        <div class="pseudo-display" onclick="togglePseudoEdit()" title="Changer le pseudo">
+          <span class="pseudo-name" id="pseudo-display">⌛ Connexion…</span>
+          <span class="pseudo-edit-icon">✏️</span>
+        </div>
+        <div class="pseudo-input-wrap" id="pseudo-edit">
+          <input class="pseudo-input" id="pseudo-input" maxlength="20" placeholder="Ton pseudo…"
+            onkeydown="if(event.key==='Enter')savePseudo()"/>
+          <button class="pseudo-save" onclick="savePseudo()">✅ Valider</button>
+        </div>
+      </div>
+      <div class="my-id-box" style="margin-top:8px;">
+        <span class="my-id-label">ID réseau</span>
         <div class="my-id-val" id="my-peer-display">génération…</div>
       </div>
     </div>
@@ -424,7 +445,7 @@ const THEMES = Object.keys(QUESTIONS);
 const ALL_Q  = Object.entries(QUESTIONS).map(([theme, qs]) => qs.map(q => ({...q, theme}))).flat();
 
 /* ── P2P STATE ── */
-let myPeer=null,myId=null,myNode=null,roomId=null;
+let myPeer=null,myId=null,myNode=null,roomId=null,myPseudo='Joueur';
 let peers=new Map(),activePid=null,msgCount=0;
 let coordPeer=null,coordConn=null,isCoord=false,members=[],joining=false,coordId=null;
 
@@ -437,6 +458,26 @@ const Q={
   myName:'Moi',theirName:'Pair',theme:null
 };
 
+/* ── PSEUDO ── */
+function togglePseudoEdit(){
+  const wrap=document.getElementById('pseudo-edit');
+  wrap.classList.toggle('show');
+  if(wrap.classList.contains('show'))document.getElementById('pseudo-input').focus();
+}
+function savePseudo(){
+  const input=document.getElementById('pseudo-input');
+  const val=input.value.trim().substring(0,20);
+  if(!val)return;
+  myPseudo=val;Q.myName=val;
+  localStorage.setItem('orion-pseudo',val);
+  document.getElementById('pseudo-display').textContent=val;
+  document.getElementById('pseudo-edit').classList.remove('show');
+  // Notifier tous les pairs connectés
+  peers.forEach((p,pid)=>{
+    if(p.conn&&p.conn.open)p.conn.send(JSON.stringify({type:'hi',pub:myNode?myNode.pub:'',name:myPseudo}));
+  });
+}
+
 /* ── INIT ── */
 async function init(){
   myNode=await makeNode();
@@ -444,7 +485,13 @@ async function init(){
   myPeer=new Peer(myId,{host:'0.peerjs.com',port:443,path:'/',secure:true,
     config:{iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun1.l.google.com:19302'}]}});
   myPeer.on('open',id=>{
-    myId=id;Q.myName='@'+id.substring(0,6);
+    myId=id;
+    // Charger le pseudo sauvegardé ou en créer un par défaut
+    const saved=localStorage.getItem('orion-pseudo');
+    myPseudo=saved||('Joueur·'+id.substring(2,6).toUpperCase());
+    Q.myName=myPseudo;
+    document.getElementById('pseudo-display').textContent=myPseudo;
+    document.getElementById('pseudo-input').value=myPseudo;
     document.getElementById('my-peer-display').textContent=id;
     setNet('green','Connecté ✨');
     const r=new URLSearchParams(location.search).get('room');
@@ -514,7 +561,7 @@ function attachConn(pid,conn){
   const p=peers.get(pid);if(!p)return;p.conn=conn;
   conn.on('open',()=>{
     p.online=true;
-    conn.send(JSON.stringify({type:'hi',pub:myNode.pub,name:'@'+myId.substring(0,6)}));
+    conn.send(JSON.stringify({type:'hi',pub:myNode.pub,name:myPseudo||('@'+myId.substring(0,6))}));
     renderPeersList();if(activePid===pid)renderChatHeader(pid);
     sysMsg(pid,'🔗 Connexion P2P établie');
     setNet('green','Room '+roomId+' · '+countOnline()+' connecté(s) 💜');

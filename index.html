@@ -22,6 +22,8 @@ body::before{content:'';position:fixed;inset:0;z-index:0;
     radial-gradient(ellipse 500px 300px at 80% 80%,rgba(255,45,143,.10) 0%,transparent 70%);
   pointer-events:none;}
 body>*{position:relative;z-index:1;}
+
+/* NAV */
 nav{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;flex-shrink:0;gap:8px;flex-wrap:wrap;
   background:rgba(18,0,32,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
 .nav-logo{font-size:17px;font-weight:900;letter-spacing:3px;
@@ -44,24 +46,36 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:10px 1
 .ndot.amber{background:var(--amber);}
 .ndot.red{background:var(--red);}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* LAYOUT */
 .layout{display:flex;flex:1;overflow:hidden;}
+
+/* SIDEBAR */
 .sidebar{width:220px;border-right:1px solid var(--border);display:flex;flex-direction:column;
   background:rgba(18,0,32,.6);backdrop-filter:blur(20px);flex-shrink:0;}
 .sb-head{padding:12px 14px;border-bottom:1px solid var(--border);}
-.sb-head h2{font-size:9px;font-weight:700;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:8px;}
-.my-id-box{background:rgba(184,0,255,.08);border:1px solid rgba(184,0,255,.2);border-radius:12px;padding:8px 10px;}
-.my-id-label{font-size:8px;font-weight:700;color:var(--p3);letter-spacing:2px;display:block;margin-bottom:3px;text-transform:uppercase;}
-.my-id-val{font-family:var(--mono);font-size:8px;color:rgba(240,230,255,.7);word-break:break-all;line-height:1.5;}
-.pseudo-wrap{margin-top:8px;}
-.pseudo-display{display:flex;align-items:center;gap:6px;cursor:pointer;padding:6px 8px;border-radius:10px;border:1px solid rgba(184,0,255,.2);background:rgba(184,0,255,.06);transition:all .2s;}
-.pseudo-display:hover{border-color:var(--p1);background:rgba(184,0,255,.12);}
+.sb-head h2{font-size:9px;font-weight:700;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:10px;}
+
+/* Pseudo */
+.pseudo-display{display:flex;align-items:center;gap:8px;cursor:pointer;padding:8px 10px;
+  border-radius:12px;border:1px solid rgba(184,0,255,.25);background:rgba(184,0,255,.08);transition:all .2s;}
+.pseudo-display:hover{border-color:var(--p1);background:rgba(184,0,255,.15);}
+.pseudo-avatar{width:32px;height:32px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--g1),var(--p2));
+  display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;}
 .pseudo-name{font-size:13px;font-weight:700;color:var(--p3);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.pseudo-edit-icon{font-size:12px;opacity:.6;}
-.pseudo-input-wrap{display:none;flex-direction:column;gap:6px;margin-top:6px;}
-.pseudo-input-wrap.show{display:flex;}
-.pseudo-input{background:rgba(255,255,255,.06);border:1px solid rgba(184,0,255,.4);color:var(--text);font-family:var(--sans);font-size:13px;font-weight:700;padding:6px 10px;border-radius:10px;width:100%;outline:none;}
-.pseudo-input:focus{border-color:var(--p1);box-shadow:0 0 12px rgba(184,0,255,.2);}
-.pseudo-save{background:linear-gradient(135deg,var(--g1),var(--p2));border:none;color:#fff;font-size:11px;font-weight:700;padding:6px 12px;border-radius:50px;cursor:pointer;width:100%;}
+.pseudo-edit-icon{font-size:12px;opacity:.7;}
+.pseudo-edit-wrap{display:none;flex-direction:column;gap:6px;margin-top:8px;}
+.pseudo-edit-wrap.show{display:flex;}
+.pseudo-input{background:rgba(255,255,255,.06);border:1px solid rgba(184,0,255,.4);color:var(--text);
+  font-family:var(--sans);font-size:13px;font-weight:700;padding:7px 10px;border-radius:10px;width:100%;outline:none;}
+.pseudo-input:focus{border-color:var(--p1);}
+.pseudo-save{background:linear-gradient(135deg,var(--g1),var(--p2));border:none;color:#fff;
+  font-size:11px;font-weight:700;padding:7px;border-radius:50px;cursor:pointer;width:100%;}
+.my-id-box{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;padding:6px 8px;margin-top:8px;}
+.my-id-label{font-size:8px;font-weight:700;color:var(--muted);letter-spacing:2px;display:block;margin-bottom:2px;text-transform:uppercase;}
+.my-id-val{font-family:var(--mono);font-size:8px;color:rgba(240,230,255,.5);word-break:break-all;line-height:1.4;}
+
 .peers-head{padding:8px 14px 5px;font-size:9px;font-weight:700;letter-spacing:2px;color:var(--muted);text-transform:uppercase;border-bottom:1px solid var(--border);}
 .peers-list{flex:1;overflow-y:auto;}
 .peer-item{padding:10px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(180,0,255,.06);cursor:pointer;transition:all .15s;}
@@ -77,6 +91,8 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:10px 1
 .unread-badge{background:linear-gradient(135deg,var(--p1),var(--p2));color:#fff;font-size:8px;font-weight:700;
   min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 4px;}
 .sb-info{padding:8px 14px;border-top:1px solid var(--border);font-size:8px;color:var(--muted);font-family:var(--mono);line-height:1.8;word-break:break-all;}
+
+/* CHAT */
 .chat{flex:1;display:flex;flex-direction:column;overflow:hidden;}
 .welcome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:32px;text-align:center;overflow-y:auto;}
 .welcome-logo{font-size:44px;font-weight:900;letter-spacing:6px;
@@ -90,32 +106,44 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:10px 1
 .step-n{font-size:9px;font-weight:700;color:var(--p3);letter-spacing:2px;margin-bottom:3px;text-transform:uppercase;}
 .step-t{font-size:12px;line-height:1.7;color:var(--text);}
 .step-t b{color:var(--p3);}
+
+/* CHAT HEADER */
 .chat-header{padding:10px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;
   background:rgba(18,0,32,.7);backdrop-filter:blur(20px);flex-shrink:0;}
 .chat-header-info{flex:1;min-width:0;}
 .chat-header-name{font-size:14px;font-weight:700;}
 .chat-header-sub{font-size:10px;color:var(--muted);font-weight:500;}
-.header-actions{display:flex;gap:6px;flex-wrap:wrap;}
+.header-actions{display:flex;gap:6px;}
 .act-btn{background:rgba(255,255,255,.06);border:1px solid rgba(184,0,255,.25);color:var(--text);
   font-size:11px;font-weight:600;padding:5px 12px;border-radius:50px;cursor:pointer;transition:all .2s;white-space:nowrap;}
 .act-btn:hover{background:rgba(184,0,255,.15);border-color:var(--p1);}
 .act-btn.glow{background:linear-gradient(135deg,rgba(112,0,255,.2),rgba(255,45,143,.2));border-color:var(--p2);color:var(--p3);}
-.messages{flex:1;overflow-y:auto;padding:14px 18px;display:flex;flex-direction:column;gap:8px;}
+
+/* MESSAGES */
+.messages{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px;}
 .sys{text-align:center;font-size:10px;font-weight:600;color:var(--muted);padding:4px 12px;
   background:rgba(255,255,255,.03);border-radius:50px;border:1px solid var(--border);align-self:center;}
-.bwrap{display:flex;flex-direction:column;max-width:72%;animation:msgIn .2s ease;}
-.bwrap.me{align-self:flex-end;align-items:flex-end;}
-.bwrap.them{align-self:flex-start;}
+.msg-row{display:flex;align-items:flex-end;gap:8px;animation:msgIn .2s ease;}
+.msg-row.me{flex-direction:row-reverse;}
 @keyframes msgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.msg-avatar{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;}
+.msg-avatar.me{background:linear-gradient(135deg,var(--g1),var(--p2));color:#fff;}
+.msg-avatar.them{background:rgba(124,58,237,.3);border:1px solid rgba(184,0,255,.4);color:var(--p3);}
+.msg-content{display:flex;flex-direction:column;max-width:65%;}
+.msg-row.me .msg-content{align-items:flex-end;}
+.msg-sender{font-size:9px;font-weight:700;margin-bottom:3px;}
+.msg-sender.me{color:var(--p3);}
+.msg-sender.them{color:var(--muted);}
 .bubble{padding:9px 14px;border-radius:18px;font-size:13px;line-height:1.6;word-break:break-word;font-weight:500;}
-.bwrap.me .bubble{background:linear-gradient(135deg,var(--g1),var(--p2));color:#fff;border-bottom-right-radius:4px;box-shadow:0 4px 20px rgba(184,0,255,.3);}
-.bwrap.them .bubble{background:rgba(255,255,255,.07);border:1px solid rgba(184,0,255,.15);color:var(--text);border-bottom-left-radius:4px;}
+.bubble.me{background:linear-gradient(135deg,var(--g1),var(--p2));color:#fff;border-bottom-right-radius:4px;box-shadow:0 4px 20px rgba(184,0,255,.3);}
+.bubble.them{background:rgba(255,255,255,.07);border:1px solid rgba(184,0,255,.15);color:var(--text);border-bottom-left-radius:4px;}
 .bmeta{font-size:9px;color:var(--muted);margin-top:3px;display:flex;align-items:center;gap:4px;font-weight:600;}
 .chip{font-size:7px;padding:2px 6px;border-radius:50px;font-weight:700;}
 .chip.ok{background:rgba(0,255,179,.12);color:var(--green);border:1px solid rgba(0,255,179,.25);}
 .chip.bad{background:rgba(255,59,107,.12);color:var(--red);border:1px solid rgba(255,59,107,.25);}
 .chip.p2p{background:linear-gradient(135deg,rgba(112,0,255,.15),rgba(255,45,143,.15));color:var(--p3);border:1px solid rgba(184,0,255,.25);}
 .tick{color:var(--green);}
+
 /* QUIZ */
 .quiz-bubble{align-self:center;width:100%;max-width:500px;
   background:rgba(255,255,255,.04);border:1px solid rgba(184,0,255,.25);
@@ -147,13 +175,13 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:10px 1
 .quiz-score-num{font-size:28px;font-weight:900;background:linear-gradient(135deg,var(--p1),var(--p2));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 .quiz-score-label{font-size:10px;color:var(--muted);font-weight:700;margin-top:2px;}
-.quiz-result-msg{font-size:12px;padding:6px 12px;border-radius:10px;margin-top:8px;text-align:center;font-weight:700;}
 .quiz-expl{font-size:11px;color:var(--muted);margin-top:6px;padding:6px 10px;background:rgba(255,255,255,.03);border-radius:8px;line-height:1.5;}
-/* Theme picker */
 .theme-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px;}
 .theme-btn{padding:10px;border-radius:12px;border:1px solid rgba(184,0,255,.2);background:rgba(255,255,255,.04);
   cursor:pointer;font-size:12px;font-weight:600;color:var(--text);text-align:center;transition:all .2s;}
 .theme-btn:hover{background:rgba(184,0,255,.15);border-color:var(--p1);transform:translateY(-1px);}
+
+/* INPUT */
 .chat-input{padding:10px 14px;border-top:1px solid var(--border);display:flex;gap:8px;align-items:flex-end;
   background:rgba(18,0,32,.8);backdrop-filter:blur(20px);flex-shrink:0;}
 .chat-input textarea{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(184,0,255,.25);
@@ -183,18 +211,17 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:10px 1
   <div class="sidebar">
     <div class="sb-head">
       <h2>Mon profil</h2>
-      <div class="pseudo-wrap">
-        <div class="pseudo-display" onclick="togglePseudoEdit()" title="Changer le pseudo">
-          <span class="pseudo-name" id="pseudo-display">⌛ Connexion…</span>
-          <span class="pseudo-edit-icon">✏️</span>
-        </div>
-        <div class="pseudo-input-wrap" id="pseudo-edit">
-          <input class="pseudo-input" id="pseudo-input" maxlength="20" placeholder="Ton pseudo…"
-            onkeydown="if(event.key==='Enter')savePseudo()"/>
-          <button class="pseudo-save" onclick="savePseudo()">✅ Valider</button>
-        </div>
+      <div class="pseudo-display" onclick="togglePseudoEdit()" title="Clique pour changer ton pseudo">
+        <div class="pseudo-avatar" id="my-avatar">?</div>
+        <span class="pseudo-name" id="pseudo-display">Connexion…</span>
+        <span class="pseudo-edit-icon">✏️</span>
       </div>
-      <div class="my-id-box" style="margin-top:8px;">
+      <div class="pseudo-edit-wrap" id="pseudo-edit">
+        <input class="pseudo-input" id="pseudo-input" maxlength="20" placeholder="Ton pseudo…"
+          onkeydown="if(event.key==='Enter')savePseudo()"/>
+        <button class="pseudo-save" onclick="savePseudo()">✅ Valider</button>
+      </div>
+      <div class="my-id-box">
         <span class="my-id-label">ID réseau</span>
         <div class="my-id-val" id="my-peer-display">génération…</div>
       </div>
@@ -209,289 +236,280 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:10px 1
     <div class="welcome">
       <div class="welcome-logo">ORION</div>
       <h2>Messenger + Quiz + Screen</h2>
+      <div class="step"><div class="step-n">✏️ Étape 0</div><div class="step-t">Change ton <b>pseudo</b> dans la sidebar !</div></div>
       <div class="step"><div class="step-n">🚀 Étape 1</div><div class="step-t">Entre un <b>code room</b> → <b>JOIN</b>.</div></div>
       <div class="step"><div class="step-n">🔗 Étape 2</div><div class="step-t">Lien :<br><span id="share-link" style="color:var(--p3);font-family:var(--mono);font-size:10px;">Entre un code room…</span></div></div>
-      <div class="step"><div class="step-n">🧠 Étape 3</div><div class="step-t">Clique <b>Quiz 🧠</b> pour jouer contre ton contact — 200 questions, 8 thèmes !</div></div>
+      <div class="step"><div class="step-n">🧠 Étape 3</div><div class="step-t">Quiz <b>200 questions · 8 thèmes</b> + partage d'écran 📺</div></div>
     </div>
   </div>
 </div>
-<script>
-/* ═══════════════════════════════════════════
-   ORION — 200 questions, 8 thèmes, zéro API
-   ═══════════════════════════════════════════ */
 
-// ── BASE DE QUESTIONS (200 questions, 8 thèmes) ──
-const QUESTIONS = {
-  '🎮 Jeux vidéo': [
-    {q:'Quel jeu a introduit le personnage de Mario pour la première fois ?',c:['A) Super Mario Bros','B) Donkey Kong','C) Mario Bros','D) Donkey Kong Jr'],a:'B',e:'Mario apparaît pour la 1ère fois dans Donkey Kong (1981) en tant que "Jumpman".'},
-    {q:'Dans quel jeu trouve-t-on la phrase "The cake is a lie" ?',c:['A) Half-Life 2','B) Portal','C) Minecraft','D) Valve'],a:'B',e:'Portal (2007) — GLaDOS promet un gâteau qui n\'existe pas.'},
-    {q:'Quel est le jeu le plus vendu de tous les temps ?',c:['A) GTA V','B) Tetris','C) Minecraft','D) Wii Sports'],a:'C',e:'Minecraft dépasse 250 millions de copies vendues toutes plateformes confondues.'},
-    {q:'Dans Fortnite, combien de joueurs participent à une partie Battle Royale standard ?',c:['A) 50','B) 75','C) 100','D) 150'],a:'C',e:'100 joueurs s\'affrontent jusqu\'au dernier survivant.'},
-    {q:'Quelle entreprise a créé la PlayStation ?',c:['A) Microsoft','B) Nintendo','C) Sony','D) Sega'],a:'C',e:'Sony lance la PlayStation en 1994 au Japon.'},
-    {q:'Quel personnage est le héros de The Legend of Zelda ?',c:['A) Zelda','B) Link','C) Ganon','D) Navi'],a:'B',e:'Le héros est Link — Zelda est la princesse qu\'il doit sauver.'},
-    {q:'Dans quel jeu peut-on construire des bases sur des planètes procédurales ?',c:['A) Starfield','B) No Man\'s Sky','C) Elite Dangerous','D) Mass Effect'],a:'B',e:'No Man\'s Sky de Hello Games propose des milliards de planètes procédurales.'},
-    {q:'Quelle est la devise de la maison Stark dans Game of Thrones (le jeu) ?',c:['A) Fire and Blood','B) We Do Not Sow','C) Winter is Coming','D) Hear Me Roar'],a:'C',e:'"Winter is Coming" est la devise des Stark.'},
-    {q:'Dans League of Legends, combien de joueurs composent chaque équipe ?',c:['A) 3','B) 4','C) 5','D) 6'],a:'C',e:'Chaque équipe compte 5 joueurs sur la carte Summoner\'s Rift.'},
-    {q:'Quel jeu a popularisé le genre "Battle Royale" sur PC ?',c:['A) Fortnite','B) PUBG','C) H1Z1','D) DayZ'],a:'B',e:'PUBG (PlayerUnknown\'s Battlegrounds, 2017) a popularisé le genre.'},
-    {q:'Dans quel jeu incarne-t-on Geralt de Riv ?',c:['A) Dragon Age','B) The Witcher 3','C) Skyrim','D) Dark Souls'],a:'B',e:'Geralt est le héros de la saga The Witcher de CD Projekt Red.'},
-    {q:'Combien y a-t-il de Pokémon dans la 1ère génération ?',c:['A) 100','B) 150','C) 151','D) 152'],a:'C',e:'151 Pokémon dans la 1ère gen — de Bulbizarre à Mew.'},
-    {q:'Quel studio a créé la saga Dark Souls ?',c:['A) Capcom','B) FromSoftware','C) Bandai Namco','D) Square Enix'],a:'B',e:'FromSoftware, dirigé par Hidetaka Miyazaki, a créé Dark Souls.'},
-    {q:'Dans GTA V, combien de personnages jouables y a-t-il ?',c:['A) 1','B) 2','C) 3','D) 4'],a:'C',e:'Michael, Trevor et Franklin — 3 protagonistes pour la 1ère fois dans la série.'},
-    {q:'Quelle est la monnaie dans Animal Crossing ?',c:['A) Pièces','B) Étoiles','C) Cloches','D) Feuilles'],a:'C',e:'Les Cloches (Bells) sont la monnaie d\'Animal Crossing.'},
-    {q:'Quel FPS a introduit le mode "Zombies" ?',c:['A) Halo','B) Call of Duty: World at War','C) Left 4 Dead','D) Resident Evil'],a:'B',e:'Le mode Zombies apparaît dans CoD: World at War (2008).'},
-    {q:'Dans Overwatch, quel personnage crie "Justice rains from above!" ?',c:['A) Soldier 76','B) Pharah','C) McCree','D) Reaper'],a:'B',e:'Pharah lance ce cri en utilisant son ultime Barrage de Roquettes.'},
-    {q:'Quel jeu se passe dans la ville de Rapture sous l\'océan ?',c:['A) Subnautica','B) BioShock','C) Soma','D) Abzû'],a:'B',e:'Rapture est la ville dystopique sous-marine de BioShock (2007).'},
-    {q:'Quelle franchise de jeux se déroule dans l\'univers "Halo" ?',c:['A) Bungie/343 Industries','B) Ubisoft','C) EA Games','D) Activision'],a:'A',e:'Halo a été créé par Bungie puis repris par 343 Industries (Microsoft).'},
-    {q:'Dans Minecraft, quel est le boss final du jeu ?',c:['A) Le Creeper','B) Le Wither','C) L\'Ender Dragon','D) Le Golem de Fer'],a:'C',e:'L\'Ender Dragon dans The End est le boss final de Minecraft.'},
-    {q:'Quel jeu de sport électronique est le plus joué en compétition mondiale ?',c:['A) FIFA','B) NBA 2K','C) Rocket League','D) eFootball'],a:'C',e:'Rocket League est l\'un des jeux compétitifs les plus populaires en esport.'},
-    {q:'Dans Among Us, quel est le but des imposteurs ?',c:['A) Réparer le vaisseau','B) Éliminer tous les équipiers','C) Fuir le vaisseau','D) Trouver les indices'],a:'B',e:'Les imposteurs doivent éliminer les équipiers jusqu\'à être en majorité.'},
-    {q:'Quel jeu propose la "The Konami Code" (Haut Haut Bas Bas...) ?',c:['A) Contra','B) Sonic','C) Mario','D) Pac-Man'],a:'A',e:'Ce code est célèbre dans Contra (1987) et accorde 30 vies.'},
-    {q:'Dans Cyberpunk 2077, dans quelle ville se passe l\'action ?',c:['A) Neo Tokyo','B) Night City','C) Los Santos','D) Midgar'],a:'B',e:'Night City, ville fictive de Californie dans un futur dystopique.'},
-    {q:'Quelle est la plus grande map de GTA ?',c:['A) GTA San Andreas','B) GTA V','C) GTA IV','D) GTA Online'],a:'B',e:'La map de GTA V est la plus grande de la série principale.'},
-  ],
-  '🎬 Cinéma & Séries': [
-    {q:'Quel film a remporté le plus d\'Oscars dans l\'histoire ?',c:['A) Titanic','B) Ben-Hur','C) Le Retour du Roi','D) A) et C) ex-aequo'],a:'D',e:'Titanic, Ben-Hur et Le Retour du Roi ont chacun remporté 11 Oscars.'},
-    {q:'Dans quelle série apparaît le personnage de Walter White ?',c:['A) Narcos','B) Ozark','C) Breaking Bad','D) Better Call Saul'],a:'C',e:'Walter White est le protagoniste de Breaking Bad (AMC, 2008-2013).'},
-    {q:'Quel acteur joue Iron Man dans le MCU ?',c:['A) Chris Evans','B) Robert Downey Jr','C) Chris Hemsworth','D) Mark Ruffalo'],a:'B',e:'Robert Downey Jr incarne Tony Stark / Iron Man de 2008 à 2019.'},
-    {q:'Dans quel film Léonardo DiCaprio gagne-t-il son premier Oscar ?',c:['A) Inception','B) The Wolf of Wall Street','C) The Revenant','D) Django'],a:'C',e:'The Revenant (2016) — DiCaprio gagne enfin l\'Oscar après 22 ans de carrière.'},
-    {q:'Quelle série Netflix est devenue la plus regardée de l\'histoire ?',c:['A) Stranger Things','B) Squid Game','C) Money Heist','D) Wednesday'],a:'B',e:'Squid Game (2021) — 1,65 milliard d\'heures vues en 28 jours.'},
-    {q:'Quel réalisateur a créé la saga Star Wars originale ?',c:['A) Steven Spielberg','B) James Cameron','C) George Lucas','D) Ridley Scott'],a:'C',e:'George Lucas a créé Star Wars et réalisé les épisodes IV, V et VI.'},
-    {q:'Dans Avengers Endgame, qui porte le gant des Infinity Stones en premier ?',c:['A) Iron Man','B) Thor','C) Hulk','D) Captain America'],a:'C',e:'Hulk est le premier à porter le gant car sa biologie supporte la radiation gamma.'},
-    {q:'Quelle actrice joue Hermione Granger dans Harry Potter ?',c:['A) Keira Knightley','B) Emma Stone','C) Emma Watson','D) Dakota Fanning'],a:'C',e:'Emma Watson joue Hermione dans toute la saga Harry Potter (2001-2011).'},
-    {q:'Dans quelle ville se passe la série Emily in Paris ?',c:['A) Londres','B) Rome','C) Paris','D) Berlin'],a:'C',e:'Emily in Paris se passe principalement à Paris.'},
-    {q:'Quel film de Christopher Nolan met en scène des rêves dans des rêves ?',c:['A) Interstellar','B) The Dark Knight','C) Memento','D) Inception'],a:'D',e:'Inception (2010) — Leonardo DiCaprio pénètre dans les rêves pour voler des secrets.'},
-    {q:'Combien d\'épisodes compte la série Game of Thrones ?',c:['A) 60','B) 73','C) 80','D) 67'],a:'B',e:'Game of Thrones (HBO) compte 73 épisodes sur 8 saisons (2011-2019).'},
-    {q:'Quel studio d\'animation a créé Le Roi Lion (1994) ?',c:['A) Pixar','B) DreamWorks','C) Disney','D) Warner Bros'],a:'C',e:'Le Roi Lion est produit par Walt Disney Pictures en 1994.'},
-    {q:'Dans quelle série voit-on la ville de Hawkins, Indiana ?',c:['A) Dark','B) Stranger Things','C) The OA','D) Twin Peaks'],a:'B',e:'Stranger Things (Netflix) se déroule à Hawkins, Indiana, dans les années 80.'},
-    {q:'Quel acteur joue Jack dans Titanic (1997) ?',c:['A) Brad Pitt','B) Tom Hanks','C) Leonardo DiCaprio','D) Matt Damon'],a:'C',e:'Leonardo DiCaprio joue Jack Dawson, le héros de Titanic.'},
-    {q:'Quelle est la durée d\'Avengers Endgame, le film le plus long du MCU ?',c:['A) 2h49','B) 3h01','C) 3h22','D) 2h32'],a:'B',e:'Avengers Endgame dure exactement 3 heures et 1 minute.'},
-    {q:'Dans La Casa de Papel, quel est le vrai nom du Professeur ?',c:['A) Sergio Marquina','B) Álvaro Morte','C) Pablo Escobar','D) Raúl Ariza'],a:'A',e:'Le Professeur s\'appelle Sergio Marquina (alias Salvador Martín).'},
-    {q:'Quel film Disney raconte l\'histoire d\'une jeune fille aux cheveux magiques ?',c:['A) Brave','B) Raiponce','C) La Belle au Bois Dormant','D) Cendrillon'],a:'B',e:'Raiponce (Tangled, 2010) — Raiponce a des cheveux magiques de 21 mètres.'},
-    {q:'Dans quelle ville se déroule la série Lupin avec Omar Sy ?',c:['A) Lyon','B) Marseille','C) Paris','D) Nice'],a:'C',e:'Lupin se déroule principalement à Paris, notamment au Louvre.'},
-    {q:'Quel acteur joue le Joker dans The Dark Knight (2008) ?',c:['A) Joaquin Phoenix','B) Jared Leto','C) Heath Ledger','D) Jack Nicholson'],a:'C',e:'Heath Ledger incarne le Joker et remporte l\'Oscar posthume du meilleur second rôle.'},
-    {q:'Combien de saisons compte la série Friends ?',c:['A) 8','B) 9','C) 10','D) 11'],a:'C',e:'Friends (NBC) compte 10 saisons et 236 épisodes (1994-2004).'},
-    {q:'Dans quel film Pixar un rat veut devenir grand chef cuisinier ?',c:['A) Ratatouille','B) Monstre & Cie','C) Soul','D) Luca'],a:'A',e:'Ratatouille (2007) — Rémy le rat veut cuisiner dans un grand restaurant parisien.'},
-    {q:'Quelle série coréenne a popularisé le "K-drama" mondialement ?',c:['A) Squid Game','B) Crash Landing on You','C) My Love from the Star','D) Boys Over Flowers'],a:'B',e:'Crash Landing on You (2019-2020) a été un phénomène mondial sur Netflix.'},
-    {q:'Dans Interstellar, quelle théorie scientifique est centrale dans le film ?',c:['A) La relativité générale','B) La mécanique quantique','C) La théorie des cordes','D) Les trous noirs'],a:'A',e:'La relativité générale d\'Einstein — la dilatation temporelle près des trous noirs.'},
-    {q:'Quel acteur joue Thanos dans le MCU ?',c:['A) Josh Brolin','B) Vin Diesel','C) Dave Bautista','D) James Spader'],a:'A',e:'Josh Brolin prête sa voix et sa performance capturée pour Thanos.'},
-    {q:'Dans quelle ville se déroule la série Peaky Blinders ?',c:['A) Londres','B) Manchester','C) Birmingham','D) Glasgow'],a:'C',e:'Peaky Blinders se déroule à Birmingham après la Première Guerre mondiale.'},
-  ],
-  '🔬 Science & Tech': [
-    {q:'Quelle planète est la plus grande du système solaire ?',c:['A) Saturne','B) Jupiter','C) Neptune','D) Uranus'],a:'B',e:'Jupiter est 11 fois plus grand que la Terre et représente 2,5x la masse de toutes les autres planètes réunies.'},
-    {q:'Qui a inventé le World Wide Web ?',c:['A) Bill Gates','B) Steve Jobs','C) Tim Berners-Lee','D) Vint Cerf'],a:'C',e:'Tim Berners-Lee invente le WWW en 1989 au CERN.'},
-    {q:'Quelle est la vitesse de la lumière dans le vide ?',c:['A) 300 000 km/s','B) 150 000 km/s','C) 450 000 km/s','D) 200 000 km/s'],a:'A',e:'La lumière voyage à environ 299 792 km/s dans le vide.'},
-    {q:'Quel élément chimique est le plus abondant dans l\'univers ?',c:['A) Oxygène','B) Carbone','C) Hydrogène','D) Hélium'],a:'C',e:'L\'hydrogène représente environ 75% de la matière baryonique de l\'univers.'},
-    {q:'Combien de chromosomes possède un être humain normal ?',c:['A) 23','B) 46','C) 48','D) 64'],a:'B',e:'46 chromosomes (23 paires) dans chaque cellule somatique humaine.'},
-    {q:'Quelle entreprise a développé le système d\'exploitation Android ?',c:['A) Apple','B) Microsoft','C) Google','D) Samsung'],a:'C',e:'Android a été développé par Android Inc., racheté par Google en 2005.'},
-    {q:'Qu\'est-ce que l\'ADN ?',c:['A) Un acide aminé','B) Un acide désoxyribonucléique','C) Une protéine','D) Un enzyme'],a:'B',e:'L\'ADN (Acide DésoxyriboNucléique) contient l\'information génétique.'},
-    {q:'Quelle planète a le plus grand nombre de lunes connues ?',c:['A) Jupiter','B) Saturne','C) Uranus','D) Neptune'],a:'B',e:'Saturne détient le record avec 146 lunes confirmées (en 2023).'},
-    {q:'Quel est l\'atome le plus simple ?',c:['A) Hélium','B) Hydrogène','C) Lithium','D) Carbone'],a:'B',e:'L\'hydrogène a un seul proton et un seul électron — l\'atome le plus simple.'},
-    {q:'Qui est l\'inventeur de la théorie de la relativité générale ?',c:['A) Newton','B) Bohr','C) Einstein','D) Planck'],a:'C',e:'Albert Einstein publie la relativité générale en 1915.'},
-    {q:'Quelle est la fonction principale des mitochondries ?',c:['A) Synthèse protéique','B) Production d\'énergie (ATP)','C) Division cellulaire','D) Stockage de l\'ADN'],a:'B',e:'Les mitochondries produisent l\'ATP — l\'énergie utilisée par la cellule.'},
-    {q:'Combien de bits compose un octet (byte) ?',c:['A) 4','B) 8','C) 16','D) 32'],a:'B',e:'Un octet = 8 bits. C\'est l\'unité de base du stockage informatique.'},
-    {q:'Quel gaz est principalement responsable du réchauffement climatique ?',c:['A) Oxygène','B) Azote','C) CO2','D) Argon'],a:'C',e:'Le CO2 (dioxyde de carbone) est le principal gaz à effet de serre d\'origine humaine.'},
-    {q:'Quel est le nom du premier satellite artificiel lancé dans l\'espace ?',c:['A) Explorer 1','B) Vostok','C) Spoutnik','D) Luna 1'],a:'C',e:'Spoutnik 1, lancé par l\'URSS le 4 octobre 1957.'},
-    {q:'Quelle est la formule chimique de l\'eau ?',c:['A) HO2','B) H2O','C) OH2','D) H2O2'],a:'B',e:'H2O : 2 atomes d\'hydrogène et 1 atome d\'oxygène.'},
-    {q:'Quel langage de programmation est le plus utilisé au monde en 2024 ?',c:['A) Java','B) C++','C) Python','D) JavaScript'],a:'C',e:'Python est classé 1er langage le plus populaire selon l\'indice TIOBE en 2024.'},
-    {q:'Qu\'est-ce que l\'IA générative ?',c:['A) Une IA qui joue aux jeux','B) Une IA qui crée du contenu original','C) Une IA qui analyse des données','D) Une IA qui conduit des voitures'],a:'B',e:'L\'IA générative crée du contenu original : texte, images, audio, vidéo.'},
-    {q:'Quel est le nom du rover Mars de la NASA lancé en 2020 ?',c:['A) Curiosity','B) Spirit','C) Perseverance','D) Opportunity'],a:'C',e:'Perseverance a atterri sur Mars le 18 février 2021 dans le cratère Jezero.'},
-    {q:'Quelle technologie est à la base du Bitcoin ?',c:['A) Intelligence artificielle','B) Blockchain','C) Cloud computing','D) Réseaux de neurones'],a:'B',e:'Bitcoin utilise la blockchain — une chaîne de blocs décentralisée et immuable.'},
-    {q:'Combien de secondes y a-t-il dans une heure ?',c:['A) 3000','B) 3200','C) 3600','D) 4000'],a:'C',e:'60 minutes × 60 secondes = 3600 secondes par heure.'},
-    {q:'Quelle est la couche de l\'atmosphère la plus proche du sol ?',c:['A) Stratosphère','B) Troposphère','C) Mésosphère','D) Thermosphère'],a:'B',e:'La troposphère s\'étend de 0 à 12 km et contient 75% de l\'air atmosphérique.'},
-    {q:'Qui a co-fondé Apple avec Steve Jobs ?',c:['A) Bill Gates','B) Steve Wozniak','C) Paul Allen','D) Larry Page'],a:'B',e:'Apple est co-fondé par Steve Jobs, Steve Wozniak et Ronald Wayne en 1976.'},
-    {q:'Quel est le symbole chimique de l\'or ?',c:['A) Or','B) Go','C) Au','D) Ag'],a:'C',e:'Au vient du latin "Aurum". L\'or est le métal précieux par excellence.'},
-    {q:'Combien de planètes compte notre système solaire ?',c:['A) 8','B) 9','C) 10','D) 7'],a:'A',e:'8 planètes depuis 2006 — Pluton a été reclassée en "planète naine".'},
-    {q:'Quelle entreprise a créé le processeur M1 utilisé dans les Mac ?',c:['A) Intel','B) AMD','C) Apple','D) Qualcomm'],a:'C',e:'Apple a conçu le chip M1 (2020) basé sur l\'architecture ARM.'},
-  ],
-  '⚽ Sport': [
-    {q:'Combien de fois Lionel Messi a-t-il remporté le Ballon d\'Or ?',c:['A) 6','B) 7','C) 8','D) 5'],a:'C',e:'Messi a remporté 8 Ballons d\'Or (record absolu) entre 2009 et 2023.'},
-    {q:'Dans quel pays a eu lieu la Coupe du Monde 2022 ?',c:['A) Russie','B) Brésil','C) Qatar','D) Arabie Saoudite'],a:'C',e:'Qatar 2022 — première Coupe du Monde dans un pays arabe, en novembre-décembre.'},
-    {q:'Quel pays a remporté le plus de Coupes du Monde de football ?',c:['A) Allemagne','B) Argentine','C) Brésil','D) Italie'],a:'C',e:'Le Brésil a remporté 5 Coupes du Monde (1958, 62, 70, 94, 2002).'},
-    {q:'Combien de sets constituent un match de tennis au Grand Chelem homme ?',c:['A) 3','B) 5','C) 4','D) 2'],a:'B',e:'5 sets (en meilleur des 5) pour les hommes en Grand Chelem — sauf Wimbledon Ladies.'},
-    {q:'Quel athlète détient le record du monde du 100m ?',c:['A) Tyson Gay','B) Asafa Powell','C) Usain Bolt','D) Justin Gatlin'],a:'C',e:'Usain Bolt détient le record avec 9"58 établi à Berlin en 2009.'},
-    {q:'Combien de joueurs compte une équipe de basket (sur le terrain) ?',c:['A) 4','B) 5','C) 6','D) 7'],a:'B',e:'5 joueurs par équipe sur le terrain en basket-ball (NBA, FIBA).'},
-    {q:'Quel club a remporté le plus de Ligues des Champions ?',c:['A) FC Barcelone','B) Bayern Munich','C) Real Madrid','D) Liverpool'],a:'C',e:'Le Real Madrid a remporté 15 Ligues des Champions / Coupes des clubs champions.'},
-    {q:'Dans quel sport utilise-t-on un volant ?',c:['A) Tennis','B) Squash','C) Badminton','D) Ping-pong'],a:'C',e:'Le badminton utilise un volant — le projectile peut dépasser 400 km/h.'},
-    {q:'Quelle est la longueur officielle d\'un marathon ?',c:['A) 40 km','B) 42,195 km','C) 41 km','D) 43 km'],a:'B',e:'42,195 km — distance standardisée depuis les Jeux Olympiques de Londres 1908.'},
-    {q:'Quel pays organise le Tour de France chaque année ?',c:['A) Belgique','B) Italie','C) France','D) Espagne'],a:'C',e:'Le Tour de France est une course cycliste française créée en 1903.'},
-    {q:'Combien de points vaut un essai au rugby ?',c:['A) 3','B) 4','C) 5','D) 6'],a:'C',e:'Un essai vaut 5 points + 2 points si la transformation réussit.'},
-    {q:'Quel joueur de basketball est surnommé "Black Mamba" ?',c:['A) LeBron James','B) Michael Jordan','C) Kobe Bryant','D) Shaquille O\'Neal'],a:'C',e:'Kobe Bryant s\'est lui-même donné ce surnom en référence au serpent le plus rapide.'},
-    {q:'Combien de trous compte un parcours de golf standard ?',c:['A) 9','B) 12','C) 18','D) 24'],a:'C',e:'18 trous — la norme depuis que St Andrews (Écosse) a établi ce format au 18e siècle.'},
-    {q:'Dans quel sport pratique-t-on le "slam dunk" ?',c:['A) Volleyball','B) Handball','C) Basketball','D) Football américain'],a:'C',e:'Le slam dunk est un tir acrobatique en basketball où le joueur plonge le ballon dans le panier.'},
-    {q:'Quelle équipe nationale française a remporté la Coupe du Monde 1998 ?',c:['A) Équipe de France de rugby','B) Équipe de France de football','C) Équipe de France de handball','D) Équipe de France de basketball'],a:'B',e:'La France remporte sa première Coupe du Monde de foot le 12 juillet 1998 (3-0 vs Brésil).'},
-    {q:'Combien de joueurs y a-t-il dans une équipe de volley-ball ?',c:['A) 5','B) 6','C) 7','D) 8'],a:'B',e:'6 joueurs sur le terrain par équipe en volleyball.'},
-    {q:'Quel Français a remporté Roland-Garros en 2015 et 2017 ?',c:['A) Richard Gasquet','B) Jo-Wilfried Tsonga','C) Stan Wawrinka','D) Stan Wawrinka'],a:'C',e:'Stan Wawrinka (Suisse) remporte Roland-Garros en 2015. En 2017 : Nadal.'},
-    {q:'Dans quel sport Teddy Riner est-il champion olympique ?',c:['A) Lutte','B) Judo','C) Boxe','D) Taekwondo'],a:'B',e:'Teddy Riner est triple champion olympique de judo (-100kg puis +100kg).'},
-    {q:'Combien de mètres fait un court de tennis en longueur ?',c:['A) 23,77 m','B) 25 m','C) 22 m','D) 24 m'],a:'A',e:'Un court de tennis mesure 23,77 m de longueur et 8,23 m de largeur (simple).'},
-    {q:'Quel nageur détient le plus de médailles olympiques de l\'histoire ?',c:['A) Ian Thorpe','B) Ryan Lochte','C) Michael Phelps','D) Mark Spitz'],a:'C',e:'Michael Phelps : 28 médailles olympiques dont 23 en or (record absolu toutes disciplines).'},
-    {q:'Quel est le sport le plus pratiqué dans le monde ?',c:['A) Basketball','B) Football','C) Cricket','D) Tennis'],a:'B',e:'Le football (soccer) est pratiqué par environ 250 millions de personnes dans 200 pays.'},
-    {q:'Dans quel sport marque-t-on avec un "birdie" ?',c:['A) Badminton','B) Golf','C) Tennis','D) Cricket'],a:'B',e:'Un birdie au golf = terminer un trou en 1 coup sous le par.'},
-    {q:'Quelle ville a accueilli les Jeux Olympiques d\'été 2024 ?',c:['A) Los Angeles','B) Tokyo','C) Paris','D) Sydney'],a:'C',e:'Paris 2024 — les JO d\'été du 26 juillet au 11 août 2024.'},
-    {q:'Combien de points vaut un panier à 3 points au basketball ?',c:['A) 2','B) 3','C) 4','D) 1'],a:'B',e:'Un tir réussi derrière la ligne des 3 points vaut 3 points.'},
-    {q:'Dans quel pays est né le sport du sumo ?',c:['A) Chine','B) Corée','C) Japon','D) Mongolie'],a:'C',e:'Le sumo est un art martial et sport national japonais vieux de plus de 2000 ans.'},
-  ],
-  '🌍 Géographie': [
-    {q:'Quelle est la capitale de l\'Australie ?',c:['A) Sydney','B) Melbourne','C) Canberra','D) Brisbane'],a:'C',e:'Canberra est la capitale depuis 1913 — Sydney et Melbourne s\'étaient disputé ce titre.'},
-    {q:'Quel est le plus long fleuve du monde ?',c:['A) Amazone','B) Nil','C) Mississippi','D) Yangtsé'],a:'B',e:'Le Nil mesure environ 6 650 km — légèrement plus long que l\'Amazone selon la plupart des mesures.'},
-    {q:'Dans quel pays se trouve le Machu Picchu ?',c:['A) Bolivie','B) Colombie','C) Chili','D) Pérou'],a:'D',e:'Le Machu Picchu est une citadelle inca au Pérou, construite vers 1450.'},
-    {q:'Quel est le plus grand océan du monde ?',c:['A) Atlantique','B) Indien','C) Arctique','D) Pacifique'],a:'D',e:'L\'océan Pacifique couvre 165 millions de km² — plus grand que toutes les terres réunies.'},
-    {q:'Combien de pays compose l\'Union Européenne en 2024 ?',c:['A) 25','B) 27','C) 28','D) 30'],a:'B',e:'27 pays depuis le Brexit (sortie du Royaume-Uni) le 31 janvier 2020.'},
-    {q:'Quelle est la capitale du Canada ?',c:['A) Toronto','B) Montréal','C) Vancouver','D) Ottawa'],a:'D',e:'Ottawa est la capitale fédérale du Canada depuis 1857.'},
-    {q:'Quel est le plus petit pays du monde ?',c:['A) Monaco','B) Saint-Marin','C) Vatican','D) Liechtenstein'],a:'C',e:'Vatican : 0,44 km² et environ 800 habitants, enclavé dans Rome.'},
-    {q:'Dans quel continent se trouve l\'Éthiopie ?',c:['A) Asie','B) Afrique','C) Moyen-Orient','D) Océanie'],a:'B',e:'L\'Éthiopie est dans la Corne de l\'Afrique, en Afrique de l\'Est.'},
-    {q:'Quel est le nom du détroit qui sépare l\'Europe de l\'Afrique ?',c:['A) Détroit de Malacca','B) Détroit de Gibraltar','C) Détroit de Bering','D) Détroit d\'Ormuz'],a:'B',e:'Le détroit de Gibraltar sépare l\'Espagne du Maroc — seulement 14 km de large.'},
-    {q:'Quelle ville est surnommée "La Cité Éternelle" ?',c:['A) Athènes','B) Jérusalem','C) Rome','D) Istanbul'],a:'C',e:'Rome est surnommée "La Cité Éternelle" (Urbs Aeterna) depuis l\'Antiquité.'},
-    {q:'Quel pays est le plus peuplé du monde en 2024 ?',c:['A) Chine','B) Inde','C) USA','D) Indonésie'],a:'B',e:'L\'Inde dépasse la Chine en 2023 avec plus de 1,44 milliard d\'habitants.'},
-    {q:'Dans quel pays se trouve la Tour Eiffel ?',c:['A) Belgique','B) Suisse','C) France','D) Italie'],a:'C',e:'La Tour Eiffel est à Paris, France — construite pour l\'Exposition Universelle de 1889.'},
-    {q:'Quel est le plus haut sommet du monde ?',c:['A) K2','B) Kangchenjunga','C) Mont Blanc','D) Everest'],a:'D',e:'L\'Everest culmine à 8 849 mètres dans l\'Himalaya, à la frontière Népal-Chine.'},
-    {q:'Quelle mer sépare l\'Europe du Moyen-Orient ?',c:['A) Mer Noire','B) Mer Caspienne','C) Mer Méditerranée','D) Mer Rouge'],a:'C',e:'La Mer Méditerranée borde 21 pays d\'Europe, d\'Afrique et du Moyen-Orient.'},
-    {q:'Dans quel pays se trouve Dubaï ?',c:['A) Arabie Saoudite','B) Qatar','C) Koweït','D) Émirats Arabes Unis'],a:'D',e:'Dubaï est l\'une des 7 émirats qui composent les Émirats Arabes Unis.'},
-    {q:'Quel fleuve traverse Paris ?',c:['A) La Loire','B) La Seine','C) Le Rhin','D) La Garonne'],a:'B',e:'La Seine traverse Paris et mesure 775 km de long.'},
-    {q:'Quelle est la monnaie du Japon ?',c:['A) Yuan','B) Won','C) Yen','D) Ringgit'],a:'C',e:'Le yen japonais (¥) est l\'une des principales devises mondiales.'},
-    {q:'Combien de fuseaux horaires y a-t-il dans le monde ?',c:['A) 12','B) 24','C) 38','D) 48'],a:'C',e:'Il y a officiellement 38 fuseaux horaires (avec les demi et quart d\'heures).'},
-    {q:'Quel est le plus grand pays du monde en superficie ?',c:['A) Canada','B) Chine','C) USA','D) Russie'],a:'D',e:'La Russie couvre 17,1 millions de km² — plus grande que le continent australien.'},
-    {q:'Dans quelle mer se trouve l\'île de Crète ?',c:['A) Mer Noire','B) Mer Adriatique','C) Mer Méditerranée','D) Mer Ionienne'],a:'C',e:'La Crète est la plus grande île grecque, en Méditerranée orientale.'},
-    {q:'Quel pays possède le plus grand littoral au monde ?',c:['A) Australie','B) Russie','C) Norvège','D) Canada'],a:'D',e:'Le Canada a le plus long littoral : 202 080 km de côtes (îles incluses).'},
-    {q:'Dans quel pays se trouve l\'Acropole d\'Athènes ?',c:['A) Italie','B) Grèce','C) Turquie','D) Chypre'],a:'B',e:'L\'Acropole est à Athènes, Grèce — construite principalement au 5e siècle avant J.-C.'},
-    {q:'Quel est le fleuve le plus long d\'Afrique ?',c:['A) Congo','B) Niger','C) Zambèze','D) Nil'],a:'D',e:'Le Nil (6 650 km) est le plus long fleuve d\'Afrique et du monde.'},
-    {q:'Quelle ville est à la fois en Europe et en Asie ?',c:['A) Moscou','B) Bakou','C) Istanbul','D) Tbilissi'],a:'C',e:'Istanbul est séparée par le Bosphore — sa partie européenne et sa partie asiatique.'},
-    {q:'Dans quel pays se trouve le désert du Sahara en majorité ?',c:['A) Égypte','B) Maroc','C) Algérie','D) Libye'],a:'C',e:'L\'Algérie contient la plus grande partie du Sahara — environ 2 millions de km².'},
-  ],
-  '🎵 Musique': [
-    {q:'Quel artiste a sorti l\'album "Thriller" en 1982 ?',c:['A) Prince','B) Michael Jackson','C) David Bowie','D) Freddie Mercury'],a:'B',e:'Thriller de Michael Jackson reste l\'album le plus vendu de tous les temps (~70M d\'exemplaires).'},
-    {q:'Quelle chanson de Drake est la plus streamée de l\'histoire Spotify ?',c:['A) God\'s Plan','B) Hotline Bling','C) One Dance','D) Blinding Lights'],a:'D',e:'"Blinding Lights" de The Weeknd est la chanson la plus streamée — pas de Drake.'},
-    {q:'De quel pays vient le groupe BTS ?',c:['A) Chine','B) Japon','C) Thaïlande','D) Corée du Sud'],a:'D',e:'BTS est un groupe de K-pop originaire de Séoul, Corée du Sud, formé en 2013.'},
-    {q:'Quel est le vrai nom de Billie Eilish ?',c:['A) Billie Eilish Pirate Baird O\'Connell','B) Billie Eilish Johnson','C) Billie Eilish Smith','D) Billie Eilish Williams'],a:'A',e:'Son nom complet est Billie Eilish Pirate Baird O\'Connell — née en 2001.'},
-    {q:'Quel rappeur français est connu pour ses albums "QALF" ?',c:['A) SCH','B) Damso','C) Niska','D) Jul'],a:'B',e:'Damso est un rappeur belge d\'origine congolaise connu pour sa trilogie QALF.'},
-    {q:'Quel groupe britannique est à l\'origine de la "Beatlemania" ?',c:['A) The Rolling Stones','B) The Who','C) The Beatles','D) Led Zeppelin'],a:'C',e:'Les Beatles ont créé une hystérie mondiale dans les années 60 — Beatlemania.'},
-    {q:'Dans quelle ville est née la musique jazz ?',c:['A) Chicago','B) New York','C) La Nouvelle-Orléans','D) Atlanta'],a:'C',e:'La Nouvelle-Orléans est le berceau du jazz — né à la fin du 19e siècle.'},
-    {q:'Qui est surnommé "The King of Pop" ?',c:['A) Prince','B) Elvis Presley','C) Michael Jackson','D) James Brown'],a:'C',e:'Michael Jackson reçoit ce titre pour son impact révolutionnaire sur la pop mondiale.'},
-    {q:'Quel instrument joue Jimi Hendrix ?',c:['A) Basse','B) Guitare électrique','C) Batterie','D) Clavier'],a:'B',e:'Jimi Hendrix est considéré comme le plus grand guitariste électrique de l\'histoire.'},
-    {q:'Quelle chanteuse a sorti "Bad Guy" en 2019 ?',c:['A) Taylor Swift','B) Ariana Grande','C) Billie Eilish','D) Dua Lipa'],a:'C',e:'"Bad Guy" est le 1er numéro 1 de Billie Eilish — de l\'album "When We All Fall Asleep…"'},
-    {q:'De quel pays vient ABBA ?',c:['A) Norvège','B) Danemark','C) Suède','D) Finlande'],a:'C',e:'ABBA est un groupe de pop suédois formé en 1972 à Stockholm.'},
-    {q:'Quel est le nom du label créé par Jay-Z ?',c:['A) Bad Boy Records','B) Roc-A-Fella Records','C) Def Jam','D) Cash Money'],a:'B',e:'Roc-A-Fella Records — co-fondé par Jay-Z, Damon Dash et Kareem Burke en 1995.'},
-    {q:'Quelle chanson de Daft Punk est la plus connue ?',c:['A) Around the World','B) One More Time','C) Harder Better Faster Stronger','D) Get Lucky'],a:'B',e:'"One More Time" (2000) est le titre le plus iconique de Daft Punk.'},
-    {q:'Dans quel genre musical Drake excelle-t-il principalement ?',c:['A) Rock','B) Hip-hop / R&B','C) Pop','D) Reggaeton'],a:'B',e:'Drake est principalement un artiste hip-hop et R&B canadien.'},
-    {q:'Qui a composé la 9e Symphonie (avec l\'"Ode à la Joie") ?',c:['A) Mozart','B) Brahms','C) Beethoven','D) Chopin'],a:'C',e:'Beethoven compose la 9e Symphonie en 1824 — alors qu\'il était complètement sourd.'},
-    {q:'Quel artiste a vendu le plus d\'albums de tous les temps ?',c:['A) Elvis Presley','B) The Beatles','C) Michael Jackson','D) Led Zeppelin'],a:'B',e:'Les Beatles ont vendu entre 600 millions et 1 milliard d\'albums dans le monde.'},
-    {q:'Quel est le nom du groupe de Freddie Mercury ?',c:['A) Led Zeppelin','B) Queen','C) The Doors','D) Pink Floyd'],a:'B',e:'Queen est le groupe légendaire de Freddie Mercury — formé à Londres en 1970.'},
-    {q:'Quelle application de streaming musical compte le plus d\'abonnés ?',c:['A) Apple Music','B) Deezer','C) Tidal','D) Spotify'],a:'D',e:'Spotify domine avec plus de 600 millions d\'utilisateurs actifs (2024).'},
-    {q:'Quel rappeur américain a sorti "To Pimp a Butterfly" en 2015 ?',c:['A) J. Cole','B) Kendrick Lamar','C) Drake','D) Kanye West'],a:'B',e:'"To Pimp a Butterfly" de Kendrick Lamar est souvent cité comme l\'album rap de la décennie.'},
-    {q:'De quel pays vient Stromae ?',c:['A) France','B) Suisse','C) Belgique','D) Canada'],a:'C',e:'Paul Van Haver, alias Stromae, est né à Bruxelles en 1985.'},
-    {q:'Quel artiste a popularisé le "Gangnam Style" en 2012 ?',c:['A) BTS','B) BIGBANG','C) PSY','D) EXO'],a:'C',e:'"Gangnam Style" de PSY a été le 1er clip à dépasser 1 milliard de vues sur YouTube.'},
-    {q:'Quel est le nom du groupe de Pharrell Williams ?',c:['A) N.E.R.D','B) Black Eyed Peas','C) Maroon 5','D) OneRepublic'],a:'A',e:'N.E.R.D est le groupe de Pharrell Williams et Chad Hugo — formé à Virginia Beach.'},
-    {q:'Qui a composé la musique du film "Lion King" (1994) ?',c:['A) Hans Zimmer','B) John Williams','C) Elton John','D) A) et C)'],a:'D',e:'Hans Zimmer compose la musique orchestrale + Elton John les chansons (Can You Feel the Love...).'},
-    {q:'Quel artiste a battu le record de Spotify avec "Flowers" ?',c:['A) Taylor Swift','B) Beyoncé','C) Miley Cyrus','D) Rihanna'],a:'C',e:'"Flowers" de Miley Cyrus bat le record de streams en 24h sur Spotify en janvier 2023.'},
-    {q:'Dans quelle ville est né Edith Piaf ?',c:['A) Lyon','B) Marseille','C) Bordeaux','D) Paris'],a:'D',e:'Édith Piaf est née à Paris le 19 décembre 1915 — surnommée "la Môme Piaf".'},
-  ],
-  '📚 Culture Générale': [
-    {q:'Combien y a-t-il de couleurs dans un arc-en-ciel ?',c:['A) 5','B) 6','C) 7','D) 8'],a:'C',e:'7 couleurs : rouge, orange, jaune, vert, bleu, indigo, violet.'},
-    {q:'Quel est le livre le plus vendu de l\'histoire après la Bible ?',c:['A) Le Petit Prince','B) Don Quichotte','C) Harry Potter','D) Le Seigneur des Anneaux'],a:'B',e:'Don Quichotte de Cervantes (1605) est considéré comme le 2e livre le plus vendu.'},
-    {q:'Combien de jours dure un mois dans le calendrier lunaire islamique ?',c:['A) 28','B) 29 ou 30','C) 30 ou 31','D) 28 ou 29'],a:'B',e:'Le mois islamique dure 29 ou 30 jours selon la lune — l\'année a 354 jours.'},
-    {q:'Quel philosophe grec a dit "Je sais que je ne sais rien" ?',c:['A) Platon','B) Aristote','C) Socrate','D) Épicure'],a:'C',e:'Cette phrase est attribuée à Socrate — mais il ne l\'a jamais dit explicitement dans les textes.'},
-    {q:'Dans quelle langue est écrit le Coran ?',c:['A) Persan','B) Ourdou','C) Arabe','D) Turc'],a:'C',e:'Le Coran est écrit en arabe classique — révélé au prophète Muhammad au 7e siècle.'},
-    {q:'Quel est l\'élément chimique au symbole "Fe" ?',c:['A) Fluor','B) Fer','C) Fermium','D) Francium'],a:'B',e:'Fe vient du latin "Ferrum" — le fer est l\'élément le plus abondant dans le noyau terrestre.'},
-    {q:'Quelle est la plus grande religion du monde par nombre de fidèles ?',c:['A) Islam','B) Hindouisme','C) Christianisme','D) Bouddhisme'],a:'C',e:'Le Christianisme compte environ 2,4 milliards de fidèles dans le monde.'},
-    {q:'Qui a écrit "Les Misérables" ?',c:['A) Balzac','B) Flaubert','C) Zola','D) Victor Hugo'],a:'D',e:'Victor Hugo publie Les Misérables en 1862 — un roman humaniste fondamental.'},
-    {q:'En quelle année a été signée la Déclaration d\'Indépendance américaine ?',c:['A) 1774','B) 1776','C) 1778','D) 1780'],a:'B',e:'Le 4 juillet 1776 — fête nationale américaine.'},
-    {q:'Combien de continents y a-t-il sur Terre ?',c:['A) 5','B) 6','C) 7','D) 8'],a:'C',e:'7 continents : Afrique, Antarctique, Asie, Europe, Amérique du Nord, Amérique du Sud, Océanie.'},
-    {q:'Quel est le symbole du paix utilisé dans les années 60 ?',c:['A) Colombe blanche','B) Signe Peace','C) Fleur','D) Étoile de David'],a:'B',e:'Le symbole ☮️ a été créé en 1958 par Gerald Holtom pour la campagne anti-nucléaire.'},
-    {q:'Qui a peint la Joconde ?',c:['A) Michel-Ange','B) Raphaël','C) Botticelli','D) Léonard de Vinci'],a:'D',e:'Léonard de Vinci peint la Joconde entre 1503 et 1519 — exposée au Louvre.'},
-    {q:'Combien de lettres compte l\'alphabet français ?',c:['A) 24','B) 25','C) 26','D) 27'],a:'C',e:'26 lettres comme l\'alphabet latin — de A à Z.'},
-    {q:'Dans quelle ville se trouve le Colisée ?',c:['A) Athènes','B) Rome','C) Madrid','D) Istanbul'],a:'B',e:'Le Colisée est à Rome, Italie — construit entre 70 et 80 après J.-C.'},
-    {q:'Quel est le plus vieux jeu de plateau encore joué ?',c:['A) Échecs','B) Go','C) Dames','D) Backgammon'],a:'B',e:'Le Go (圍棋) vient de Chine et a plus de 2500 ans d\'histoire.'},
-    {q:'Qui est l\'auteur de "1984" (le roman dystopique) ?',c:['A) Aldous Huxley','B) Ray Bradbury','C) George Orwell','D) Philip K. Dick'],a:'C',e:'George Orwell publie 1984 en 1949 — Big Brother, la novlangue, la télécran...'},
-    {q:'Quel est le nom de la monnaie utilisée avant l\'euro en France ?',c:['A) Lire','B) Mark','C) Franc','D) Peseta'],a:'C',e:'Le franc français a été remplacé par l\'euro le 1er janvier 2002.'},
-    {q:'Combien de temps dure un siècle ?',c:['A) 10 ans','B) 50 ans','C) 100 ans','D) 1000 ans'],a:'C',e:'Un siècle = 100 ans. Un millénaire = 1000 ans. Une décennie = 10 ans.'},
-    {q:'Quelle langue est la plus parlée dans le monde (natifs + apprenants) ?',c:['A) Mandarin','B) Espagnol','C) Hindi','D) Anglais'],a:'D',e:'L\'anglais est parlé par environ 1,5 milliard de personnes dans le monde.'},
-    {q:'Quel est le plus grand désert du monde ?',c:['A) Sahara','B) Gobi','C) Antarctique','D) Arabian'],a:'C',e:'L\'Antarctique est le plus grand désert (13,8 millions de km²) — un désert froid.'},
-    {q:'Qui est le fondateur de la religion musulmane ?',c:['A) Abraham','B) Mahomet','C) Ali','D) Omar'],a:'B',e:'Le prophète Muhammad (Mahomet) fonde l\'islam au 7e siècle en Arabie.'},
-    {q:'Combien font 15% de 200 ?',c:['A) 25','B) 30','C) 35','D) 40'],a:'B',e:'15% × 200 = 30.'},
-    {q:'Dans quel pays se trouve la Grande Muraille ?',c:['A) Corée','B) Mongolie','C) Chine','D) Japon'],a:'C',e:'La Grande Muraille de Chine s\'étend sur plus de 21 000 km.'},
-    {q:'Qui a inventé le téléphone ?',c:['A) Thomas Edison','B) Alexander Graham Bell','C) Nikola Tesla','D) Guglielmo Marconi'],a:'B',e:'Alexander Graham Bell dépose le brevet du téléphone en 1876.'},
-    {q:'Quel est l\'animal terrestre le plus rapide ?',c:['A) Lion','B) Guépard','C) Antilope','D) Faucon'],a:'B',e:'Le guépard atteint 110 km/h sur de courtes distances — le plus rapide sur terre.'},
-  ],
-  '📖 Histoire': [
-    {q:'En quelle année a eu lieu la Révolution française ?',c:['A) 1776','B) 1789','C) 1799','D) 1804'],a:'B',e:'La Révolution française débute le 14 juillet 1789 avec la prise de la Bastille.'},
-    {q:'Qui était Napoléon Bonaparte ?',c:['A) Roi de France','B) Général et Empereur des Français','C) Président de la République','D) Duc de Bourgogne'],a:'B',e:'Napoléon est général, consul puis Empereur des Français (1804-1815).'},
-    {q:'En quelle année a eu lieu la Seconde Guerre mondiale ?',c:['A) 1914-1918','B) 1939-1945','C) 1940-1946','D) 1938-1944'],a:'B',e:'La 2ème Guerre mondiale se déroule du 1er septembre 1939 au 2 septembre 1945.'},
-    {q:'Qui était le premier président des États-Unis ?',c:['A) Abraham Lincoln','B) Thomas Jefferson','C) George Washington','D) John Adams'],a:'C',e:'George Washington est le 1er président américain (1789-1797).'},
-    {q:'Quelle civilisation a construit les pyramides de Gizeh ?',c:['A) Romains','B) Grecs','C) Sumériens','D) Égyptiens'],a:'D',e:'Les Égyptiens antiques construisent les pyramides de Gizeh il y a environ 4500 ans.'},
-    {q:'En quelle année le mur de Berlin est-il tombé ?',c:['A) 1987','B) 1989','C) 1991','D) 1985'],a:'B',e:'Le mur de Berlin tombe le 9 novembre 1989 — fin de la Guerre Froide.'},
-    {q:'Qui était Gandhi ?',c:['A) Un politique indien qui a lutté pour l\'indépendance','B) Un général militaire indien','C) Un roi de l\'Inde','D) Un philosophe chinois'],a:'A',e:'Gandhi dirige le mouvement d\'indépendance indien face aux Britanniques par la non-violence.'},
-    {q:'Quelle guerre oppose l\'URSS et les USA de 1947 à 1991 ?',c:['A) Guerre du Vietnam','B) Guerre de Corée','C) Guerre Froide','D) Guerre des Étoiles'],a:'C',e:'La Guerre Froide — une guerre idéologique, nucléaire et d\'influence sans affrontement direct.'},
-    {q:'En quelle année Christophe Colomb arrive-t-il en Amérique ?',c:['A) 1488','B) 1492','C) 1498','D) 1500'],a:'B',e:'Christophe Colomb débarque aux Bahamas le 12 octobre 1492.'},
-    {q:'Quel empire a dominé la Méditerranée pendant des siècles ?',c:['A) Empire Ottoman','B) Empire Mongol','C) Empire Romain','D) Empire Byzantin'],a:'C',e:'L\'Empire Romain s\'étend de 27 av. J.-C. à 476 apr. J.-C. en Occident.'},
-    {q:'En quelle année Neil Armstrong marche-t-il sur la Lune ?',c:['A) 1967','B) 1968','C) 1969','D) 1970'],a:'C',e:'Neil Armstrong pose le pied sur la Lune le 21 juillet 1969 — mission Apollo 11.'},
-    {q:'Qui était Cléopâtre ?',c:['A) Une reine romaine','B) Une reine égyptienne','C) Une impératrice perse','D) Une princesse grecque'],a:'B',e:'Cléopâtre VII est la dernière reine d\'Égypte — alliée à Jules César puis Marc-Antoine.'},
-    {q:'Quelle bataille marque la fin de Napoléon en 1815 ?',c:['A) Austerlitz','B) Waterloo','C) Trafalgar','D) Wagram'],a:'B',e:'La bataille de Waterloo (18 juin 1815) marque la défaite définitive de Napoléon.'},
-    {q:'En quelle année a eu lieu l\'attentat du 11 septembre ?',c:['A) 1999','B) 2000','C) 2001','D) 2002'],a:'C',e:'Le 11 septembre 2001 — attaques terroristes sur les Twin Towers à New York.'},
-    {q:'Quel pharaon est associé au masque funéraire le plus célèbre ?',c:['A) Ramsès II','B) Akhenaton','C) Toutânkhamon','D) Néfertiti'],a:'C',e:'Le masque funéraire de Toutânkhamon, découvert en 1922 par Howard Carter.'},
-    {q:'En quelle année la France abolit-elle l\'esclavage définitivement ?',c:['A) 1794','B) 1815','C) 1848','D) 1865'],a:'C',e:'L\'abolition définitive de l\'esclavage en France date du 27 avril 1848 sous la IIe République.'},
-    {q:'Quel est le surnom de Charles de Gaulle ?',c:['A) Le Général','B) L\'Aigle','C) Le Grand Charles','D) A) et C)'],a:'D',e:'De Gaulle est surnommé "Le Général" et "Le Grand Charles" par les Français.'},
-    {q:'En quelle année l\'URSS se dissout-elle ?',c:['A) 1989','B) 1990','C) 1991','D) 1992'],a:'C',e:'L\'URSS se dissout officiellement le 25 décembre 1991 — fin de la Guerre Froide.'},
-    {q:'Qui a écrit "Le Prince", traité politique célèbre ?',c:['A) Voltaire','B) Machiavel','C) Montesquieu','D) Rousseau'],a:'B',e:'Nicolas Machiavel écrit "Le Prince" en 1513 — guide pragmatique du pouvoir.'},
-    {q:'Quelle était la capitale de l\'Empire Ottoman ?',c:['A) Ankara','B) Bagdad','C) Le Caire','D) Constantinople'],a:'D',e:'Constantinople (aujourd\'hui Istanbul) — capitale de l\'Empire Ottoman de 1453 à 1922.'},
-    {q:'En quelle année débute la Première Guerre mondiale ?',c:['A) 1912','B) 1913','C) 1914','D) 1915'],a:'C',e:'La 1ère Guerre mondiale débute le 28 juillet 1914 après l\'assassinat de François-Ferdinand.'},
-    {q:'Qui était Nelson Mandela ?',c:['A) Un président kényan','B) Un leader anti-apartheid et président sud-africain','C) Un révolutionnaire zimbabwéen','D) Un général angolais'],a:'B',e:'Mandela lutte contre l\'apartheid, emprisonné 27 ans, puis devient président (1994-1999).'},
-    {q:'Quel événement marque la fin du Moyen Âge ?',c:['A) La Réforme protestante','B) La chute de Constantinople','C) La découverte de l\'Amérique','D) A) et B)'],a:'B',e:'La chute de Constantinople en 1453 marque traditionnellement la fin du Moyen Âge.'},
-    {q:'En quelle année la Tour Eiffel est-elle construite ?',c:['A) 1885','B) 1887','C) 1889','D) 1891'],a:'C',e:'La Tour Eiffel est construite pour l\'Exposition Universelle de 1889 par Gustave Eiffel.'},
-    {q:'Qui était Gengis Khan ?',c:['A) Un roi perse','B) Un général chinois','C) Le fondateur de l\'Empire Mongol','D) Un sultan turc'],a:'C',e:'Gengis Khan fonde et dirige l\'Empire Mongol — le plus grand empire terrestre continu de l\'histoire.'},
-  ]
+<script>
+// ── QUESTIONS (200 questions, 8 thèmes) ──
+const QUESTIONS={
+'🎮 Jeux vidéo':[
+{q:'Quel jeu a introduit Mario pour la première fois ?',c:['A) Super Mario Bros','B) Donkey Kong','C) Mario Bros','D) Donkey Kong Jr'],a:'B',e:'Mario apparaît dans Donkey Kong (1981) sous le nom "Jumpman".'},
+{q:'Dans quel jeu trouve-t-on "The cake is a lie" ?',c:['A) Half-Life 2','B) Portal','C) Minecraft','D) Valve'],a:'B',e:'Portal (2007) — GLaDOS promet un gâteau qui n\'existe pas.'},
+{q:'Quel est le jeu le plus vendu de tous les temps ?',c:['A) GTA V','B) Tetris','C) Minecraft','D) Wii Sports'],a:'C',e:'Minecraft dépasse 250 millions de copies vendues.'},
+{q:'Dans Fortnite, combien de joueurs en Battle Royale standard ?',c:['A) 50','B) 75','C) 100','D) 150'],a:'C',e:'100 joueurs s\'affrontent jusqu\'au dernier survivant.'},
+{q:'Quelle entreprise a créé la PlayStation ?',c:['A) Microsoft','B) Nintendo','C) Sony','D) Sega'],a:'C',e:'Sony lance la PlayStation en 1994 au Japon.'},
+{q:'Quel personnage est le héros de The Legend of Zelda ?',c:['A) Zelda','B) Link','C) Ganon','D) Navi'],a:'B',e:'Le héros est Link — Zelda est la princesse.'},
+{q:'Dans quel jeu peut-on explorer des planètes procédurales ?',c:['A) Starfield','B) No Man\'s Sky','C) Elite Dangerous','D) Mass Effect'],a:'B',e:'No Man\'s Sky propose des milliards de planètes procédurales.'},
+{q:'Dans League of Legends, combien de joueurs par équipe ?',c:['A) 3','B) 4','C) 5','D) 6'],a:'C',e:'5 joueurs par équipe sur Summoner\'s Rift.'},
+{q:'Quel jeu a popularisé le genre Battle Royale sur PC ?',c:['A) Fortnite','B) PUBG','C) H1Z1','D) DayZ'],a:'B',e:'PUBG (2017) a popularisé le genre Battle Royale.'},
+{q:'Dans quel jeu incarne-t-on Geralt de Riv ?',c:['A) Dragon Age','B) The Witcher 3','C) Skyrim','D) Dark Souls'],a:'B',e:'Geralt est le héros de The Witcher 3 de CD Projekt Red.'},
+{q:'Combien y a-t-il de Pokémon dans la 1ère génération ?',c:['A) 100','B) 150','C) 151','D) 152'],a:'C',e:'151 Pokémon — de Bulbizarre à Mew.'},
+{q:'Quel studio a créé la saga Dark Souls ?',c:['A) Capcom','B) FromSoftware','C) Bandai Namco','D) Square Enix'],a:'B',e:'FromSoftware, dirigé par Hidetaka Miyazaki.'},
+{q:'Dans GTA V, combien de personnages jouables ?',c:['A) 1','B) 2','C) 3','D) 4'],a:'C',e:'Michael, Trevor et Franklin — 3 protagonistes.'},
+{q:'Quelle est la monnaie dans Animal Crossing ?',c:['A) Pièces','B) Étoiles','C) Cloches','D) Feuilles'],a:'C',e:'Les Cloches (Bells) sont la monnaie d\'Animal Crossing.'},
+{q:'Quel FPS a introduit le mode "Zombies" ?',c:['A) Halo','B) Call of Duty: World at War','C) Left 4 Dead','D) Resident Evil'],a:'B',e:'Le mode Zombies apparaît dans CoD: World at War (2008).'},
+{q:'Dans Overwatch, qui crie "Justice rains from above!" ?',c:['A) Soldier 76','B) Pharah','C) McCree','D) Reaper'],a:'B',e:'Pharah lance ce cri en utilisant son ultime.'},
+{q:'Quel jeu se passe dans la ville de Rapture sous l\'océan ?',c:['A) Subnautica','B) BioShock','C) Soma','D) Abzû'],a:'B',e:'Rapture est la ville dystopique sous-marine de BioShock (2007).'},
+{q:'Dans Minecraft, quel est le boss final ?',c:['A) Le Creeper','B) Le Wither','C) L\'Ender Dragon','D) Le Golem de Fer'],a:'C',e:'L\'Ender Dragon dans The End est le boss final.'},
+{q:'Dans Among Us, quel est le but des imposteurs ?',c:['A) Réparer le vaisseau','B) Éliminer tous les équipiers','C) Fuir le vaisseau','D) Trouver les indices'],a:'B',e:'Les imposteurs doivent éliminer les équipiers jusqu\'à être en majorité.'},
+{q:'Dans Cyberpunk 2077, dans quelle ville se passe l\'action ?',c:['A) Neo Tokyo','B) Night City','C) Los Santos','D) Midgar'],a:'B',e:'Night City, ville fictive de Californie dans un futur dystopique.'},
+{q:'Quel jeu de sport est le plus joué en compétition mondiale ?',c:['A) FIFA','B) NBA 2K','C) Rocket League','D) eFootball'],a:'C',e:'Rocket League est l\'un des jeux compétitifs les plus populaires.'},
+{q:'Quel est le nom du groupe de Freddie Mercury ? (Question piège gaming)',c:['A) Led Zeppelin','B) Queen','C) The Doors','D) Pink Floyd'],a:'B',e:'Queen — mais Freddie Mercury n\'est pas un personnage de jeu vidéo !'},
+{q:'Quel est le nombre de vies donné par la Konami Code dans Contra ?',c:['A) 10','B) 20','C) 30','D) 99'],a:'C',e:'Le code Konami (↑↑↓↓←→←→BA) donne 30 vies dans Contra.'},
+{q:'Dans quel jeu Kratos est-il le personnage principal ?',c:['A) Devil May Cry','B) God of War','C) Bayonetta','D) Dante\'s Inferno'],a:'B',e:'Kratos est le héros de God of War depuis 2005.'},
+{q:'Quelle est la franchise de jeux de sport la plus vendue annuellement ?',c:['A) NBA 2K','B) Madden NFL','C) FIFA/EA Sports FC','D) PGA Tour'],a:'C',e:'La série FIFA (renommée EA Sports FC) est la franchise de sport la plus vendue.'},
+],
+'🎬 Cinéma & Séries':[
+{q:'Quel film a remporté le plus d\'Oscars (ex-aequo) ?',c:['A) Titanic seul','B) Ben-Hur seul','C) Le Retour du Roi seul','D) Les 3 ex-aequo avec 11 Oscars'],a:'D',e:'Titanic, Ben-Hur et Le Retour du Roi ont chacun remporté 11 Oscars.'},
+{q:'Dans quelle série apparaît Walter White ?',c:['A) Narcos','B) Ozark','C) Breaking Bad','D) Better Call Saul'],a:'C',e:'Walter White est le protagoniste de Breaking Bad (AMC, 2008-2013).'},
+{q:'Quel acteur joue Iron Man dans le MCU ?',c:['A) Chris Evans','B) Robert Downey Jr','C) Chris Hemsworth','D) Mark Ruffalo'],a:'B',e:'Robert Downey Jr incarne Tony Stark de 2008 à 2019.'},
+{q:'Dans quel film DiCaprio gagne-t-il son premier Oscar ?',c:['A) Inception','B) The Wolf of Wall Street','C) The Revenant','D) Django'],a:'C',e:'The Revenant (2016) — DiCaprio gagne enfin l\'Oscar.'},
+{q:'Quelle série Netflix est la plus regardée de l\'histoire ?',c:['A) Stranger Things','B) Squid Game','C) Money Heist','D) Wednesday'],a:'B',e:'Squid Game (2021) — 1,65 milliard d\'heures vues en 28 jours.'},
+{q:'Qui a créé la saga Star Wars originale ?',c:['A) Steven Spielberg','B) James Cameron','C) George Lucas','D) Ridley Scott'],a:'C',e:'George Lucas a créé Star Wars et réalisé les épisodes IV, V et VI.'},
+{q:'Dans Avengers Endgame, qui porte le gant en premier ?',c:['A) Iron Man','B) Thor','C) Hulk','D) Captain America'],a:'C',e:'Hulk car sa biologie supporte la radiation gamma.'},
+{q:'Quelle actrice joue Hermione Granger dans Harry Potter ?',c:['A) Keira Knightley','B) Emma Stone','C) Emma Watson','D) Dakota Fanning'],a:'C',e:'Emma Watson joue Hermione dans toute la saga (2001-2011).'},
+{q:'Quel film de Nolan met en scène des rêves dans des rêves ?',c:['A) Interstellar','B) The Dark Knight','C) Memento','D) Inception'],a:'D',e:'Inception (2010) — Leonardo DiCaprio pénètre dans les rêves.'},
+{q:'Combien d\'épisodes compte Game of Thrones ?',c:['A) 60','B) 73','C) 80','D) 67'],a:'B',e:'73 épisodes sur 8 saisons (HBO, 2011-2019).'},
+{q:'Quel acteur joue Jack dans Titanic (1997) ?',c:['A) Brad Pitt','B) Tom Hanks','C) Leonardo DiCaprio','D) Matt Damon'],a:'C',e:'Leonardo DiCaprio joue Jack Dawson.'},
+{q:'Quelle est la durée d\'Avengers Endgame ?',c:['A) 2h49','B) 3h01','C) 3h22','D) 2h32'],a:'B',e:'Avengers Endgame dure 3 heures et 1 minute.'},
+{q:'Quel film Disney raconte l\'histoire de Raiponce ?',c:['A) Brave','B) Raiponce','C) La Belle au Bois Dormant','D) Cendrillon'],a:'B',e:'Raiponce (Tangled, 2010) — avec des cheveux magiques de 21 mètres.'},
+{q:'Quel acteur joue le Joker dans The Dark Knight (2008) ?',c:['A) Joaquin Phoenix','B) Jared Leto','C) Heath Ledger','D) Jack Nicholson'],a:'C',e:'Heath Ledger — Oscar posthume du meilleur second rôle.'},
+{q:'Combien de saisons compte Friends ?',c:['A) 8','B) 9','C) 10','D) 11'],a:'C',e:'Friends (NBC) — 10 saisons et 236 épisodes (1994-2004).'},
+{q:'Dans quel film Pixar un rat veut devenir chef cuisinier ?',c:['A) Ratatouille','B) Monstre & Cie','C) Soul','D) Luca'],a:'A',e:'Ratatouille (2007) — Rémy veut cuisiner à Paris.'},
+{q:'Dans La Casa de Papel, quel est le vrai nom du Professeur ?',c:['A) Sergio Marquina','B) Álvaro Morte','C) Pablo Escobar','D) Raúl Ariza'],a:'A',e:'Le Professeur s\'appelle Sergio Marquina.'},
+{q:'Dans quelle ville se déroule Lupin avec Omar Sy ?',c:['A) Lyon','B) Marseille','C) Paris','D) Nice'],a:'C',e:'Lupin se déroule à Paris, notamment au Louvre.'},
+{q:'Dans quel film Pixar les émotions sont des personnages ?',c:['A) Soul','B) Coco','C) Vice-Versa','D) Luca'],a:'C',e:'Vice-Versa (Inside Out, 2015) — Joie, Tristesse, Colère, Peur, Dégoût.'},
+{q:'Quel acteur joue Thanos dans le MCU ?',c:['A) Josh Brolin','B) Vin Diesel','C) Dave Bautista','D) James Spader'],a:'A',e:'Josh Brolin prête sa performance capturée pour Thanos.'},
+{q:'Dans quelle ville se déroule Peaky Blinders ?',c:['A) Londres','B) Manchester','C) Birmingham','D) Glasgow'],a:'C',e:'Peaky Blinders se déroule à Birmingham après la 1ère Guerre mondiale.'},
+{q:'Quel film remporte la Palme d\'Or à Cannes en 2019 ?',c:['A) Parasite','B) Portrait de la jeune fille en feu','C) Pain and Glory','D) Les Misérables'],a:'A',e:'Parasite de Bong Joon-ho remporte la Palme d\'Or 2019.'},
+{q:'Dans quelle série voit-on Hawkins, Indiana ?',c:['A) Dark','B) Stranger Things','C) The OA','D) Twin Peaks'],a:'B',e:'Stranger Things (Netflix) se déroule à Hawkins dans les années 80.'},
+{q:'Qui réalise Interstellar (2014) ?',c:['A) Ridley Scott','B) Denis Villeneuve','C) Christopher Nolan','D) James Cameron'],a:'C',e:'Christopher Nolan réalise Interstellar avec Matthew McConaughey.'},
+{q:'Dans Squid Game, quel est le 1er jeu joué ?',c:['A) Billes','B) 1,2,3 Soleil','C) Tir à la corde','D) Ddakji'],a:'B',e:'1,2,3 Soleil (Red Light, Green Light) — le jeu d\'ouverture de Squid Game.'},
+],
+'🔬 Science & Tech':[
+{q:'Quelle planète est la plus grande du système solaire ?',c:['A) Saturne','B) Jupiter','C) Neptune','D) Uranus'],a:'B',e:'Jupiter est 11 fois plus grand que la Terre.'},
+{q:'Qui a inventé le World Wide Web ?',c:['A) Bill Gates','B) Steve Jobs','C) Tim Berners-Lee','D) Vint Cerf'],a:'C',e:'Tim Berners-Lee invente le WWW en 1989 au CERN.'},
+{q:'Quelle est la vitesse de la lumière dans le vide ?',c:['A) 300 000 km/s','B) 150 000 km/s','C) 450 000 km/s','D) 200 000 km/s'],a:'A',e:'La lumière voyage à environ 299 792 km/s dans le vide.'},
+{q:'Quel élément chimique est le plus abondant dans l\'univers ?',c:['A) Oxygène','B) Carbone','C) Hydrogène','D) Hélium'],a:'C',e:'L\'hydrogène représente environ 75% de la matière de l\'univers.'},
+{q:'Combien de chromosomes possède un humain normal ?',c:['A) 23','B) 46','C) 48','D) 64'],a:'B',e:'46 chromosomes (23 paires) dans chaque cellule somatique.'},
+{q:'Quelle entreprise a développé Android ?',c:['A) Apple','B) Microsoft','C) Google','D) Samsung'],a:'C',e:'Android Inc., racheté par Google en 2005.'},
+{q:'Quelle planète a le plus de lunes connues ?',c:['A) Jupiter','B) Saturne','C) Uranus','D) Neptune'],a:'B',e:'Saturne détient le record avec 146 lunes confirmées (2023).'},
+{q:'Qui est l\'inventeur de la relativité générale ?',c:['A) Newton','B) Bohr','C) Einstein','D) Planck'],a:'C',e:'Albert Einstein publie la relativité générale en 1915.'},
+{q:'Quelle est la fonction principale des mitochondries ?',c:['A) Synthèse protéique','B) Production d\'énergie (ATP)','C) Division cellulaire','D) Stockage de l\'ADN'],a:'B',e:'Les mitochondries produisent l\'ATP — l\'énergie de la cellule.'},
+{q:'Combien de bits compose un octet ?',c:['A) 4','B) 8','C) 16','D) 32'],a:'B',e:'Un octet = 8 bits. Unité de base du stockage informatique.'},
+{q:'Quel gaz est principalement responsable du réchauffement climatique ?',c:['A) Oxygène','B) Azote','C) CO2','D) Argon'],a:'C',e:'Le CO2 est le principal gaz à effet de serre d\'origine humaine.'},
+{q:'Quel est le premier satellite artificiel lancé dans l\'espace ?',c:['A) Explorer 1','B) Vostok','C) Spoutnik','D) Luna 1'],a:'C',e:'Spoutnik 1, lancé par l\'URSS le 4 octobre 1957.'},
+{q:'Quel langage de programmation est le plus utilisé en 2024 ?',c:['A) Java','B) C++','C) Python','D) JavaScript'],a:'C',e:'Python est classé 1er selon l\'indice TIOBE en 2024.'},
+{q:'Quel est le nom du rover Mars de la NASA lancé en 2020 ?',c:['A) Curiosity','B) Spirit','C) Perseverance','D) Opportunity'],a:'C',e:'Perseverance atterrit sur Mars le 18 février 2021.'},
+{q:'Quelle technologie est à la base du Bitcoin ?',c:['A) Intelligence artificielle','B) Blockchain','C) Cloud computing','D) Réseaux de neurones'],a:'B',e:'Bitcoin utilise la blockchain — une chaîne de blocs décentralisée.'},
+{q:'Qui a co-fondé Apple avec Steve Jobs ?',c:['A) Bill Gates','B) Steve Wozniak','C) Paul Allen','D) Larry Page'],a:'B',e:'Apple est co-fondé par Steve Jobs, Steve Wozniak et Ronald Wayne en 1976.'},
+{q:'Quel est le symbole chimique de l\'or ?',c:['A) Or','B) Go','C) Au','D) Ag'],a:'C',e:'Au vient du latin "Aurum".'},
+{q:'Combien de planètes compte notre système solaire ?',c:['A) 8','B) 9','C) 10','D) 7'],a:'A',e:'8 planètes depuis 2006 — Pluton est une planète naine.'},
+{q:'Quelle est la couche de l\'atmosphère la plus proche du sol ?',c:['A) Stratosphère','B) Troposphère','C) Mésosphère','D) Thermosphère'],a:'B',e:'La troposphère s\'étend de 0 à 12 km.'},
+{q:'Qu\'est-ce que l\'IA générative ?',c:['A) Une IA qui joue aux jeux','B) Une IA qui crée du contenu original','C) Une IA qui analyse des données','D) Une IA qui conduit'],a:'B',e:'L\'IA générative crée du contenu original : texte, images, audio, vidéo.'},
+{q:'Quelle entreprise a créé le processeur M1 ?',c:['A) Intel','B) AMD','C) Apple','D) Qualcomm'],a:'C',e:'Apple a conçu le chip M1 (2020) basé sur l\'architecture ARM.'},
+{q:'Quelle est la formule chimique de l\'eau ?',c:['A) HO2','B) H2O','C) OH2','D) H2O2'],a:'B',e:'H2O : 2 atomes d\'hydrogène + 1 oxygène.'},
+{q:'Combien de secondes dans une heure ?',c:['A) 3000','B) 3200','C) 3600','D) 4000'],a:'C',e:'60 minutes × 60 secondes = 3600 secondes.'},
+{q:'Quel est l\'atome le plus simple ?',c:['A) Hélium','B) Hydrogène','C) Lithium','D) Carbone'],a:'B',e:'L\'hydrogène a un seul proton et un seul électron.'},
+{q:'Qu\'est-ce que l\'ADN signifie ?',c:['A) Un acide aminé','B) Acide DésoxyriboNucléique','C) Une protéine','D) Un enzyme'],a:'B',e:'L\'ADN contient l\'information génétique de tout être vivant.'},
+],
+'⚽ Sport':[
+{q:'Combien de fois Messi a-t-il remporté le Ballon d\'Or ?',c:['A) 6','B) 7','C) 8','D) 5'],a:'C',e:'Messi a remporté 8 Ballons d\'Or (record) entre 2009 et 2023.'},
+{q:'Dans quel pays a eu lieu la Coupe du Monde 2022 ?',c:['A) Russie','B) Brésil','C) Qatar','D) Arabie Saoudite'],a:'C',e:'Qatar 2022 — première Coupe du Monde dans un pays arabe.'},
+{q:'Quel pays a remporté le plus de Coupes du Monde ?',c:['A) Allemagne','B) Argentine','C) Brésil','D) Italie'],a:'C',e:'Le Brésil a remporté 5 Coupes du Monde (1958, 62, 70, 94, 2002).'},
+{q:'Quel athlète détient le record du monde du 100m ?',c:['A) Tyson Gay','B) Asafa Powell','C) Usain Bolt','D) Justin Gatlin'],a:'C',e:'Usain Bolt : 9"58 à Berlin en 2009.'},
+{q:'Combien de joueurs par équipe au basket (sur le terrain) ?',c:['A) 4','B) 5','C) 6','D) 7'],a:'B',e:'5 joueurs par équipe sur le terrain en basketball.'},
+{q:'Quel club a remporté le plus de Ligues des Champions ?',c:['A) FC Barcelone','B) Bayern Munich','C) Real Madrid','D) Liverpool'],a:'C',e:'Le Real Madrid a remporté 15 Ligues des Champions.'},
+{q:'Dans quel sport utilise-t-on un volant ?',c:['A) Tennis','B) Squash','C) Badminton','D) Ping-pong'],a:'C',e:'Le badminton — le volant peut dépasser 400 km/h.'},
+{q:'Quelle est la longueur officielle d\'un marathon ?',c:['A) 40 km','B) 42,195 km','C) 41 km','D) 43 km'],a:'B',e:'42,195 km — standardisé depuis les JO de Londres 1908.'},
+{q:'Combien de points vaut un essai au rugby ?',c:['A) 3','B) 4','C) 5','D) 6'],a:'C',e:'Un essai vaut 5 points + 2 points si la transformation réussit.'},
+{q:'Quel joueur est surnommé "Black Mamba" ?',c:['A) LeBron James','B) Michael Jordan','C) Kobe Bryant','D) Shaquille O\'Neal'],a:'C',e:'Kobe Bryant s\'est lui-même donné ce surnom.'},
+{q:'Combien de trous compte un parcours de golf standard ?',c:['A) 9','B) 12','C) 18','D) 24'],a:'C',e:'18 trous — la norme depuis St Andrews (Écosse).'},
+{q:'Dans quel sport pratique-t-on le slam dunk ?',c:['A) Volleyball','B) Handball','C) Basketball','D) Football américain'],a:'C',e:'Le slam dunk est un tir acrobatique en basketball.'},
+{q:'Quelle équipe a remporté la Coupe du Monde 1998 ?',c:['A) Rugby France','B) Football France','C) Handball France','D) Basketball France'],a:'B',e:'La France remporte sa 1ère Coupe du Monde de foot le 12 juillet 1998 (3-0 vs Brésil).'},
+{q:'Combien de joueurs dans une équipe de volley ?',c:['A) 5','B) 6','C) 7','D) 8'],a:'B',e:'6 joueurs sur le terrain par équipe en volleyball.'},
+{q:'Dans quel sport Teddy Riner est-il champion olympique ?',c:['A) Lutte','B) Judo','C) Boxe','D) Taekwondo'],a:'B',e:'Teddy Riner est triple champion olympique de judo.'},
+{q:'Quel nageur a le plus de médailles olympiques de l\'histoire ?',c:['A) Ian Thorpe','B) Ryan Lochte','C) Michael Phelps','D) Mark Spitz'],a:'C',e:'Michael Phelps : 28 médailles olympiques dont 23 en or.'},
+{q:'Quel est le sport le plus pratiqué dans le monde ?',c:['A) Basketball','B) Football','C) Cricket','D) Tennis'],a:'B',e:'Le football est pratiqué par ~250 millions de personnes.'},
+{q:'Dans quel sport marque-t-on avec un "birdie" ?',c:['A) Badminton','B) Golf','C) Tennis','D) Cricket'],a:'B',e:'Un birdie au golf = terminer un trou en 1 coup sous le par.'},
+{q:'Quelle ville a accueilli les JO d\'été 2024 ?',c:['A) Los Angeles','B) Tokyo','C) Paris','D) Sydney'],a:'C',e:'Paris 2024 — JO d\'été du 26 juillet au 11 août 2024.'},
+{q:'Combien de points vaut un panier à 3 points au basket ?',c:['A) 2','B) 3','C) 4','D) 1'],a:'B',e:'Un tir derrière la ligne des 3 points vaut 3 points.'},
+{q:'Dans quel pays est né le sumo ?',c:['A) Chine','B) Corée','C) Japon','D) Mongolie'],a:'C',e:'Le sumo est un art martial et sport national japonais vieux de 2000 ans.'},
+{q:'Combien de sets constituent un match de tennis au Grand Chelem homme ?',c:['A) 3','B) 5','C) 4','D) 2'],a:'B',e:'5 sets (meilleur des 5) pour les hommes en Grand Chelem.'},
+{q:'Quel pays organise le Tour de France chaque année ?',c:['A) Belgique','B) Italie','C) France','D) Espagne'],a:'C',e:'Le Tour de France est une course cycliste française créée en 1903.'},
+{q:'Combien de joueurs compose une équipe de football ?',c:['A) 10','B) 11','C) 12','D) 9'],a:'B',e:'11 joueurs par équipe sur le terrain en football.'},
+{q:'Quel trophée gagne le vainqueur de la NFL ?',c:['A) Stanley Cup','B) Larry O\'Brien Trophy','C) Vince Lombardi Trophy','D) Commissioner\'s Trophy'],a:'C',e:'Le Vince Lombardi Trophy est remis au champion du Super Bowl.'},
+],
+'🌍 Géographie':[
+{q:'Quelle est la capitale de l\'Australie ?',c:['A) Sydney','B) Melbourne','C) Canberra','D) Brisbane'],a:'C',e:'Canberra est la capitale depuis 1913.'},
+{q:'Quel est le plus long fleuve du monde ?',c:['A) Amazone','B) Nil','C) Mississippi','D) Yangtsé'],a:'B',e:'Le Nil mesure environ 6 650 km.'},
+{q:'Dans quel pays se trouve le Machu Picchu ?',c:['A) Bolivie','B) Colombie','C) Chili','D) Pérou'],a:'D',e:'Le Machu Picchu est une citadelle inca au Pérou.'},
+{q:'Quel est le plus grand océan du monde ?',c:['A) Atlantique','B) Indien','C) Arctique','D) Pacifique'],a:'D',e:'L\'océan Pacifique couvre 165 millions de km².'},
+{q:'Combien de pays compose l\'UE en 2024 ?',c:['A) 25','B) 27','C) 28','D) 30'],a:'B',e:'27 pays depuis le Brexit (31 janvier 2020).'},
+{q:'Quelle est la capitale du Canada ?',c:['A) Toronto','B) Montréal','C) Vancouver','D) Ottawa'],a:'D',e:'Ottawa est la capitale fédérale du Canada depuis 1857.'},
+{q:'Quel est le plus petit pays du monde ?',c:['A) Monaco','B) Saint-Marin','C) Vatican','D) Liechtenstein'],a:'C',e:'Vatican : 0,44 km² enclavé dans Rome.'},
+{q:'Quel détroit sépare l\'Europe de l\'Afrique ?',c:['A) Détroit de Malacca','B) Détroit de Gibraltar','C) Détroit de Bering','D) Détroit d\'Ormuz'],a:'B',e:'Le détroit de Gibraltar — seulement 14 km de large.'},
+{q:'Quelle ville est surnommée "La Cité Éternelle" ?',c:['A) Athènes','B) Jérusalem','C) Rome','D) Istanbul'],a:'C',e:'Rome est "La Cité Éternelle" depuis l\'Antiquité.'},
+{q:'Quel pays est le plus peuplé du monde en 2024 ?',c:['A) Chine','B) Inde','C) USA','D) Indonésie'],a:'B',e:'L\'Inde dépasse la Chine en 2023 avec +1,44 milliard d\'habitants.'},
+{q:'Quel est le plus haut sommet du monde ?',c:['A) K2','B) Kangchenjunga','C) Mont Blanc','D) Everest'],a:'D',e:'L\'Everest culmine à 8 849 mètres.'},
+{q:'Quel fleuve traverse Paris ?',c:['A) La Loire','B) La Seine','C) Le Rhin','D) La Garonne'],a:'B',e:'La Seine traverse Paris et mesure 775 km.'},
+{q:'Quelle est la monnaie du Japon ?',c:['A) Yuan','B) Won','C) Yen','D) Ringgit'],a:'C',e:'Le yen japonais (¥) est l\'une des principales devises mondiales.'},
+{q:'Quel est le plus grand pays du monde en superficie ?',c:['A) Canada','B) Chine','C) USA','D) Russie'],a:'D',e:'La Russie couvre 17,1 millions de km².'},
+{q:'Dans quel pays se trouve Dubaï ?',c:['A) Arabie Saoudite','B) Qatar','C) Koweït','D) Émirats Arabes Unis'],a:'D',e:'Dubaï est l\'un des 7 émirats des Émirats Arabes Unis.'},
+{q:'Quel pays possède le plus grand littoral ?',c:['A) Australie','B) Russie','C) Norvège','D) Canada'],a:'D',e:'Le Canada a le plus long littoral : 202 080 km.'},
+{q:'Dans quel pays se trouve l\'Acropole d\'Athènes ?',c:['A) Italie','B) Grèce','C) Turquie','D) Chypre'],a:'B',e:'L\'Acropole est à Athènes, Grèce.'},
+{q:'Quelle ville est à la fois en Europe et en Asie ?',c:['A) Moscou','B) Bakou','C) Istanbul','D) Tbilissi'],a:'C',e:'Istanbul est séparée par le Bosphore — partie européenne et asiatique.'},
+{q:'Dans quel pays se trouve le désert du Sahara en majorité ?',c:['A) Égypte','B) Maroc','C) Algérie','D) Libye'],a:'C',e:'L\'Algérie contient la plus grande partie du Sahara.'},
+{q:'Quel est le plus grand désert du monde ?',c:['A) Sahara','B) Gobi','C) Antarctique','D) Arabian'],a:'C',e:'L\'Antarctique est le plus grand désert (13,8 millions de km²).'},
+{q:'Dans quelle mer se trouve l\'île de Crète ?',c:['A) Mer Noire','B) Mer Adriatique','C) Mer Méditerranée','D) Mer Ionienne'],a:'C',e:'La Crète est la plus grande île grecque, en Méditerranée orientale.'},
+{q:'Quel est le fleuve le plus long d\'Afrique ?',c:['A) Congo','B) Niger','C) Zambèze','D) Nil'],a:'D',e:'Le Nil (6 650 km) est le plus long fleuve d\'Afrique.'},
+{q:'Quelle est la capitale de l\'Argentine ?',c:['A) Montevideo','B) Santiago','C) Lima','D) Buenos Aires'],a:'D',e:'Buenos Aires est la capitale et la plus grande ville d\'Argentine.'},
+{q:'Dans quel pays se trouve le lac Baïkal ?',c:['A) Kazakhstan','B) Russie','C) Mongolie','D) Ukraine'],a:'B',e:'Le lac Baïkal en Russie est le plus profond et le plus ancien lac du monde.'},
+{q:'Quelle chaîne de montagnes sépare l\'Europe de l\'Asie ?',c:['A) Caucase','B) Alpes','C) Oural','D) Himalaya'],a:'C',e:'L\'Oural est la frontière naturelle entre l\'Europe et l\'Asie.'},
+],
+'🎵 Musique':[
+{q:'Quel artiste a sorti l\'album "Thriller" ?',c:['A) Prince','B) Michael Jackson','C) David Bowie','D) Freddie Mercury'],a:'B',e:'Thriller de Michael Jackson reste l\'album le plus vendu (~70M copies).'},
+{q:'De quel pays vient le groupe BTS ?',c:['A) Chine','B) Japon','C) Thaïlande','D) Corée du Sud'],a:'D',e:'BTS est un groupe de K-pop originaire de Séoul, Corée du Sud.'},
+{q:'Quel rappeur français est connu pour ses albums "QALF" ?',c:['A) SCH','B) Damso','C) Niska','D) Jul'],a:'B',e:'Damso est un rappeur belge-congolais connu pour sa trilogie QALF.'},
+{q:'Quel groupe britannique a créé la "Beatlemania" ?',c:['A) The Rolling Stones','B) The Who','C) The Beatles','D) Led Zeppelin'],a:'C',e:'Les Beatles créent une hystérie mondiale dans les années 60.'},
+{q:'Dans quelle ville est née la musique jazz ?',c:['A) Chicago','B) New York','C) La Nouvelle-Orléans','D) Atlanta'],a:'C',e:'La Nouvelle-Orléans est le berceau du jazz.'},
+{q:'Qui est surnommé "The King of Pop" ?',c:['A) Prince','B) Elvis Presley','C) Michael Jackson','D) James Brown'],a:'C',e:'Michael Jackson reçoit ce titre pour son impact révolutionnaire.'},
+{q:'Quel instrument joue Jimi Hendrix ?',c:['A) Basse','B) Guitare électrique','C) Batterie','D) Clavier'],a:'B',e:'Jimi Hendrix est le plus grand guitariste électrique de l\'histoire.'},
+{q:'Quelle chanteuse a sorti "Bad Guy" en 2019 ?',c:['A) Taylor Swift','B) Ariana Grande','C) Billie Eilish','D) Dua Lipa'],a:'C',e:'"Bad Guy" est le 1er numéro 1 de Billie Eilish.'},
+{q:'De quel pays vient ABBA ?',c:['A) Norvège','B) Danemark','C) Suède','D) Finlande'],a:'C',e:'ABBA est un groupe de pop suédois formé en 1972.'},
+{q:'Quel est le nom du label créé par Jay-Z ?',c:['A) Bad Boy Records','B) Roc-A-Fella Records','C) Def Jam','D) Cash Money'],a:'B',e:'Roc-A-Fella Records co-fondé par Jay-Z en 1995.'},
+{q:'Quelle chanson de Daft Punk est la plus connue ?',c:['A) Around the World','B) One More Time','C) Harder Better Faster Stronger','D) Get Lucky'],a:'B',e:'"One More Time" (2000) est le titre le plus iconique de Daft Punk.'},
+{q:'Qui a composé la 9e Symphonie avec l\'"Ode à la Joie" ?',c:['A) Mozart','B) Brahms','C) Beethoven','D) Chopin'],a:'C',e:'Beethoven compose la 9e Symphonie en 1824 — alors qu\'il était sourd.'},
+{q:'Quel artiste a le plus d\'albums vendus après les Beatles ?',c:['A) Elvis Presley','B) Led Zeppelin','C) Michael Jackson','D) AC/DC'],a:'A',e:'Elvis Presley est le 2e artiste le plus vendu de l\'histoire.'},
+{q:'Quel est le nom du groupe de Freddie Mercury ?',c:['A) Led Zeppelin','B) Queen','C) The Doors','D) Pink Floyd'],a:'B',e:'Queen est le groupe légendaire de Freddie Mercury — formé en 1970.'},
+{q:'Quelle app de streaming compte le plus d\'abonnés ?',c:['A) Apple Music','B) Deezer','C) Tidal','D) Spotify'],a:'D',e:'Spotify domine avec +600 millions d\'utilisateurs (2024).'},
+{q:'Quel rappeur a sorti "To Pimp a Butterfly" en 2015 ?',c:['A) J. Cole','B) Kendrick Lamar','C) Drake','D) Kanye West'],a:'B',e:'"To Pimp a Butterfly" de Kendrick Lamar — album rap de la décennie.'},
+{q:'De quel pays vient Stromae ?',c:['A) France','B) Suisse','C) Belgique','D) Canada'],a:'C',e:'Paul Van Haver alias Stromae est né à Bruxelles en 1985.'},
+{q:'Quel artiste a popularisé le "Gangnam Style" ?',c:['A) BTS','B) BIGBANG','C) PSY','D) EXO'],a:'C',e:'"Gangnam Style" de PSY — 1er clip à dépasser 1 milliard de vues YouTube.'},
+{q:'Quel artiste a battu le record Spotify avec "Flowers" ?',c:['A) Taylor Swift','B) Beyoncé','C) Miley Cyrus','D) Rihanna'],a:'C',e:'"Flowers" de Miley Cyrus bat le record de streams en 24h (janvier 2023).'},
+{q:'Dans quelle ville est née Édith Piaf ?',c:['A) Lyon','B) Marseille','C) Bordeaux','D) Paris'],a:'D',e:'Édith Piaf est née à Paris le 19 décembre 1915.'},
+{q:'Quel groupe compose la bande son du film Lion King (1994) ?',c:['A) Hans Zimmer seul','B) Elton John seul','C) Hans Zimmer + Elton John','D) Alan Menken'],a:'C',e:'Hans Zimmer (orchestre) + Elton John (chansons) pour Le Roi Lion.'},
+{q:'Quel est le vrai nom de Lady Gaga ?',c:['A) Stefani Germanotta','B) Robyn Fenty','C) Alecia Moore','D) Ella Yelich-O\'Connor'],a:'A',e:'Stefani Joanne Angelina Germanotta est le vrai nom de Lady Gaga.'},
+{q:'Dans quel genre musical Drake excelle-t-il ?',c:['A) Rock','B) Hip-hop / R&B','C) Pop','D) Reggaeton'],a:'B',e:'Drake est principalement un artiste hip-hop et R&B canadien.'},
+{q:'Quel artiste français a sorti "Papaoutai" ?',c:['A) Maître Gims','B) Aya Nakamura','C) Stromae','D) Soprano'],a:'C',e:'"Papaoutai" est un titre de Stromae sorti en 2013 — succès mondial.'},
+{q:'Quel est le 1er artiste à atteindre 100 millions d\'abonnés Spotify ?',c:['A) Drake','B) Ed Sheeran','C) Bad Bunny','D) Taylor Swift'],a:'A',e:'Drake est le 1er artiste à dépasser 100 millions d\'abonnés mensuels Spotify.'},
+],
+'📚 Culture Générale':[
+{q:'Combien y a-t-il de couleurs dans un arc-en-ciel ?',c:['A) 5','B) 6','C) 7','D) 8'],a:'C',e:'7 couleurs : rouge, orange, jaune, vert, bleu, indigo, violet.'},
+{q:'Quel philosophe grec a dit "Je sais que je ne sais rien" ?',c:['A) Platon','B) Aristote','C) Socrate','D) Épicure'],a:'C',e:'Cette phrase est attribuée à Socrate.'},
+{q:'Quel est l\'élément chimique au symbole "Fe" ?',c:['A) Fluor','B) Fer','C) Fermium','D) Francium'],a:'B',e:'Fe vient du latin "Ferrum" — le fer.'},
+{q:'Quelle est la plus grande religion du monde ?',c:['A) Islam','B) Hindouisme','C) Christianisme','D) Bouddhisme'],a:'C',e:'Le Christianisme compte ~2,4 milliards de fidèles.'},
+{q:'Qui a écrit "Les Misérables" ?',c:['A) Balzac','B) Flaubert','C) Zola','D) Victor Hugo'],a:'D',e:'Victor Hugo publie Les Misérables en 1862.'},
+{q:'En quelle année la Déclaration d\'Indépendance américaine est-elle signée ?',c:['A) 1774','B) 1776','C) 1778','D) 1780'],a:'B',e:'Le 4 juillet 1776 — fête nationale américaine.'},
+{q:'Combien de continents y a-t-il sur Terre ?',c:['A) 5','B) 6','C) 7','D) 8'],a:'C',e:'7 continents : Afrique, Antarctique, Asie, Europe, Amériques (Nord/Sud), Océanie.'},
+{q:'Qui a peint la Joconde ?',c:['A) Michel-Ange','B) Raphaël','C) Botticelli','D) Léonard de Vinci'],a:'D',e:'Léonard de Vinci peint la Joconde entre 1503 et 1519.'},
+{q:'Combien de lettres compte l\'alphabet français ?',c:['A) 24','B) 25','C) 26','D) 27'],a:'C',e:'26 lettres — de A à Z.'},
+{q:'Dans quelle ville se trouve le Colisée ?',c:['A) Athènes','B) Rome','C) Madrid','D) Istanbul'],a:'B',e:'Le Colisée est à Rome — construit entre 70 et 80 apr. J.-C.'},
+{q:'Qui est l\'auteur de "1984" ?',c:['A) Aldous Huxley','B) Ray Bradbury','C) George Orwell','D) Philip K. Dick'],a:'C',e:'George Orwell publie 1984 en 1949 — Big Brother.'},
+{q:'Quelle était la monnaie en France avant l\'euro ?',c:['A) Lire','B) Mark','C) Franc','D) Peseta'],a:'C',e:'Le franc français est remplacé par l\'euro le 1er janvier 2002.'},
+{q:'Combien de temps dure un siècle ?',c:['A) 10 ans','B) 50 ans','C) 100 ans','D) 1000 ans'],a:'C',e:'Un siècle = 100 ans.'},
+{q:'Quelle langue est la plus parlée dans le monde ?',c:['A) Mandarin','B) Espagnol','C) Hindi','D) Anglais'],a:'D',e:'L\'anglais est parlé par ~1,5 milliard de personnes.'},
+{q:'Qui a inventé le téléphone ?',c:['A) Thomas Edison','B) Alexander Graham Bell','C) Nikola Tesla','D) Guglielmo Marconi'],a:'B',e:'Alexander Graham Bell dépose le brevet du téléphone en 1876.'},
+{q:'Quel est l\'animal terrestre le plus rapide ?',c:['A) Lion','B) Guépard','C) Antilope','D) Faucon'],a:'B',e:'Le guépard atteint 110 km/h sur de courtes distances.'},
+{q:'Combien font 15% de 200 ?',c:['A) 25','B) 30','C) 35','D) 40'],a:'B',e:'15% × 200 = 30.'},
+{q:'Dans quelle ville se trouve le Colisée ?',c:['A) Florence','B) Rome','C) Milan','D) Venise'],a:'B',e:'Le Colisée (ou Colosseo) est à Rome, Italie.'},
+{q:'Quel est le plus vieux jeu de plateau encore joué ?',c:['A) Échecs','B) Go','C) Dames','D) Backgammon'],a:'B',e:'Le Go (圍棋) vient de Chine — plus de 2500 ans d\'histoire.'},
+{q:'Quel est le symbole chimique du fer ?',c:['A) Fr','B) Fe','C) Fi','D) F'],a:'B',e:'Fe vient du latin "Ferrum".'},
+{q:'Quelle est la langue officielle du Brésil ?',c:['A) Espagnol','B) Français','C) Portugais','D) Brésilien'],a:'C',e:'Le Brésil est le seul pays d\'Amérique du Sud dont la langue officielle est le portugais.'},
+{q:'Combien y a-t-il d\'heures dans une semaine ?',c:['A) 144','B) 160','C) 168','D) 180'],a:'C',e:'7 jours × 24 heures = 168 heures par semaine.'},
+{q:'Quel peintre est célèbre pour sa période "bleue" ?',c:['A) Van Gogh','B) Matisse','C) Picasso','D) Dalí'],a:'C',e:'Picasso traverse une période bleue de 1901 à 1904.'},
+{q:'Combien de grammes dans un kilogramme ?',c:['A) 100','B) 500','C) 1000','D) 10000'],a:'C',e:'1 kilogramme = 1000 grammes.'},
+{q:'Quel est le seul mammifère capable de voler ?',c:['A) L\'écureuil volant','B) La chauve-souris','C) Le poisson volant','D) Le sucrier à ventre jaune'],a:'B',e:'La chauve-souris est le seul mammifère capable de voler vraiment.'},
+],
+'📖 Histoire':[
+{q:'En quelle année a eu lieu la Révolution française ?',c:['A) 1776','B) 1789','C) 1799','D) 1804'],a:'B',e:'La Révolution française débute le 14 juillet 1789 avec la prise de la Bastille.'},
+{q:'Qui était le premier président des États-Unis ?',c:['A) Abraham Lincoln','B) Thomas Jefferson','C) George Washington','D) John Adams'],a:'C',e:'George Washington est le 1er président américain (1789-1797).'},
+{q:'Quelle civilisation a construit les pyramides de Gizeh ?',c:['A) Romains','B) Grecs','C) Sumériens','D) Égyptiens'],a:'D',e:'Les Égyptiens antiques construisent les pyramides il y a ~4500 ans.'},
+{q:'En quelle année le mur de Berlin est-il tombé ?',c:['A) 1987','B) 1989','C) 1991','D) 1985'],a:'B',e:'Le mur de Berlin tombe le 9 novembre 1989.'},
+{q:'Quelle guerre oppose l\'URSS et les USA de 1947 à 1991 ?',c:['A) Guerre du Vietnam','B) Guerre de Corée','C) Guerre Froide','D) Guerre des Étoiles'],a:'C',e:'La Guerre Froide — guerre idéologique sans affrontement direct.'},
+{q:'En quelle année Christophe Colomb arrive-t-il en Amérique ?',c:['A) 1488','B) 1492','C) 1498','D) 1500'],a:'B',e:'Christophe Colomb débarque aux Bahamas le 12 octobre 1492.'},
+{q:'En quelle année Neil Armstrong marche-t-il sur la Lune ?',c:['A) 1967','B) 1968','C) 1969','D) 1970'],a:'C',e:'Neil Armstrong pose le pied sur la Lune le 21 juillet 1969.'},
+{q:'Qui était Cléopâtre ?',c:['A) Une reine romaine','B) Une reine égyptienne','C) Une impératrice perse','D) Une princesse grecque'],a:'B',e:'Cléopâtre VII est la dernière reine d\'Égypte.'},
+{q:'Quelle bataille marque la fin de Napoléon en 1815 ?',c:['A) Austerlitz','B) Waterloo','C) Trafalgar','D) Wagram'],a:'B',e:'La bataille de Waterloo (18 juin 1815) marque la défaite définitive de Napoléon.'},
+{q:'En quelle année a eu lieu l\'attentat du 11 septembre ?',c:['A) 1999','B) 2000','C) 2001','D) 2002'],a:'C',e:'Le 11 septembre 2001 — attaques sur les Twin Towers.'},
+{q:'En quelle année la France abolit-elle l\'esclavage définitivement ?',c:['A) 1794','B) 1815','C) 1848','D) 1865'],a:'C',e:'L\'abolition définitive date du 27 avril 1848 sous la IIe République.'},
+{q:'En quelle année l\'URSS se dissout-elle ?',c:['A) 1989','B) 1990','C) 1991','D) 1992'],a:'C',e:'L\'URSS se dissout officiellement le 25 décembre 1991.'},
+{q:'Qui a écrit "Le Prince", traité politique célèbre ?',c:['A) Voltaire','B) Machiavel','C) Montesquieu','D) Rousseau'],a:'B',e:'Nicolas Machiavel écrit "Le Prince" en 1513.'},
+{q:'Quelle était la capitale de l\'Empire Ottoman ?',c:['A) Ankara','B) Bagdad','C) Le Caire','D) Constantinople'],a:'D',e:'Constantinople (aujourd\'hui Istanbul) — capitale de 1453 à 1922.'},
+{q:'En quelle année débute la Première Guerre mondiale ?',c:['A) 1912','B) 1913','C) 1914','D) 1915'],a:'C',e:'La 1ère Guerre mondiale débute le 28 juillet 1914.'},
+{q:'Qui était Nelson Mandela ?',c:['A) Un président kényan','B) Un leader anti-apartheid et président sud-africain','C) Un révolutionnaire zimbabwéen','D) Un général angolais'],a:'B',e:'Mandela lutte contre l\'apartheid, emprisonné 27 ans, puis devient président.'},
+{q:'En quelle année la Tour Eiffel est-elle construite ?',c:['A) 1885','B) 1887','C) 1889','D) 1891'],a:'C',e:'La Tour Eiffel est construite pour l\'Exposition Universelle de 1889.'},
+{q:'Qui était Gengis Khan ?',c:['A) Un roi perse','B) Un général chinois','C) Le fondateur de l\'Empire Mongol','D) Un sultan turc'],a:'C',e:'Gengis Khan fonde l\'Empire Mongol — le plus grand empire terrestre continu.'},
+{q:'Quel pharaon est associé au masque funéraire le plus célèbre ?',c:['A) Ramsès II','B) Akhenaton','C) Toutânkhamon','D) Néfertiti'],a:'C',e:'Le masque funéraire de Toutânkhamon, découvert en 1922.'},
+{q:'Qui était Napoléon Bonaparte ?',c:['A) Roi de France','B) Général et Empereur des Français','C) Président de la République','D) Duc de Bourgogne'],a:'B',e:'Napoléon est général, consul puis Empereur des Français (1804-1815).'},
+{q:'Quel événement marque la fin du Moyen Âge ?',c:['A) La Réforme protestante','B) La chute de Constantinople','C) La découverte de l\'Amérique','D) La Renaissance'],a:'B',e:'La chute de Constantinople en 1453 marque la fin du Moyen Âge.'},
+{q:'En quelle année la Seconde Guerre mondiale se termine-t-elle ?',c:['A) 1943','B) 1944','C) 1945','D) 1946'],a:'C',e:'La 2ème Guerre mondiale se termine le 2 septembre 1945.'},
+{q:'Quel empire romain d\'Occident tombe en 476 ?',c:['A) Empire Byzantin','B) Empire Romain d\'Occident','C) Empire Ottoman','D) Empire Carolingien'],a:'B',e:'La chute de l\'Empire Romain d\'Occident en 476 marque la fin de l\'Antiquité.'},
+{q:'Qui a découvert la pénicilline ?',c:['A) Louis Pasteur','B) Marie Curie','C) Alexander Fleming','D) Joseph Lister'],a:'C',e:'Alexander Fleming découvre la pénicilline en 1928 par accident.'},
+{q:'En quelle année a eu lieu la Révolution russe ?',c:['A) 1905','B) 1914','C) 1917','D) 1920'],a:'C',e:'La Révolution russe d\'octobre 1917 amène les bolchéviks au pouvoir.'},
+]
 };
 
-// Aplatir toutes les questions par thème
-const THEMES = Object.keys(QUESTIONS);
-const ALL_Q  = Object.entries(QUESTIONS).map(([theme, qs]) => qs.map(q => ({...q, theme}))).flat();
+const THEMES=Object.keys(QUESTIONS);
+const ALL_Q=Object.entries(QUESTIONS).flatMap(([theme,qs])=>qs.map(q=>({...q,theme})));
 
-/* ── P2P STATE ── */
-let myPeer=null,myId=null,myNode=null,roomId=null,myPseudo='Joueur';
+// ── STATE ──
+let myPeer=null,myId=null,myNode=null,myPseudo='Joueur',roomId=null;
 let peers=new Map(),activePid=null,msgCount=0;
 let coordPeer=null,coordConn=null,isCoord=false,members=[],joining=false,coordId=null;
+const Q={active:false,iAmHost:false,myScore:0,theirScore:0,round:0,total:5,
+  answered:false,timer:null,timeLeft:20,usedIds:[],currentQ:null,theirName:'Pair'};
 
-/* ── QUIZ STATE ── */
-const Q={
-  active:false,iAmHost:false,host:null,
-  myScore:0,theirScore:0,round:0,total:5,
-  answered:false,timer:null,timeLeft:20,
-  usedIds:[],currentQ:null,
-  myName:'Moi',theirName:'Pair',theme:null
-};
-
-/* ── PSEUDO ── */
+// ── PSEUDO ──
 function togglePseudoEdit(){
-  const wrap=document.getElementById('pseudo-edit');
-  wrap.classList.toggle('show');
-  if(wrap.classList.contains('show'))document.getElementById('pseudo-input').focus();
+  const w=document.getElementById('pseudo-edit');
+  w.classList.toggle('show');
+  if(w.classList.contains('show'))document.getElementById('pseudo-input').focus();
 }
 function savePseudo(){
-  const input=document.getElementById('pseudo-input');
-  const val=input.value.trim().substring(0,20);
+  const val=document.getElementById('pseudo-input').value.trim().substring(0,20);
   if(!val)return;
   myPseudo=val;Q.myName=val;
   localStorage.setItem('orion-pseudo',val);
+  const initials=val.replace(/[^a-zA-ZÀ-ÿ0-9]/g,'').substring(0,2).toUpperCase()||'??';
   document.getElementById('pseudo-display').textContent=val;
+  document.getElementById('my-avatar').textContent=initials;
   document.getElementById('pseudo-edit').classList.remove('show');
-  // Notifier tous les pairs connectés
-  peers.forEach((p,pid)=>{
-    if(p.conn&&p.conn.open)p.conn.send(JSON.stringify({type:'hi',pub:myNode?myNode.pub:'',name:myPseudo}));
-  });
+  // Notifier tous les pairs
+  peers.forEach(p=>{if(p.conn&&p.conn.open)p.conn.send(JSON.stringify({type:'hi',pub:myNode?myNode.pub:'',name:myPseudo}));});
 }
 
-/* ── INIT ── */
+// ── INIT ──
 async function init(){
   myNode=await makeNode();
+  // Charger pseudo sauvegardé
+  const saved=localStorage.getItem('orion-pseudo');
+  if(saved){myPseudo=saved;Q.myName=saved;}
+  const initials=myPseudo.replace(/[^a-zA-ZÀ-ÿ0-9]/g,'').substring(0,2).toUpperCase()||'??';
+  document.getElementById('pseudo-display').textContent=myPseudo;
+  document.getElementById('my-avatar').textContent=initials;
+  document.getElementById('pseudo-input').value=myPseudo;
+
   myId='o-'+Math.random().toString(36).substring(2,8);
   myPeer=new Peer(myId,{host:'0.peerjs.com',port:443,path:'/',secure:true,
     config:{iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun1.l.google.com:19302'}]}});
   myPeer.on('open',id=>{
     myId=id;
-    // Charger le pseudo sauvegardé ou en créer un par défaut
-    const saved=localStorage.getItem('orion-pseudo');
-    myPseudo=saved||('Joueur·'+id.substring(2,6).toUpperCase());
-    Q.myName=myPseudo;
-    document.getElementById('pseudo-display').textContent=myPseudo;
-    document.getElementById('pseudo-input').value=myPseudo;
     document.getElementById('my-peer-display').textContent=id;
     setNet('green','Connecté ✨');
     const r=new URLSearchParams(location.search).get('room');
@@ -507,7 +525,7 @@ async function init(){
   myPeer.on('disconnected',()=>{setNet('amber','Reconnexion…');setTimeout(()=>{try{myPeer.reconnect();}catch(e){}},2000);});
 }
 
-/* ── ROOM ── */
+// ── ROOM ──
 function joinRoom(){
   const val=document.getElementById('room-input').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');
   if(!val||val.length<2){alert('Code trop court !');return;}
@@ -544,7 +562,7 @@ function onCoordMsg(raw){try{const d=JSON.parse(raw);
   if(d.type==='members')(d.list||[]).forEach(pid=>{if(pid!==myId)connectTo(pid);});
   if(d.type==='new-peer'&&d.pid&&d.pid!==myId)connectTo(d.pid);}catch(e){}}
 
-/* ── CONNEXIONS ── */
+// ── CONNEXIONS ──
 function connectTo(pid){
   if(!pid||pid===myId)return;
   const ex=peers.get(pid);if(ex&&ex.online)return;
@@ -556,12 +574,12 @@ function handleIncoming(conn){
   const ex=peers.get(pid);if(ex.conn&&ex.conn.open&&myId<pid){conn.close();return;}
   attachConn(pid,conn);
 }
-function mkPeer(pid){return{conn:null,name:'@'+pid.substring(0,6),pub:'',msgs:[],online:false,unread:0};}
+function mkPeer(pid){return{conn:null,name:'?'+pid.substring(0,6),pub:'',msgs:[],online:false,unread:0};}
 function attachConn(pid,conn){
   const p=peers.get(pid);if(!p)return;p.conn=conn;
   conn.on('open',()=>{
     p.online=true;
-    conn.send(JSON.stringify({type:'hi',pub:myNode.pub,name:myPseudo||('@'+myId.substring(0,6))}));
+    conn.send(JSON.stringify({type:'hi',pub:myNode.pub,name:myPseudo}));
     renderPeersList();if(activePid===pid)renderChatHeader(pid);
     sysMsg(pid,'🔗 Connexion P2P établie');
     setNet('green','Room '+roomId+' · '+countOnline()+' connecté(s) 💜');
@@ -573,11 +591,20 @@ function attachConn(pid,conn){
   conn.on('error',()=>{const pp=peers.get(pid);if(pp){pp.online=false;pp.conn=null;}renderPeersList();});
 }
 
-/* ── DONNÉES ── */
+// ── DONNÉES ──
 async function onData(pid,raw){
   let d;try{d=JSON.parse(raw);}catch(e){return;}
   const p=peers.get(pid);if(!p)return;
-  if(d.type==='hi'){p.pub=d.pub||'';p.name=d.name||p.name;Q.theirName=p.name;renderPeersList();if(activePid===pid)renderChatHeader(pid);return;}
+  if(d.type==='hi'){
+    p.pub=d.pub||'';
+    if(d.name&&d.name.trim())p.name=d.name.trim();
+    Q.theirName=p.name;
+    renderPeersList();
+    if(activePid===pid){renderChatHeader(pid);
+      // Mettre à jour l'avatar dans le header
+      const av=document.querySelector('.chat-header .avatar');
+      if(av)av.textContent=p.name.substring(0,2).toUpperCase();}
+    return;}
   if(d.type==='new-peer'&&d.pid){connectTo(d.pid);return;}
   if(d.type==='msg'){
     const valid=await verify(d,p.pub);
@@ -593,7 +620,7 @@ async function onData(pid,raw){
   else if(d.type==='quiz-end')onQuizEnd(d);
 }
 
-/* ── CHAT ── */
+// ── CHAT ──
 async function sendMessage(){
   if(!activePid)return;
   const ta=document.getElementById('msg-input');if(!ta)return;
@@ -607,9 +634,7 @@ async function sendMessage(){
   p.msgs.push(msg);msgCount++;appendMsg(msg);scrollBottom();updateSbInfo();
 }
 
-/* ════════════════════════════════
-   QUIZ — 200 questions embarquées
-   ════════════════════════════════ */
+// ── QUIZ ──
 function showThemePicker(){
   if(!activePid){alert('Connecte-toi à un pair d\'abord !');return;}
   const p=peers.get(activePid);if(!p||!p.conn||!p.conn.open){alert('Pair hors ligne');return;}
@@ -621,33 +646,28 @@ function showThemePicker(){
     </div>
   `,'ai','theme-picker');
 }
-
 function startQuiz(theme){
   document.getElementById('theme-picker')?.remove();
-  Q.active=true;Q.iAmHost=true;Q.host=myId;Q.theme=theme;
-  Q.myScore=0;Q.theirScore=0;Q.round=0;Q.answered=false;Q.usedIds=[];
+  Q.active=true;Q.iAmHost=true;Q.theme=theme;Q.myScore=0;Q.theirScore=0;Q.round=0;Q.answered=false;Q.usedIds=[];
   const p=peers.get(activePid);
-  if(p&&p.conn&&p.conn.open)p.conn.send(JSON.stringify({type:'quiz-invite',host:myId,theme,total:Q.total}));
+  if(p&&p.conn&&p.conn.open)p.conn.send(JSON.stringify({type:'quiz-invite',theme,total:Q.total}));
   addQuizBubble(`
     <div class="quiz-host"><div class="quiz-host-avatar">🧠</div><div class="quiz-host-name">Quiz ${theme==='ALL'?'Mélange':theme}</div></div>
-    <div class="quiz-question">Invitation envoyée à ${Q.theirName} ⏳<br>En attente de sa réponse…</div>
+    <div class="quiz-question">Invitation envoyée à ${Q.theirName} ⏳</div>
   `,'ai','quiz-waiting');
 }
-
 function onQuizInvite(d,fromPid){
-  Q.active=true;Q.iAmHost=false;Q.host=fromPid;Q.theme=d.theme;
-  Q.myScore=0;Q.theirScore=0;Q.round=0;Q.answered=false;Q.usedIds=[];
+  Q.active=true;Q.iAmHost=false;Q.theme=d.theme;Q.myScore=0;Q.theirScore=0;Q.round=0;Q.answered=false;Q.usedIds=[];
   const hname=peers.get(fromPid)?.name||'Pair';
   addQuizBubble(`
     <div class="quiz-host"><div class="quiz-host-avatar">🎮</div><div class="quiz-host-name">Invitation Quiz</div></div>
-    <div class="quiz-question"><b>${hname}</b> te défie au quiz <b>${d.theme==='ALL'?'Mélange':d.theme}</b> !<br>${d.total} questions · 20 secondes chacune</div>
+    <div class="quiz-question"><b>${esc(hname)}</b> te défie — Quiz <b>${d.theme==='ALL'?'Mélange':esc(d.theme)}</b> !<br>${d.total||5} questions · 20 secondes</div>
     <div style="display:flex;gap:8px;margin-top:10px;">
       <button class="quiz-choice" style="flex:1;text-align:center;" onclick="acceptQuiz('${fromPid}')">✅ Jouer !</button>
-      <button class="quiz-choice" style="flex:1;text-align:center;opacity:.6;" onclick="declineQuiz('${fromPid}')">❌ Non merci</button>
+      <button class="quiz-choice" style="flex:1;text-align:center;opacity:.6;" onclick="declineQuiz('${fromPid}')">❌ Non</button>
     </div>
   `,'ai','quiz-invite-bbl');
 }
-
 function acceptQuiz(fromPid){
   document.getElementById('quiz-invite-bbl')?.remove();
   const p=peers.get(fromPid);
@@ -655,177 +675,117 @@ function acceptQuiz(fromPid){
   addQuizBubble(`<div class="quiz-host"><div class="quiz-host-avatar">⏳</div><div class="quiz-host-name">En attente de la première question…</div></div>`,'ai');
   scrollBottom();
 }
-
 function declineQuiz(fromPid){
   document.getElementById('quiz-invite-bbl')?.remove();
   const p=peers.get(fromPid);
   if(p&&p.conn&&p.conn.open)p.conn.send(JSON.stringify({type:'quiz-end',reason:'declined'}));
   Q.active=false;
 }
-
-function onQuizAccept(){
-  document.getElementById('quiz-waiting')?.remove();
-  sendNextQuestion();
-}
-
-/* Sélectionner une question non encore posée */
+function onQuizAccept(){document.getElementById('quiz-waiting')?.remove();sendNextQuestion();}
 function pickQuestion(){
-  const pool = Q.theme==='ALL' ? ALL_Q : (QUESTIONS[Q.theme]||ALL_Q);
-  const available = pool.filter((_,i)=>!Q.usedIds.includes(i+Q.theme));
+  const pool=Q.theme==='ALL'?ALL_Q:(QUESTIONS[Q.theme]||ALL_Q);
+  const available=pool.filter((_,i)=>!Q.usedIds.includes(Q.theme+i));
   if(!available.length)return null;
-  const idx = Math.floor(Math.random()*available.length);
-  const q = available[idx];
-  Q.usedIds.push(idx+Q.theme);
-  return q;
+  const idx=Math.floor(Math.random()*available.length);
+  Q.usedIds.push(Q.theme+idx);
+  return available[idx];
 }
-
 function sendNextQuestion(){
   if(Q.round>=Q.total){endQuiz();return;}
   Q.round++;Q.answered=false;
-  const q=pickQuestion();
-  if(!q){endQuiz();return;}
+  const q=pickQuestion();if(!q){endQuiz();return;}
   Q.currentQ=q;
-  // Envoyer au pair
   const p=peers.get(activePid);
-  if(p&&p.conn&&p.conn.open){
-    p.conn.send(JSON.stringify({type:'quiz-question',round:Q.round,total:Q.total,
-      q:q.q,c:q.c,a:q.a,e:q.e,theme:q.theme||Q.theme}));
-  }
-  showQuestion(q,Q.round,Q.total,true);
+  if(p&&p.conn&&p.conn.open)p.conn.send(JSON.stringify({type:'quiz-question',round:Q.round,total:Q.total,q:q.q,c:q.c,a:q.a,e:q.e,theme:q.theme||Q.theme}));
+  showQuestion(q,Q.round,Q.total);
 }
-
-function onQuizQuestion(d){
-  Q.round=d.round;Q.answered=false;
-  const q={q:d.q,c:d.c,a:d.a,e:d.e,theme:d.theme};
-  Q.currentQ=q;
-  showQuestion(q,d.round,d.total,false);
-}
-
-function showQuestion(q,round,total,isHost){
-  // Supprimer ancienne question
+function onQuizQuestion(d){Q.round=d.round;Q.answered=false;Q.currentQ={q:d.q,c:d.c,a:d.a,e:d.e,theme:d.theme};showQuestion(Q.currentQ,d.round,d.total);}
+function showQuestion(q,round,total){
   document.getElementById('quiz-q-current')?.remove();
-  const choicesHtml=q.c.map((c,i)=>`
-    <button class="quiz-choice" id="qc${i}" onclick="answerQ(${i},'${q.a}')">${esc(c)}</button>`).join('');
+  const ch=q.c.map((c,i)=>`<button class="quiz-choice" id="qc${i}" onclick="answerQ(${i},'${q.a}')">${esc(c)}</button>`).join('');
   addQuizBubble(`
-    <div class="quiz-host">
-      <div class="quiz-host-avatar">🧠</div>
-      <div class="quiz-host-name">Question ${round}/${total}</div>
-      <div class="quiz-theme-badge">${q.theme||Q.theme}</div>
-    </div>
+    <div class="quiz-host"><div class="quiz-host-avatar">🧠</div><div class="quiz-host-name">Question ${round}/${total}</div><div class="quiz-theme-badge">${esc(q.theme||Q.theme)}</div></div>
     <div class="quiz-question">${esc(q.q)}</div>
-    <div class="quiz-choices">${choicesHtml}</div>
-    <div class="quiz-meta">
-      <div>⏱ <span id="qtimer" class="quiz-timer">20</span>s</div>
-      <div>${Q.myName} <b>${Q.myScore}</b> — <b>${Q.theirScore}</b> ${Q.theirName}</div>
-    </div>
+    <div class="quiz-choices">${ch}</div>
+    <div class="quiz-meta"><div>⏱ <span id="qtimer" class="quiz-timer">20</span>s</div><div>${esc(myPseudo)} <b>${Q.myScore}</b> — <b>${Q.theirScore}</b> ${esc(Q.theirName)}</div></div>
   `,'ai','quiz-q-current');
-  scrollBottom();
-  startTimer();
+  scrollBottom();startTimer();
 }
-
 function answerQ(idx,correctLetter){
-  if(Q.answered)return;
-  Q.answered=true;clearInterval(Q.timer);
-  const myLetter=Q.currentQ.c[idx].substring(0,1);
-  const correct=myLetter===correctLetter;
+  if(Q.answered)return;Q.answered=true;clearInterval(Q.timer);
+  const myLetter=Q.currentQ.c[idx].substring(0,1);const correct=myLetter===correctLetter;
   if(correct)Q.myScore++;
-  // Colorier
-  Q.currentQ.c.forEach((_,i)=>{
-    const btn=document.getElementById('qc'+i);if(!btn)return;
-    btn.classList.add('disabled');
-    if(Q.currentQ.c[i].startsWith(correctLetter))btn.classList.add('correct');
-    else if(i===idx&&!correct)btn.classList.add('wrong');
-  });
-  // Explication
-  const meta=document.querySelector('#quiz-q-current .quiz-meta');
-  if(meta&&Q.currentQ.e){
-    const expl=document.createElement('div');expl.className='quiz-expl';
-    expl.textContent='💡 '+Q.currentQ.e;meta.before(expl);
-  }
-  // Résultat
-  const res=document.createElement('div');res.className='quiz-result-msg';
+  Q.currentQ.c.forEach((_,i)=>{const btn=document.getElementById('qc'+i);if(!btn)return;btn.classList.add('disabled');
+    if(Q.currentQ.c[i].startsWith(correctLetter))btn.classList.add('correct');else if(i===idx&&!correct)btn.classList.add('wrong');});
+  if(Q.currentQ.e){const ex=document.createElement('div');ex.className='quiz-expl';ex.textContent='💡 '+Q.currentQ.e;
+    document.querySelector('#quiz-q-current .quiz-meta')?.before(ex);}
+  const res=document.createElement('div');
+  res.style.cssText='padding:7px 12px;border-radius:10px;font-size:12px;font-weight:700;text-align:center;margin-top:6px;';
   res.style.background=correct?'rgba(0,255,179,.1)':'rgba(255,59,107,.1)';
   res.style.color=correct?'var(--green)':'var(--red)';
   res.style.border=`1px solid ${correct?'rgba(0,255,179,.3)':'rgba(255,59,107,.3)'}`;
-  res.textContent=correct?`✅ Bonne réponse ! +1 pt (${Q.myScore} pts)`:`❌ Raté ! Bonne réponse : ${correctLetter}`;
+  res.textContent=correct?`✅ Bonne réponse ! +1 pt`:`❌ Raté !`;
   document.querySelector('#quiz-q-current .quiz-meta')?.after(res);
-  // Envoyer au pair
   const p=peers.get(activePid);
   if(p&&p.conn&&p.conn.open)p.conn.send(JSON.stringify({type:'quiz-answer',letter:myLetter,correct,score:Q.myScore}));
-  // Prochaine question si hôte
   if(Q.iAmHost)setTimeout(sendNextQuestion,3200);
   scrollBottom();
 }
-
 function onQuizPeerAnswer(d){
   Q.theirScore=d.score;
   const meta=document.querySelector('#quiz-q-current .quiz-meta div:last-child');
-  if(meta)meta.textContent=`${Q.myName} ${Q.myScore} — ${Q.theirScore} ${Q.theirName}`;
-  // Badge
+  if(meta)meta.textContent=`${esc(myPseudo)} ${Q.myScore} — ${Q.theirScore} ${esc(Q.theirName)}`;
   const qbbl=document.getElementById('quiz-q-current');
   if(qbbl){const b=document.createElement('div');b.style.cssText='font-size:11px;color:var(--muted);text-align:center;margin-top:4px;';
-    b.textContent=d.correct?`${Q.theirName} ✅ bonne réponse`:`${Q.theirName} ❌ a raté`;qbbl.appendChild(b);}
+    b.textContent=d.correct?`${Q.theirName} ✅`:`${Q.theirName} ❌`;qbbl.appendChild(b);}
 }
-
 function startTimer(){
   Q.timeLeft=20;clearInterval(Q.timer);
   Q.timer=setInterval(()=>{
-    Q.timeLeft--;
-    const el=document.getElementById('qtimer');
-    if(el){el.textContent=Q.timeLeft;
-      if(Q.timeLeft<=5){el.classList.add('danger');}
-      else{el.classList.remove('danger');}}
-    if(Q.timeLeft<=0){
-      clearInterval(Q.timer);
-      if(!Q.answered){
-        Q.answered=true;
-        Q.currentQ.c.forEach((_,i)=>{const btn=document.getElementById('qc'+i);if(btn){btn.classList.add('disabled');if(Q.currentQ.c[i].startsWith(Q.currentQ.a))btn.classList.add('correct');}});
-        if(Q.iAmHost)setTimeout(sendNextQuestion,3200);
-      }
-    }
+    Q.timeLeft--;const el=document.getElementById('qtimer');
+    if(el){el.textContent=Q.timeLeft;if(Q.timeLeft<=5)el.classList.add('danger');else el.classList.remove('danger');}
+    if(Q.timeLeft<=0){clearInterval(Q.timer);if(!Q.answered){Q.answered=true;
+      Q.currentQ.c.forEach((_,i)=>{const btn=document.getElementById('qc'+i);if(btn){btn.classList.add('disabled');if(Q.currentQ.c[i].startsWith(Q.currentQ.a))btn.classList.add('correct');}});
+      if(Q.iAmHost)setTimeout(sendNextQuestion,3200);}}
   },1000);
 }
-
 function endQuiz(){
   clearInterval(Q.timer);Q.active=false;
   const p=peers.get(activePid);
   if(p&&p.conn&&p.conn.open)p.conn.send(JSON.stringify({type:'quiz-end',myScore:Q.myScore,theirScore:Q.theirScore}));
   showQuizEnd(Q.myScore,Q.theirScore);
 }
-
 function onQuizEnd(d){
   clearInterval(Q.timer);Q.active=false;
   if(d.reason==='declined'){addQuizBubble('<div class="quiz-question">❌ Quiz refusé.</div>','ai');return;}
   showQuizEnd(Q.myScore,Q.theirScore);
 }
-
 function showQuizEnd(myS,theirS){
-  const winner=myS>theirS?`🏆 Tu gagnes ! (${myS} vs ${theirS})`:myS<theirS?`😢 ${Q.theirName} gagne ! (${theirS} vs ${myS})`:'🤝 Égalité !';
+  const winner=myS>theirS?`🏆 ${esc(myPseudo)} gagne ! (${myS} vs ${theirS})`:myS<theirS?`🏆 ${esc(Q.theirName)} gagne ! (${theirS} vs ${myS})`:'🤝 Égalité !';
   addQuizBubble(`
     <div class="quiz-host"><div class="quiz-host-avatar">🏆</div><div class="quiz-host-name">Quiz terminé !</div></div>
     <div class="quiz-score-bar">
-      <div class="quiz-score-item"><div class="quiz-score-num">${myS}</div><div class="quiz-score-label">${Q.myName}</div></div>
+      <div class="quiz-score-item"><div class="quiz-score-num">${myS}</div><div class="quiz-score-label">${esc(myPseudo)}</div></div>
       <div style="font-size:22px;font-weight:900;">VS</div>
-      <div class="quiz-score-item"><div class="quiz-score-num">${theirS}</div><div class="quiz-score-label">${Q.theirName}</div></div>
+      <div class="quiz-score-item"><div class="quiz-score-num">${theirS}</div><div class="quiz-score-label">${esc(Q.theirName)}</div></div>
     </div>
     <div style="text-align:center;font-size:15px;font-weight:800;margin-top:12px;">${winner}</div>
     <button class="quiz-choice" style="width:100%;margin-top:12px;text-align:center;" onclick="showThemePicker()">🔄 Rejouer</button>
   `,'ai');scrollBottom();
 }
-
 function addQuizBubble(html,type='',id=''){
   const el=document.getElementById('msg-list');if(!el)return null;
   const d=document.createElement('div');d.className='quiz-bubble'+(type?' '+type:'');
   if(id)d.id=id;d.innerHTML=html;el.appendChild(d);scrollBottom();return d;
 }
 
-/* ── RENDER ── */
+// ── RENDER ──
 function openChat(pid){
   activePid=pid;const p=peers.get(pid);if(!p)return;
   p.unread=0;renderPeersList();
   document.getElementById('chat-area').innerHTML=`
     <div class="chat-header">
-      <div class="avatar">${p.name.substring(0,2).toUpperCase()}</div>
+      <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,rgba(112,0,255,.3),rgba(255,45,143,.3));border:1px solid rgba(184,0,255,.4);color:var(--p3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">${p.name.replace(/[^a-zA-ZÀ-ÿ0-9]/g,'').substring(0,2).toUpperCase()||'??'}</div>
       <div class="chat-header-info">
         <div class="chat-header-name" id="ch-name">${esc(p.name)}</div>
         <div class="chat-header-sub" id="ch-sub">…</div>
@@ -848,28 +808,40 @@ function openChat(pid){
 
 async function doScreenShare(){
   if(!activePid)return;
-  try{
-    const stream=await navigator.mediaDevices.getDisplayMedia({video:{frameRate:30},audio:true});
+  try{const stream=await navigator.mediaDevices.getDisplayMedia({video:{frameRate:30},audio:true});
     myPeer.call(activePid,stream);sysMsg(activePid,'📺 Partage d\'écran démarré');
-    stream.getVideoTracks()[0].onended=()=>sysMsg(activePid,'⏹ Partage arrêté');
-  }catch(e){}
+    stream.getVideoTracks()[0].onended=()=>sysMsg(activePid,'⏹ Partage arrêté');}catch(e){}
 }
 
 function renderChatHeader(pid){
   const p=peers.get(pid);const n=document.getElementById('ch-name'),s=document.getElementById('ch-sub');
-  if(!n||!s||!p)return;n.textContent=p.name;
-  s.textContent=p.online?'🟢 En ligne · P2P':'🔴 Hors ligne';
+  if(!n||!s||!p)return;n.textContent=p.name;s.textContent=p.online?'🟢 En ligne · P2P':'🔴 Hors ligne';
 }
+
 function appendMsg(msg){
   const el=document.getElementById('msg-list');if(!el)return;
   const isMe=msg.from==='me';
-  const d=document.createElement('div');d.className='bwrap '+(isMe?'me':'them');
-  d.innerHTML=`<div class="bubble">${esc(msg.text)}</div>
-    <div class="bmeta"><span>${ft(msg.ts)}</span>${isMe?'<span class="tick">✓✓</span>':''}
-    <span class="chip ${msg.valid===false?'bad':'ok'}">${msg.valid===false?'⚠':'✓'}</span>
-    <span class="chip p2p">P2P</span></div>`;
-  el.appendChild(d);
+  const p=peers.get(activePid);
+  const senderName=isMe?myPseudo:(p?p.name:'Pair');
+  const initials=senderName.replace(/[^a-zA-ZÀ-ÿ0-9]/g,'').substring(0,2).toUpperCase()||'??';
+  const row=document.createElement('div');
+  row.className='msg-row '+(isMe?'me':'them');
+  const avatarClass=isMe?'me':'them';
+  row.innerHTML=`
+    <div class="msg-avatar ${avatarClass}">${initials}</div>
+    <div class="msg-content">
+      <div class="msg-sender ${avatarClass}">${esc(senderName)}</div>
+      <div class="bubble ${avatarClass}">${esc(msg.text)}</div>
+      <div class="bmeta" style="${isMe?'justify-content:flex-end;':''}">
+        <span>${ft(msg.ts)}</span>
+        ${isMe?'<span class="tick">✓✓</span>':''}
+        <span class="chip ${msg.valid===false?'bad':'ok'}">${msg.valid===false?'⚠':'✓'}</span>
+        <span class="chip p2p">P2P</span>
+      </div>
+    </div>`;
+  el.appendChild(row);
 }
+
 function sysMsg(pid,text){
   if(activePid!==pid)return;
   const el=document.getElementById('msg-list');if(!el)return;
@@ -881,9 +853,11 @@ function renderPeersList(){
   if(peers.size===0){el.innerHTML=`<div style="padding:14px;font-size:11px;color:var(--muted);text-align:center;line-height:2;">${roomId?'Room <b style="color:var(--p3)">'+roomId+'</b><br>en attente 🔥':'Rejoins une room 🔥'}</div>`;return;}
   el.innerHTML='';
   for(const[pid,p]of peers){
+    if(!p.online&&!p.msgs.length)continue; // masquer pairs jamais connectés
     const last=p.msgs[p.msgs.length-1];
+    const initials=p.name.replace(/[^a-zA-ZÀ-ÿ0-9]/g,'').substring(0,2).toUpperCase()||'??';
     el.innerHTML+=`<div class="peer-item ${activePid===pid?'active':''}" onclick="openChat('${esc(pid)}')">
-      <div class="avatar">${p.name.substring(0,2).toUpperCase()}</div>
+      <div class="avatar">${initials}</div>
       <div class="peer-info"><div class="peer-name">${esc(p.name)}</div>
       <div class="peer-sub">${p.online?'🟢 en ligne':'🔴 hors ligne'}${last?' · '+esc(last.text.substring(0,12)):''}</div></div>
       ${p.unread?`<div class="unread-badge">${p.unread}</div>`:''}</div>`;
@@ -893,7 +867,7 @@ function updateSbInfo(){document.getElementById('sb-info').innerHTML=`Room : ${r
 function countOnline(){let n=0;for(const p of peers.values())if(p.online)n++;return n;}
 function setNet(s,t){const d=document.getElementById('net-dot');d.className='ndot'+(s==='green'?' green':s==='amber'?' amber':s==='red'?' red':'');document.getElementById('net-txt').textContent=t;}
 
-/* ── CRYPTO ── */
+// ── CRYPTO ──
 async function makeNode(){
   try{const kp=await crypto.subtle.generateKey({name:'Ed25519'},true,['sign','verify']);
     const raw=await crypto.subtle.exportKey('raw',kp.publicKey);return{kp,pub:h(raw),fb:false};}

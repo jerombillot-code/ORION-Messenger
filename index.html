@@ -7,247 +7,173 @@
 <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-
 :root{
-  --bg:#0d0015;
-  --bg2:#120020;
-  --bg3:#1a0030;
-  --border:rgba(180,0,255,0.15);
-  --p1:#b800ff;--p2:#ff2d8f;--p3:#ff6bcd;
-  --g1:#7000ff;--g2:#b800ff;
+  --bg:#0d0015;--bg2:#120020;--bg3:#1a0030;--border:rgba(180,0,255,0.15);
+  --p1:#b800ff;--p2:#ff2d8f;--p3:#ff6bcd;--g1:#7000ff;
   --green:#00ffb3;--red:#ff3b6b;--amber:#ffb800;
   --text:#f0e6ff;--muted:#8a6aaa;
-  --sans:'Inter',system-ui,sans-serif;
-  --mono:'Courier New',monospace;
+  --sans:'Inter',system-ui,sans-serif;--mono:'Courier New',monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;overflow:hidden;}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);display:flex;flex-direction:column;position:relative;}
-
-/* Animated background */
-body::before{
-  content:'';position:fixed;inset:0;z-index:0;
-  background:
-    radial-gradient(ellipse 600px 400px at 20% 20%, rgba(112,0,255,0.12) 0%, transparent 70%),
-    radial-gradient(ellipse 500px 300px at 80% 80%, rgba(255,45,143,0.10) 0%, transparent 70%),
-    radial-gradient(ellipse 400px 400px at 60% 10%, rgba(184,0,255,0.08) 0%, transparent 70%);
-  pointer-events:none;
-}
+body::before{content:'';position:fixed;inset:0;z-index:0;
+  background:radial-gradient(ellipse 600px 400px at 20% 20%,rgba(112,0,255,.12) 0%,transparent 70%),
+    radial-gradient(ellipse 500px 300px at 80% 80%,rgba(255,45,143,.10) 0%,transparent 70%);
+  pointer-events:none;}
 body>*{position:relative;z-index:1;}
 
-/* ── NAV ── */
-nav{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:12px 16px;flex-shrink:0;gap:10px;flex-wrap:wrap;
-  background:rgba(18,0,32,0.85);
-  backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--border);
-}
-.nav-logo{
-  font-family:var(--sans);font-size:18px;font-weight:900;
-  letter-spacing:3px;
-  background:linear-gradient(135deg, var(--p1), var(--p2), var(--p3));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  background-clip:text;
-  filter:drop-shadow(0 0 12px rgba(184,0,255,0.6));
-}
+nav{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;flex-shrink:0;gap:8px;flex-wrap:wrap;
+  background:rgba(18,0,32,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.nav-logo{font-size:17px;font-weight:900;letter-spacing:3px;
+  background:linear-gradient(135deg,var(--p1),var(--p2),var(--p3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 0 12px rgba(184,0,255,.6));}
 .nav-mid{display:flex;align-items:center;gap:8px;flex:1;justify-content:center;}
-.room-input{
-  background:rgba(255,255,255,0.05);
-  border:1px solid rgba(180,0,255,0.3);
-  color:var(--text);font-family:var(--sans);font-size:13px;font-weight:600;
-  padding:8px 14px;border-radius:50px;width:160px;text-align:center;
-  letter-spacing:3px;text-transform:uppercase;
-  transition:all .2s;
-}
-.room-input:focus{outline:none;border-color:var(--p1);background:rgba(184,0,255,0.08);box-shadow:0 0 20px rgba(184,0,255,0.2);}
-.room-input::placeholder{color:var(--muted);letter-spacing:2px;}
-.join-btn{
-  background:linear-gradient(135deg, var(--g1), var(--p2));
-  border:none;color:#fff;font-family:var(--sans);font-size:12px;font-weight:700;
-  letter-spacing:1px;padding:8px 18px;border-radius:50px;cursor:pointer;
-  box-shadow:0 4px 20px rgba(184,0,255,0.4);
-  transition:all .2s;white-space:nowrap;
-}
-.join-btn:hover{transform:translateY(-1px);box-shadow:0 6px 25px rgba(184,0,255,0.5);}
-.join-btn:active{transform:translateY(0);}
-.net-pill{
-  display:flex;align-items:center;gap:6px;font-size:10px;font-weight:600;color:var(--muted);
-  background:rgba(255,255,255,0.04);border:1px solid var(--border);
-  padding:5px 12px;border-radius:50px;white-space:nowrap;
-}
-.ndot{width:7px;height:7px;border-radius:50%;background:var(--muted);flex-shrink:0;}
+.room-input{background:rgba(255,255,255,.05);border:1px solid rgba(180,0,255,.3);color:var(--text);
+  font-family:var(--sans);font-size:13px;font-weight:600;padding:7px 14px;border-radius:50px;
+  width:150px;text-align:center;letter-spacing:3px;text-transform:uppercase;transition:all .2s;}
+.room-input:focus{outline:none;border-color:var(--p1);box-shadow:0 0 20px rgba(184,0,255,.2);}
+.join-btn{background:linear-gradient(135deg,var(--g1),var(--p2));border:none;color:#fff;
+  font-family:var(--sans);font-size:12px;font-weight:700;padding:7px 16px;border-radius:50px;
+  cursor:pointer;box-shadow:0 4px 20px rgba(184,0,255,.4);transition:all .2s;}
+.join-btn:hover{transform:translateY(-1px);}
+.net-pill{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:600;color:var(--muted);
+  background:rgba(255,255,255,.04);border:1px solid var(--border);padding:5px 12px;border-radius:50px;}
+.ndot{width:7px;height:7px;border-radius:50%;background:var(--muted);}
 .ndot.green{background:var(--green);box-shadow:0 0 8px var(--green);animation:blink 2s infinite;}
-.ndot.amber{background:var(--amber);box-shadow:0 0 8px var(--amber);}
-.ndot.red{background:var(--red);box-shadow:0 0 8px var(--red);}
+.ndot.amber{background:var(--amber);}
+.ndot.red{background:var(--red);}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
 
-/* ── LAYOUT ── */
 .layout{display:flex;flex:1;overflow:hidden;}
 
-/* ── SIDEBAR ── */
-.sidebar{
-  width:240px;border-right:1px solid var(--border);
-  display:flex;flex-direction:column;
-  background:rgba(18,0,32,0.6);backdrop-filter:blur(20px);
-  flex-shrink:0;
-}
-.sb-head{padding:14px;border-bottom:1px solid var(--border);}
-.sb-head h2{font-size:9px;font-weight:700;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:10px;}
-.my-id-box{
-  background:rgba(184,0,255,0.08);border:1px solid rgba(184,0,255,0.2);
-  border-radius:12px;padding:10px 12px;
-}
-.my-id-label{font-size:8px;font-weight:700;color:var(--p3);letter-spacing:2px;display:block;margin-bottom:4px;text-transform:uppercase;}
-.my-id-val{font-family:var(--mono);font-size:9px;color:rgba(240,230,255,0.7);word-break:break-all;line-height:1.5;}
-.peers-head{padding:10px 14px 6px;font-size:9px;font-weight:700;letter-spacing:2px;color:var(--muted);text-transform:uppercase;border-bottom:1px solid var(--border);}
-.peers-list{flex:1;overflow-y:auto;padding:6px 0;}
-
-.peer-item{
-  padding:10px 14px;display:flex;align-items:center;gap:10px;
-  border-bottom:1px solid rgba(180,0,255,0.06);cursor:pointer;
-  transition:all .15s;position:relative;
-}
-.peer-item:hover{background:rgba(184,0,255,0.08);}
-.peer-item.active{background:rgba(184,0,255,0.12);border-left:2px solid var(--p1);}
-
-.avatar{
-  width:36px;height:36px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:12px;font-weight:700;flex-shrink:0;
-  background:linear-gradient(135deg, rgba(112,0,255,0.3), rgba(255,45,143,0.3));
-  border:1px solid rgba(184,0,255,0.4);color:var(--p3);
-}
+/* SIDEBAR */
+.sidebar{width:220px;border-right:1px solid var(--border);display:flex;flex-direction:column;
+  background:rgba(18,0,32,.6);backdrop-filter:blur(20px);flex-shrink:0;}
+.sb-head{padding:12px 14px;border-bottom:1px solid var(--border);}
+.sb-head h2{font-size:9px;font-weight:700;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:8px;}
+.my-id-box{background:rgba(184,0,255,.08);border:1px solid rgba(184,0,255,.2);border-radius:12px;padding:8px 10px;}
+.my-id-label{font-size:8px;font-weight:700;color:var(--p3);letter-spacing:2px;display:block;margin-bottom:3px;text-transform:uppercase;}
+.my-id-val{font-family:var(--mono);font-size:8px;color:rgba(240,230,255,.7);word-break:break-all;line-height:1.5;}
+.peers-head{padding:8px 14px 5px;font-size:9px;font-weight:700;letter-spacing:2px;color:var(--muted);text-transform:uppercase;border-bottom:1px solid var(--border);}
+.peers-list{flex:1;overflow-y:auto;}
+.peer-item{padding:10px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(180,0,255,.06);cursor:pointer;transition:all .15s;}
+.peer-item:hover{background:rgba(184,0,255,.08);}
+.peer-item.active{background:rgba(184,0,255,.12);border-left:2px solid var(--p1);}
+.avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;flex-shrink:0;
+  background:linear-gradient(135deg,rgba(112,0,255,.3),rgba(255,45,143,.3));
+  border:1px solid rgba(184,0,255,.4);color:var(--p3);}
 .peer-info{flex:1;min-width:0;}
-.peer-name{font-size:12px;font-weight:600;margin-bottom:2px;}
-.peer-sub{font-size:10px;color:var(--muted);}
-.unread-badge{
-  background:linear-gradient(135deg,var(--p1),var(--p2));
-  color:#fff;font-size:9px;font-weight:700;
-  min-width:18px;height:18px;border-radius:9px;
-  display:flex;align-items:center;justify-content:center;padding:0 5px;
-  box-shadow:0 2px 8px rgba(184,0,255,0.5);
-}
-.sb-info{padding:10px 14px;border-top:1px solid var(--border);font-size:9px;color:var(--muted);font-family:var(--mono);line-height:1.8;word-break:break-all;}
+.peer-name{font-size:12px;font-weight:600;margin-bottom:1px;}
+.peer-sub{font-size:9px;color:var(--muted);}
+.unread-badge{background:linear-gradient(135deg,var(--p1),var(--p2));color:#fff;font-size:8px;font-weight:700;
+  min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 4px;
+  box-shadow:0 2px 8px rgba(184,0,255,.5);}
+.sb-info{padding:8px 14px;border-top:1px solid var(--border);font-size:8px;color:var(--muted);font-family:var(--mono);line-height:1.8;word-break:break-all;}
 
-/* ── CHAT ── */
+/* MAIN CHAT AREA */
 .chat{flex:1;display:flex;flex-direction:column;overflow:hidden;}
 
 /* Welcome */
-.welcome{
-  flex:1;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;gap:16px;padding:32px;text-align:center;
-}
-.welcome-logo{
-  font-size:48px;font-weight:900;letter-spacing:6px;
-  background:linear-gradient(135deg, var(--p1), var(--p2), var(--p3));
+.welcome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:32px;text-align:center;}
+.welcome-logo{font-size:44px;font-weight:900;letter-spacing:6px;
+  background:linear-gradient(135deg,var(--p1),var(--p2),var(--p3));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  filter:drop-shadow(0 0 30px rgba(184,0,255,0.5));
-  animation:pulse-logo 3s ease-in-out infinite;
-}
-@keyframes pulse-logo{0%,100%{filter:drop-shadow(0 0 20px rgba(184,0,255,0.4))}50%{filter:drop-shadow(0 0 40px rgba(255,45,143,0.6))}}
-.welcome h2{font-size:14px;font-weight:800;letter-spacing:4px;color:var(--muted);text-transform:uppercase;}
-.step{
-  background:rgba(255,255,255,0.03);
-  border:1px solid rgba(184,0,255,0.15);
-  border-radius:16px;padding:14px 18px;width:100%;max-width:340px;
-  backdrop-filter:blur(10px);
-  transition:border-color .2s;
-}
-.step:hover{border-color:rgba(184,0,255,0.3);}
-.step-n{font-size:9px;font-weight:700;color:var(--p3);letter-spacing:2px;margin-bottom:4px;text-transform:uppercase;}
+  filter:drop-shadow(0 0 30px rgba(184,0,255,.5));animation:pulse-logo 3s ease-in-out infinite;}
+@keyframes pulse-logo{0%,100%{filter:drop-shadow(0 0 20px rgba(184,0,255,.4))}50%{filter:drop-shadow(0 0 40px rgba(255,45,143,.6))}}
+.welcome h2{font-size:13px;font-weight:800;letter-spacing:4px;color:var(--muted);text-transform:uppercase;}
+.step{background:rgba(255,255,255,.03);border:1px solid rgba(184,0,255,.15);border-radius:16px;
+  padding:12px 18px;width:100%;max-width:320px;backdrop-filter:blur(10px);}
+.step-n{font-size:9px;font-weight:700;color:var(--p3);letter-spacing:2px;margin-bottom:3px;text-transform:uppercase;}
 .step-t{font-size:12px;line-height:1.7;color:var(--text);}
 .step-t b{color:var(--p3);}
 
 /* Chat header */
-.chat-header{
-  padding:12px 18px;border-bottom:1px solid var(--border);
-  display:flex;align-items:center;gap:12px;
-  background:rgba(18,0,32,0.7);backdrop-filter:blur(20px);flex-shrink:0;
-}
+.chat-header{padding:10px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;
+  background:rgba(18,0,32,.7);backdrop-filter:blur(20px);flex-shrink:0;}
 .chat-header-info{flex:1;min-width:0;}
 .chat-header-name{font-size:14px;font-weight:700;}
 .chat-header-sub{font-size:10px;color:var(--muted);font-weight:500;}
+.header-actions{display:flex;gap:6px;}
 
-/* Messages */
-.messages{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:10px;}
-.sys{
-  text-align:center;font-size:10px;font-weight:600;color:var(--muted);
-  padding:6px 14px;background:rgba(255,255,255,0.03);border-radius:50px;
-  border:1px solid var(--border);align-self:center;
+/* Action buttons */
+.act-btn{
+  background:rgba(255,255,255,.06);border:1px solid rgba(184,0,255,.25);
+  color:var(--text);font-size:11px;font-weight:600;padding:5px 12px;border-radius:50px;
+  cursor:pointer;transition:all .2s;white-space:nowrap;display:flex;align-items:center;gap:5px;
 }
-.bwrap{display:flex;flex-direction:column;max-width:72%;}
+.act-btn:hover{background:rgba(184,0,255,.15);border-color:var(--p1);}
+.act-btn.active{background:linear-gradient(135deg,rgba(112,0,255,.3),rgba(255,45,143,.3));border-color:var(--p2);color:var(--p3);}
+.act-btn.danger{border-color:rgba(255,59,107,.4);color:var(--red);}
+.act-btn.danger:hover{background:rgba(255,59,107,.15);}
+
+/* ── STREAM LAYOUT ── */
+/* Quand stream actif : layout en 2 colonnes (video | chat) */
+.chat.streaming{flex-direction:row;}
+.chat.streaming .chat-header{display:none;}
+.chat.streaming .messages-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:280px;max-width:320px;border-left:1px solid var(--border);}
+.chat.streaming .chat-header-mini{padding:8px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;background:rgba(18,0,32,.7);flex-shrink:0;}
+.chat.streaming .chat-header-mini .peer-name-mini{font-size:12px;font-weight:700;flex:1;}
+
+/* Video area */
+.video-area{flex:1;display:flex;flex-direction:column;background:#000;position:relative;overflow:hidden;}
+.video-area video{width:100%;height:100%;object-fit:contain;}
+.video-overlay{position:absolute;top:0;left:0;right:0;padding:10px 14px;
+  background:linear-gradient(to bottom,rgba(0,0,0,.7),transparent);
+  display:flex;align-items:center;justify-content:space-between;}
+.video-label{font-size:11px;font-weight:700;color:#fff;
+  background:linear-gradient(135deg,var(--p1),var(--p2));padding:3px 10px;border-radius:50px;}
+.video-controls{display:flex;gap:6px;}
+.video-no-stream{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--muted);}
+.video-no-stream .icon{font-size:48px;opacity:.4;}
+.video-no-stream p{font-size:13px;font-weight:600;text-align:center;line-height:1.6;}
+
+/* Messages area */
+.messages{flex:1;overflow-y:auto;padding:12px 14px;display:flex;flex-direction:column;gap:8px;}
+.sys{text-align:center;font-size:10px;font-weight:600;color:var(--muted);padding:4px 12px;
+  background:rgba(255,255,255,.03);border-radius:50px;border:1px solid var(--border);align-self:center;}
+.bwrap{display:flex;flex-direction:column;max-width:80%;}
 .bwrap.me{align-self:flex-end;align-items:flex-end;}
-.bwrap.them{align-self:flex-start;align-items:flex-start;}
-
-.bubble{
-  padding:10px 16px;border-radius:18px;font-size:14px;line-height:1.6;
-  word-break:break-word;font-weight:500;
-}
-.bwrap.me .bubble{
-  background:linear-gradient(135deg, var(--g1), var(--p2));
-  color:#fff;border-bottom-right-radius:4px;
-  box-shadow:0 4px 20px rgba(184,0,255,0.3);
-}
-.bwrap.them .bubble{
-  background:rgba(255,255,255,0.07);
-  border:1px solid rgba(184,0,255,0.15);
-  color:var(--text);border-bottom-left-radius:4px;
-  backdrop-filter:blur(10px);
-}
-.bmeta{
-  font-size:9px;color:var(--muted);margin-top:4px;
-  display:flex;align-items:center;gap:5px;font-weight:600;
-}
-.chip{font-size:8px;padding:2px 7px;border-radius:50px;font-weight:700;}
-.chip.ok{background:rgba(0,255,179,0.12);color:var(--green);border:1px solid rgba(0,255,179,0.25);}
-.chip.bad{background:rgba(255,59,107,0.12);color:var(--red);border:1px solid rgba(255,59,107,0.25);}
-.chip.p2p{
-  background:linear-gradient(135deg,rgba(112,0,255,0.15),rgba(255,45,143,0.15));
-  color:var(--p3);border:1px solid rgba(184,0,255,0.25);
-}
-.tick{color:var(--green);font-size:11px;}
+.bwrap.them{align-self:flex-start;}
+.bubble{padding:8px 14px;border-radius:18px;font-size:13px;line-height:1.6;word-break:break-word;font-weight:500;}
+.bwrap.me .bubble{background:linear-gradient(135deg,var(--g1),var(--p2));color:#fff;border-bottom-right-radius:4px;box-shadow:0 4px 20px rgba(184,0,255,.3);}
+.bwrap.them .bubble{background:rgba(255,255,255,.07);border:1px solid rgba(184,0,255,.15);color:var(--text);border-bottom-left-radius:4px;backdrop-filter:blur(10px);}
+.bmeta{font-size:9px;color:var(--muted);margin-top:3px;display:flex;align-items:center;gap:4px;font-weight:600;}
+.chip{font-size:7px;padding:2px 6px;border-radius:50px;font-weight:700;}
+.chip.ok{background:rgba(0,255,179,.12);color:var(--green);border:1px solid rgba(0,255,179,.25);}
+.chip.bad{background:rgba(255,59,107,.12);color:var(--red);border:1px solid rgba(255,59,107,.25);}
+.chip.p2p{background:linear-gradient(135deg,rgba(112,0,255,.15),rgba(255,45,143,.15));color:var(--p3);border:1px solid rgba(184,0,255,.25);}
+.tick{color:var(--green);}
 
 /* Input */
-.chat-input{
-  padding:12px 16px;border-top:1px solid var(--border);
-  display:flex;gap:10px;align-items:flex-end;
-  background:rgba(18,0,32,0.8);backdrop-filter:blur(20px);flex-shrink:0;
-}
-.chat-input textarea{
-  flex:1;background:rgba(255,255,255,0.05);
-  border:1px solid rgba(184,0,255,0.25);
-  color:var(--text);font-family:var(--sans);font-size:14px;font-weight:500;
-  padding:10px 16px;border-radius:24px;resize:none;line-height:1.5;max-height:120px;
-  transition:all .2s;
-}
-.chat-input textarea:focus{
-  outline:none;border-color:var(--p1);
-  background:rgba(184,0,255,0.08);
-  box-shadow:0 0 20px rgba(184,0,255,0.15);
-}
-.chat-input textarea::placeholder{color:var(--muted);}
-.send{
-  background:linear-gradient(135deg,var(--g1),var(--p2));
-  border:none;color:#fff;width:44px;height:44px;border-radius:50%;
-  font-size:18px;cursor:pointer;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 20px rgba(184,0,255,0.4);
-  transition:all .2s;
-}
-.send:hover{transform:scale(1.05);box-shadow:0 6px 25px rgba(184,0,255,0.5);}
-.send:active{transform:scale(0.95);}
+.chat-input{padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;align-items:flex-end;
+  background:rgba(18,0,32,.8);backdrop-filter:blur(20px);flex-shrink:0;}
+.chat-input textarea{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(184,0,255,.25);
+  color:var(--text);font-family:var(--sans);font-size:13px;font-weight:500;
+  padding:8px 14px;border-radius:24px;resize:none;line-height:1.5;max-height:100px;transition:all .2s;}
+.chat-input textarea:focus{outline:none;border-color:var(--p1);box-shadow:0 0 20px rgba(184,0,255,.15);}
+.send{background:linear-gradient(135deg,var(--g1),var(--p2));border:none;color:#fff;
+  width:40px;height:40px;border-radius:50%;font-size:16px;cursor:pointer;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(184,0,255,.4);transition:all .2s;}
+.send:hover{transform:scale(1.05);}
 
-/* Scrollbar */
-::-webkit-scrollbar{width:4px;}
-::-webkit-scrollbar-track{background:transparent;}
-::-webkit-scrollbar-thumb{background:rgba(184,0,255,0.3);border-radius:2px;}
+/* Notif stream entrant */
+.stream-notif{
+  position:fixed;bottom:80px;right:20px;z-index:200;
+  background:linear-gradient(135deg,rgba(112,0,255,.9),rgba(255,45,143,.9));
+  color:#fff;padding:12px 18px;border-radius:16px;font-size:13px;font-weight:700;
+  box-shadow:0 8px 30px rgba(184,0,255,.5);cursor:pointer;
+  animation:slideIn .3s ease;display:flex;align-items:center;gap:10px;
+}
+@keyframes slideIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
 
-/* Message animation */
-.bwrap{animation:msgIn .25s ease;}
-@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-
-@media(max-width:560px){.sidebar{width:180px;}.room-input{width:110px;}}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:rgba(184,0,255,.3);border-radius:2px;}
+.bwrap{animation:msgIn .2s ease;}
+@keyframes msgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media(max-width:600px){.sidebar{width:160px;}.room-input{width:110px;}.chat.streaming .messages-wrap{min-width:200px;max-width:240px;}}
 </style>
 </head>
 <body>
@@ -258,10 +184,7 @@ nav{
       onkeydown="if(event.key==='Enter')joinRoom()"/>
     <button class="join-btn" onclick="joinRoom()">JOIN 🚀</button>
   </div>
-  <div class="net-pill">
-    <div class="ndot" id="net-dot"></div>
-    <span id="net-txt">…</span>
-  </div>
+  <div class="net-pill"><div class="ndot" id="net-dot"></div><span id="net-txt">…</span></div>
 </nav>
 <div class="layout">
   <div class="sidebar">
@@ -274,28 +197,38 @@ nav{
     </div>
     <div class="peers-head">💜 Connectés</div>
     <div class="peers-list" id="peers-list">
-      <div style="padding:16px;font-size:11px;color:var(--muted);text-align:center;line-height:2;">
-        Rejoins une room<br>pour chatter 🔥
-      </div>
+      <div style="padding:14px;font-size:11px;color:var(--muted);text-align:center;line-height:2;">Rejoins une room<br>pour chatter 🔥</div>
     </div>
     <div class="sb-info" id="sb-info">◈ Prêt</div>
   </div>
   <div class="chat" id="chat-area">
     <div class="welcome">
       <div class="welcome-logo">ORION</div>
-      <h2>Messenger P2P</h2>
+      <h2>Messenger + Screen Share</h2>
       <div class="step"><div class="step-n">🚀 Étape 1</div><div class="step-t">Entre un <b>code room</b> et clique <b>JOIN</b>.</div></div>
       <div class="step"><div class="step-n">🔗 Étape 2</div><div class="step-t">Partage le lien :<br><span id="share-link" style="color:var(--p3);font-family:var(--mono);font-size:10px;">Entre un code room…</span></div></div>
-      <div class="step"><div class="step-n">💬 Étape 3</div><div class="step-t">Ton contact rejoint → <b>chat direct</b>, chiffré, zéro serveur.</div></div>
+      <div class="step"><div class="step-n">🎮 Étape 3</div><div class="step-t">Chat + bouton <b>📺 Partager écran</b> pour streamer ton jeu en direct.</div></div>
     </div>
   </div>
 </div>
+
 <script>
+/* ═══════════════════════════════════════════
+   ORION — Chat P2P + Screen Share WebRTC
+   ═══════════════════════════════════════════ */
+
 let myPeer=null,myId=null,myNode=null,roomId=null;
 let peers=new Map(),activePid=null,msgCount=0;
-let coordPeer=null,coordConn=null,isCoord=false,members=[],joining=false;
-let coordId=null;
+let coordPeer=null,coordConn=null,isCoord=false,members=[],joining=false,coordId=null;
 
+// Screen share
+let localStream    = null;  // notre stream (écran qu'on partage)
+let remoteStream   = null;  // stream reçu d'un pair
+let streamingTo    = null;  // pid vers qui on streame
+let streamingFrom  = null;  // pid dont on reçoit le stream
+let streamPeer     = null;  // Peer WebRTC dédié au stream
+
+/* ── INIT ── */
 async function init(){
   myNode=await makeNode();
   myId='o-'+Math.random().toString(36).substring(2,8);
@@ -309,10 +242,22 @@ async function init(){
     if(r){document.getElementById('room-input').value=r.toUpperCase();joinRoom();}
   });
   myPeer.on('connection',conn=>handleIncoming(conn));
+  // Appels entrants (stream)
+  myPeer.on('call',call=>{
+    streamingFrom=call.peer;
+    call.answer(); // répondre sans envoyer de stream
+    call.on('stream',stream=>{
+      remoteStream=stream;
+      showIncomingStreamNotif(call.peer);
+    });
+    call.on('close',()=>stopReceivingStream());
+    call.on('error',()=>stopReceivingStream());
+  });
   myPeer.on('error',e=>setNet('red','Erreur: '+e.type));
   myPeer.on('disconnected',()=>{setNet('amber','Reconnexion…');setTimeout(()=>{try{myPeer.reconnect();}catch(e){}},2000);});
 }
 
+/* ── ROOM ── */
 function joinRoom(){
   const val=document.getElementById('room-input').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');
   if(!val||val.length<2){alert('Code trop court !');return;}
@@ -376,14 +321,13 @@ function onCoordMsg(raw){
   }catch(e){}
 }
 
+/* ── CONNEXIONS ── */
 function connectTo(pid){
   if(!pid||pid===myId)return;
-  const ex=peers.get(pid);
-  if(ex&&ex.online)return;
+  const ex=peers.get(pid);if(ex&&ex.online)return;
   if(!ex)peers.set(pid,mkPeer(pid));
   attachConn(pid,myPeer.connect(pid,{reliable:true}));
 }
-
 function handleIncoming(conn){
   const pid=conn.peer;
   if(!peers.has(pid))peers.set(pid,mkPeer(pid));
@@ -391,18 +335,15 @@ function handleIncoming(conn){
   if(ex.conn&&ex.conn.open&&myId<pid){conn.close();return;}
   attachConn(pid,conn);
 }
-
 function mkPeer(pid){return{conn:null,name:'@'+pid.substring(0,6),pub:'',msgs:[],online:false,unread:0};}
-
 function attachConn(pid,conn){
   const p=peers.get(pid);if(!p)return;
   p.conn=conn;
   conn.on('open',()=>{
     p.online=true;
     conn.send(JSON.stringify({type:'hi',pub:myNode.pub,name:'@'+myId.substring(0,6)}));
-    renderPeersList();
-    if(activePid===pid)renderChatHeader(pid);
-    sysMsg(pid,'🔗 Connexion établie — P2P direct');
+    renderPeersList();if(activePid===pid)renderChatHeader(pid);
+    sysMsg(pid,'🔗 Connexion P2P établie');
     setNet('green','Room '+roomId+' · '+countOnline()+' connecté(s) 💜');
     updateSbInfo();
     if(peers.size===1&&!activePid)openChat(pid);
@@ -432,6 +373,7 @@ async function onData(pid,raw){
   }
 }
 
+/* ── ENVOYER ── */
 async function sendMessage(){
   if(!activePid)return;
   const ta=document.getElementById('msg-input');if(!ta)return;
@@ -446,33 +388,129 @@ async function sendMessage(){
   appendMsg(msg);scrollBottom();updateSbInfo();
 }
 
-async function makeNode(){
-  try{const kp=await crypto.subtle.generateKey({name:'Ed25519'},true,['sign','verify']);
-    const raw=await crypto.subtle.exportKey('raw',kp.publicKey);
-    return{kp,pub:h(raw),fb:false};}
-  catch(e){return{fb:true,pub:h(crypto.getRandomValues(new Uint8Array(32)))};}
-}
-async function sign(text){
-  if(myNode.fb)return h(crypto.getRandomValues(new Uint8Array(32)));
-  try{return h(await crypto.subtle.sign({name:'Ed25519'},myNode.kp.privateKey,enc(text)));}
-  catch(e){return h(crypto.getRandomValues(new Uint8Array(32)));}
-}
-async function verify(d,pub){
-  if(!pub||!d.sig||myNode.fb)return true;
-  try{const k=await crypto.subtle.importKey('raw',dh(pub),{name:'Ed25519'},false,['verify']);
-    return await crypto.subtle.verify({name:'Ed25519'},k,dh(d.sig),enc(d.text));}
-  catch(e){return false;}
+/* ════════════════════════════════
+   SCREEN SHARE
+   ════════════════════════════════ */
+
+async function startScreenShare(){
+  if(!activePid){alert('Sélectionne un contact d\'abord');return;}
+  try{
+    // Capturer l'écran
+    localStream=await navigator.mediaDevices.getDisplayMedia({
+      video:{frameRate:30,width:{ideal:1920},height:{ideal:1080}},
+      audio:true // son du système si dispo
+    });
+    // Appeler le pair avec notre stream
+    const call=myPeer.call(activePid,localStream);
+    streamingTo=activePid;
+    // Quand le partage s'arrête (bouton stop navigateur)
+    localStream.getVideoTracks()[0].onended=()=>stopScreenShare();
+    // Afficher notre propre preview + interface streaming
+    showStreamingUI(localStream, true);
+    sysMsg(activePid,'📺 Tu partages ton écran');
+    // Notifier l'autre via data channel
+    const p=peers.get(activePid);
+    if(p&&p.conn&&p.conn.open)p.conn.send(JSON.stringify({type:'stream-start',from:myId}));
+  }catch(e){
+    if(e.name!=='NotAllowedError') alert('Impossible de capturer l\'écran: '+e.message);
+  }
 }
 
+function stopScreenShare(){
+  if(localStream){localStream.getTracks().forEach(t=>t.stop());localStream=null;}
+  streamingTo=null;
+  // Revenir à la vue normale
+  if(activePid)openChat(activePid);
+  sysMsg(activePid,'⏹ Partage d\'écran arrêté');
+}
+
+function stopReceivingStream(){
+  remoteStream=null;streamingFrom=null;
+  if(activePid)openChat(activePid);
+}
+
+function showIncomingStreamNotif(fromPid){
+  // Supprimer notif existante
+  document.getElementById('stream-notif')?.remove();
+  const p=peers.get(fromPid);
+  const name=p?p.name:'Pair';
+  const notif=document.createElement('div');
+  notif.id='stream-notif';
+  notif.className='stream-notif';
+  notif.innerHTML=`📺 <span>${name} partage son écran !</span><button onclick="viewStream('${fromPid}')" style="background:rgba(255,255,255,.2);border:none;color:#fff;font-weight:700;padding:5px 12px;border-radius:50px;cursor:pointer;font-size:12px;">Voir 👀</button>`;
+  document.body.appendChild(notif);
+  setTimeout(()=>notif.remove(),10000);
+}
+
+function viewStream(fromPid){
+  document.getElementById('stream-notif')?.remove();
+  streamingFrom=fromPid;
+  if(remoteStream) showStreamingUI(remoteStream, false);
+}
+
+function showStreamingUI(stream, isLocal){
+  const chatEl=document.getElementById('chat-area');
+  const p=activePid?peers.get(activePid):null;
+  const pname=p?p.name:'Chat';
+
+  chatEl.className='chat streaming';
+  chatEl.innerHTML=`
+    <div class="video-area">
+      <video id="stream-video" autoplay playsinline ${isLocal?'muted':''}></video>
+      <div class="video-overlay">
+        <span class="video-label">${isLocal?'📺 Mon écran':'🎮 '+( peers.get(streamingFrom||'')?.name||'Pair')}</span>
+        <div class="video-controls">
+          ${isLocal?`<button class="act-btn danger" onclick="stopScreenShare()">⏹ Arrêter</button>`
+                   :`<button class="act-btn" onclick="stopReceivingStream()">✕ Fermer</button>`}
+        </div>
+      </div>
+    </div>
+    <div class="messages-wrap">
+      <div class="chat-header-mini">
+        <div class="avatar">${pname.substring(0,2).toUpperCase()}</div>
+        <div class="peer-name-mini">${esc(pname)}</div>
+        ${!isLocal?`<button class="act-btn" style="font-size:10px;padding:4px 10px;" onclick="startScreenShare()">📺 Partager</button>`:''}
+      </div>
+      <div class="messages" id="msg-list">
+        <div class="sys">📺 Stream actif · Chat en direct</div>
+      </div>
+      <div class="chat-input">
+        <textarea id="msg-input" placeholder="Message…" rows="1"
+          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}"
+          oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+        <button class="send" onclick="sendMessage()">➤</button>
+      </div>
+    </div>`;
+
+  // Attacher le stream à la video
+  const video=document.getElementById('stream-video');
+  video.srcObject=stream;
+
+  // Réafficher les messages
+  if(activePid){
+    const pp=peers.get(activePid);
+    if(pp) pp.msgs.forEach(m=>appendMsg(m));
+    scrollBottom();
+  }
+  document.getElementById('msg-input')?.focus();
+}
+
+/* ── RENDER ── */
 function openChat(pid){
   activePid=pid;const p=peers.get(pid);if(!p)return;
   p.unread=0;renderPeersList();
-  document.getElementById('chat-area').innerHTML=`
+  const chatEl=document.getElementById('chat-area');
+  chatEl.className='chat';
+  chatEl.innerHTML=`
     <div class="chat-header">
       <div class="avatar">${p.name.substring(0,2).toUpperCase()}</div>
       <div class="chat-header-info">
         <div class="chat-header-name" id="ch-name">${esc(p.name)}</div>
-        <div class="chat-header-sub" id="ch-sub">connexion…</div>
+        <div class="chat-header-sub" id="ch-sub">…</div>
+      </div>
+      <div class="header-actions">
+        <button class="act-btn" onclick="startScreenShare()" title="Partager mon écran">📺 Partager écran</button>
+        ${remoteStream?`<button class="act-btn" onclick="viewStream('${streamingFrom}')">👀 Voir stream</button>`:''}
       </div>
     </div>
     <div class="messages" id="msg-list"><div class="sys">🔒 Chiffré E2E · P2P direct</div></div>
@@ -482,7 +520,8 @@ function openChat(pid){
         oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
       <button class="send" onclick="sendMessage()">➤</button>
     </div>`;
-  p.msgs.forEach(m=>appendMsg(m));scrollBottom();renderChatHeader(pid);
+  p.msgs.forEach(m=>appendMsg(m));
+  scrollBottom();renderChatHeader(pid);
   document.getElementById('msg-input').focus();
 }
 
@@ -491,7 +530,7 @@ function renderChatHeader(pid){
   const n=document.getElementById('ch-name'),s=document.getElementById('ch-sub');
   if(!n||!s||!p)return;
   n.textContent=p.name;
-  s.textContent=p.online?'🟢 En ligne · P2P direct':'🔴 Hors ligne';
+  s.textContent=p.online?'🟢 En ligne · P2P':'🔴 Hors ligne';
 }
 function appendMsg(msg){
   const el=document.getElementById('msg-list');if(!el)return;
@@ -512,14 +551,14 @@ function sysMsg(pid,text){
 function scrollBottom(){const e=document.getElementById('msg-list');if(e)e.scrollTop=e.scrollHeight;}
 function renderPeersList(){
   const el=document.getElementById('peers-list');
-  if(peers.size===0){el.innerHTML=`<div style="padding:16px;font-size:11px;color:var(--muted);text-align:center;line-height:2;">${roomId?'En attente<br>room <b style="color:var(--p3)">'+roomId+'</b> 🔥':'Rejoins une room<br>pour chatter 🔥'}</div>`;return;}
+  if(peers.size===0){el.innerHTML=`<div style="padding:14px;font-size:11px;color:var(--muted);text-align:center;line-height:2;">${roomId?'Room <b style="color:var(--p3)">'+roomId+'</b><br>en attente 🔥':'Rejoins une room 🔥'}</div>`;return;}
   el.innerHTML='';
   for(const[pid,p]of peers){
     const last=p.msgs[p.msgs.length-1];
     el.innerHTML+=`<div class="peer-item ${activePid===pid?'active':''}" onclick="openChat('${esc(pid)}')">
       <div class="avatar">${p.name.substring(0,2).toUpperCase()}</div>
       <div class="peer-info"><div class="peer-name">${esc(p.name)}</div>
-      <div class="peer-sub">${p.online?'🟢 en ligne':'🔴 hors ligne'}${last?' · '+esc(last.text.substring(0,14)):''}</div></div>
+      <div class="peer-sub">${p.online?'🟢 en ligne':'🔴 hors ligne'}${last?' · '+esc(last.text.substring(0,12)):''}</div></div>
       ${p.unread?`<div class="unread-badge">${p.unread}</div>`:''}</div>`;
   }
 }
@@ -532,6 +571,24 @@ function setNet(s,t){
   const d=document.getElementById('net-dot');
   d.className='ndot'+(s==='green'?' green':s==='amber'?' amber':s==='red'?' red':'');
   document.getElementById('net-txt').textContent=t;
+}
+
+/* ── CRYPTO ── */
+async function makeNode(){
+  try{const kp=await crypto.subtle.generateKey({name:'Ed25519'},true,['sign','verify']);
+    const raw=await crypto.subtle.exportKey('raw',kp.publicKey);return{kp,pub:h(raw),fb:false};}
+  catch(e){return{fb:true,pub:h(crypto.getRandomValues(new Uint8Array(32)))};}
+}
+async function sign(text){
+  if(myNode.fb)return h(crypto.getRandomValues(new Uint8Array(32)));
+  try{return h(await crypto.subtle.sign({name:'Ed25519'},myNode.kp.privateKey,enc(text)));}
+  catch(e){return h(crypto.getRandomValues(new Uint8Array(32)));}
+}
+async function verify(d,pub){
+  if(!pub||!d.sig||myNode.fb)return true;
+  try{const k=await crypto.subtle.importKey('raw',dh(pub),{name:'Ed25519'},false,['verify']);
+    return await crypto.subtle.verify({name:'Ed25519'},k,dh(d.sig),enc(d.text));}
+  catch(e){return false;}
 }
 function enc(s){return new TextEncoder().encode(s);}
 function h(b){return Array.from(new Uint8Array(b instanceof ArrayBuffer?b:b)).map(x=>x.toString(16).padStart(2,'0')).join('');}

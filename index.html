@@ -743,11 +743,26 @@ async function sendMessage(){
   }
 
   const p=peers.get(activePid);
-  if(!p||!p.conn||!p.conn.open){sysMsg(activePid,'⚠ Canal fermé');return;}
-  const sig=await sign(text);
-  p.conn.send(JSON.stringify({type:'msg',text,ts:Date.now(),sig}));
-  const msg={from:'me',text,ts:Date.now(),valid:true};
-  p.msgs.push(msg);msgCount++;appendMsg(msg);scrollBottom();updateSbInfo();
+  if(!p){sysMsg(activePid,'⚠ Pair introuvable');return;}
+  // Vérifier la connexion — tenter reconnexion si fermée
+  if(!p.conn||!p.conn.open){
+    sysMsg(activePid,'⚠ Reconnexion en cours…');
+    connectTo(activePid);
+    // Remettre le texte dans le champ
+    const ta2=document.getElementById('msg-input');
+    if(ta2){ta2.value=text;ta2.style.height='auto';}
+    return;
+  }
+  try{
+    const sig=await sign(text);
+    p.conn.send(JSON.stringify({type:'msg',text,ts:Date.now(),sig}));
+    const msg={from:'me',text,ts:Date.now(),valid:true};
+    p.msgs.push(msg);msgCount++;appendMsg(msg);scrollBottom();updateSbInfo();
+  }catch(e){
+    sysMsg(activePid,'⚠ Erreur envoi — réessaie dans un instant');
+    const ta2=document.getElementById('msg-input');
+    if(ta2){ta2.value=text;}
+  }
 }
 
 /* ════════════════════════════════════
@@ -884,7 +899,7 @@ function processBot(query){
 
   // Aide
   if(q.match(/aide|help|commande|que sais|tu peux/)){
-    return 'Commandes disponibles :\n• @bot blague\n• @bot traduis X en Y\n• @bot calcule X\n• @bot capitale de X\n• @bot qui est X\n• @bot pile ou face\n• @bot nombre entre X et Y\n• @bot heure / date';;
+    return 'Commandes disponibles :\n• @bot blague\n• @bot traduis X en Y\n• @bot calcule X\n• @bot capitale de X\n• @bot qui est X\n• @bot pile ou face\n• @bot nombre entre X et Y\n• @bot heure / date';
   }
 
   // Merci

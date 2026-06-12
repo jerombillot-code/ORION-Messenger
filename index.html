@@ -211,6 +211,47 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:10px 1
 .bot-typing span:nth-child(2){animation-delay:.2s;}
 .bot-typing span:nth-child(3){animation-delay:.4s;}
 @keyframes bot-dot{0%,80%,100%{opacity:.2;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
+
+/* ── IMAGES ── */
+.img-bubble{max-width:280px;border-radius:14px;overflow:hidden;cursor:pointer;border:1px solid rgba(184,0,255,.3);}
+.img-bubble img{width:100%;display:block;max-height:200px;object-fit:cover;}
+.img-bubble:hover img{opacity:.9;}
+
+/* ── MESSAGES VOCAUX ── */
+.voice-bubble{display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(255,255,255,.06);border:1px solid rgba(184,0,255,.2);border-radius:50px;min-width:180px;max-width:280px;}
+.voice-play{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--g1),var(--p2));border:none;color:#fff;font-size:14px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.voice-play:active{opacity:.8;}
+.voice-bar{flex:1;height:4px;background:rgba(255,255,255,.15);border-radius:2px;position:relative;cursor:pointer;}
+.voice-progress{height:100%;background:linear-gradient(90deg,var(--p1),var(--p2));border-radius:2px;width:0%;transition:width .1s;}
+.voice-dur{font-size:10px;font-weight:700;color:var(--muted);flex-shrink:0;font-family:var(--mono);}
+
+/* ── RECORD BUTTON ── */
+.record-btn{width:40px;height:40px;border-radius:50%;border:2px solid rgba(184,0,255,.4);background:transparent;color:var(--muted);font-size:16px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.record-btn:hover{border-color:var(--p1);color:var(--p1);}
+.record-btn.recording{background:var(--red);border-color:var(--red);color:#fff;animation:pulse-rec .8s infinite;}
+@keyframes pulse-rec{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+
+/* ── YOUTUBE SYNC ── */
+.yt-bar{background:rgba(18,0,32,.9);border-top:1px solid var(--border);padding:8px 14px;display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.yt-input{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(184,0,255,.25);color:var(--text);font-size:12px;padding:6px 12px;border-radius:50px;outline:none;}
+.yt-input:focus{border-color:var(--p1);}
+.yt-btn{background:linear-gradient(135deg,#ff0000,#cc0000);border:none;color:#fff;font-size:11px;font-weight:700;padding:6px 14px;border-radius:50px;cursor:pointer;white-space:nowrap;}
+.yt-player-wrap{position:fixed;bottom:70px;right:16px;z-index:300;width:320px;background:#000;border-radius:12px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.8);border:2px solid rgba(255,0,0,.4);display:none;}
+.yt-player-wrap.show{display:block;}
+.yt-header{background:rgba(200,0,0,.8);padding:6px 12px;display:flex;align-items:center;justify-content:space-between;}
+.yt-title{font-size:10px;font-weight:700;color:#fff;}
+.yt-close{background:none;border:none;color:#fff;font-size:14px;cursor:pointer;}
+.yt-iframe{width:100%;height:180px;border:none;}
+.yt-sync-info{padding:6px 12px;font-size:10px;color:rgba(255,255,255,.6);background:rgba(0,0,0,.5);}
+
+/* ── NOTIF BADGE ── */
+.notif-badge{position:fixed;top:60px;right:16px;z-index:400;background:linear-gradient(135deg,var(--p1),var(--p2));color:#fff;padding:10px 16px;border-radius:14px;font-size:12px;font-weight:700;box-shadow:0 4px 20px rgba(184,0,255,.5);animation:slideIn .3s ease;cursor:pointer;max-width:260px;}
+@keyframes slideIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
+
+/* ── INPUT ZONE ── */
+.input-actions{display:flex;align-items:center;gap:6px;}
+.img-upload-btn{width:36px;height:36px;border-radius:50%;border:1px solid rgba(184,0,255,.3);background:transparent;color:var(--muted);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
+.img-upload-btn:hover{border-color:var(--p1);color:var(--p1);}
 </style>
 </head>
 <body>
@@ -607,6 +648,7 @@ function attachConn(pid,conn){
     sysMsg(pid,'🔗 Connexion P2P établie');
     setNet('green','Room '+roomId+' · '+countOnline()+' connecté(s) 💜');
     updateSbInfo();if(peers.size===1&&!activePid)openChat(pid);
+    requestNotifPermission();
   });
   conn.on('data',raw=>onData(pid,raw));
   conn.on('close',()=>{p.online=false;p.conn=null;renderPeersList();if(activePid===pid)renderChatHeader(pid);
@@ -656,7 +698,7 @@ async function onData(pid,raw){
     const valid=await verify(d,p.pub);
     const msg={from:'them',text:d.text,ts:d.ts||Date.now(),valid};
     p.msgs.push(msg);msgCount++;
-    if(activePid!==pid){p.unread++;renderPeersList();}else{appendMsg(msg);scrollBottom();}
+    if(activePid!==pid){p.unread++;renderPeersList();showNotif(p.name,d.text);}else{appendMsg(msg);scrollBottom();}
     updateSbInfo();return;
   }
   if(d.type==='quiz-invite')onQuizInvite(d,pid);
@@ -664,6 +706,23 @@ async function onData(pid,raw){
   else if(d.type==='quiz-question')onQuizQuestion(d);
   else if(d.type==='quiz-answer')onQuizPeerAnswer(d);
   else if(d.type==='quiz-end')onQuizEnd(d);
+  else if(d.type==='img'){
+    if(activePid===pid)appendImgMsg(d.data,'them');
+    else showNotif(p.name,'[Image]');
+    const msg={from:'them',text:'[Image]',ts:d.ts||Date.now(),valid:true};
+    p.msgs.push(msg);msgCount++;renderPeersList();updateSbInfo();
+  }
+  else if(d.type==='voice'){
+    if(activePid===pid)appendVoiceMsg(d.data,d.dur,'them');
+    else showNotif(p.name,'[Vocal '+d.dur+'s]');
+    const msg={from:'them',text:'[Vocal '+d.dur+'s]',ts:d.ts||Date.now(),valid:true};
+    p.msgs.push(msg);msgCount++;renderPeersList();updateSbInfo();
+  }
+  else if(d.type==='yt-sync'){
+    loadYTPlayer(d.ytId);
+    sysMsg(pid,'🎵 '+p.name+' partage YouTube');
+    if(activePid!==pid)showNotif(p.name,'🎵 YouTube synchronisé !');
+  }
 }
 
 // ── CHAT ──
@@ -1048,12 +1107,21 @@ function openChat(pid){
       <div class="header-actions">
         <button class="act-btn glow" onclick="showThemePicker()">🧠 Quiz</button>
         <button class="act-btn" onclick="focusBotInput()">🤖 Bot</button>
+        <button class="act-btn" onclick="toggleYTBar()">🎵 YouTube</button>
         <button class="act-btn" onclick="doScreenShare()">📺 Écran</button>
       </div>
     </div>
     <div class="messages" id="msg-list"><div class="sys">🔒 Chiffré E2E · P2P · 200 questions · 8 thèmes</div></div>
+    <div id="yt-bar" class="yt-bar" style="display:none;">
+      <input class="yt-input" id="yt-url" placeholder="Lien YouTube à écouter ensemble…" onkeydown="if(event.key==='Enter')sendYT()"/>
+      <button class="yt-btn" onclick="sendYT()">▶ Sync</button>
+      <button onclick="document.getElementById('yt-bar').style.display='none'" style="background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;">✕</button>
+    </div>
     <div class="chat-input">
-      <textarea id="msg-input" placeholder="Message… (tape @bot pour l'assistant)" rows="1"
+      <input type="file" id="img-file" accept="image/*" style="display:none" onchange="sendImage(this)"/>
+      <button class="img-upload-btn" onclick="document.getElementById('img-file').click()" title="Envoyer une image">🖼</button>
+      <button class="record-btn" id="record-btn" onclick="toggleRecord()" title="Message vocal">🎤</button>
+      <textarea id="msg-input" placeholder="Message… (@bot pour l'assistant)" rows="1"
         onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}"
         oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
       <button class="send" onclick="sendMessage()">➤</button>
@@ -1123,6 +1191,259 @@ function expandRemote(){
   if(!v)return;
   if(v.requestFullscreen) v.requestFullscreen();
   else if(v.webkitRequestFullscreen) v.webkitRequestFullscreen();
+}
+
+
+/* ════════════════════════════════════════
+   1. NOTIFICATIONS
+   ════════════════════════════════════════ */
+function requestNotifPermission(){
+  if('Notification' in window && Notification.permission==='default'){
+    Notification.requestPermission();
+  }
+}
+
+function showNotif(name, text){
+  // Badge in-app
+  const old=document.getElementById('notif-badge');if(old)old.remove();
+  const badge=document.createElement('div');
+  badge.id='notif-badge';badge.className='notif-badge';
+  badge.textContent=name+' : '+text.substring(0,40)+(text.length>40?'…':'');
+  badge.onclick=()=>{badge.remove();};
+  document.body.appendChild(badge);
+  setTimeout(()=>badge.remove(), 4000);
+
+  // Notification système si dispo et page en arrière-plan
+  if('Notification' in window && Notification.permission==='granted' && document.hidden){
+    new Notification('◈ ORION — '+name, {body:text, icon:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">◈</text></svg>'});
+  }
+}
+
+/* ════════════════════════════════════════
+   2. ENVOI D'IMAGES
+   ════════════════════════════════════════ */
+function sendImage(input){
+  if(!activePid||!input.files[0])return;
+  const p=peers.get(activePid);
+  if(!p||!p.conn||!p.conn.open){alert('Pair hors ligne');return;}
+  const file=input.files[0];
+  if(file.size>2*1024*1024){alert('Image trop grande (max 2MB)');input.value='';return;}
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const b64=e.target.result;
+    // Envoyer en chunks si nécessaire — ici direct car <2MB
+    p.conn.send(JSON.stringify({type:'img',data:b64,name:file.name,ts:Date.now()}));
+    // Afficher localement
+    appendImgMsg(b64,'me');
+    const msg={from:'me',text:'[Image]',ts:Date.now(),valid:true};
+    p.msgs.push(msg);updateSbInfo();
+  };
+  reader.readAsDataURL(file);
+  input.value='';
+}
+
+function appendImgMsg(b64, from){
+  const el=document.getElementById('msg-list');if(!el)return;
+  const isMe=from==='me';
+  const p=peers.get(activePid);
+  const senderName=isMe?(myPseudo||'Moi'):(p?p.name:'Pair');
+  const wrap=document.createElement('div');
+  wrap.className='bwrap '+(isMe?'me':'them');
+  wrap.innerHTML=`
+    <div style="font-size:10px;font-weight:700;color:${isMe?'var(--p3)':'var(--muted)'};margin-bottom:3px;padding:0 4px;">
+      ${isMe?'🟣':'🔵'} ${esc(senderName)}
+    </div>
+    <div class="img-bubble" onclick="window.open('${b64}','_blank')">
+      <img src="${b64}" alt="image" loading="lazy"/>
+    </div>
+    <div class="bmeta"><span>${ft(Date.now())}</span>${isMe?'<span class="tick">✓✓</span>':''}<span class="chip p2p">img</span></div>`;
+  el.appendChild(wrap);scrollBottom();
+}
+
+/* ════════════════════════════════════════
+   3. MESSAGES VOCAUX
+   ════════════════════════════════════════ */
+let mediaRecorder=null;
+let audioChunks=[];
+let isRecording=false;
+let recordTimer=null;
+let recordSeconds=0;
+
+async function toggleRecord(){
+  if(isRecording){
+    stopRecord();
+  } else {
+    startRecord();
+  }
+}
+
+async function startRecord(){
+  if(!activePid)return;
+  try{
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    mediaRecorder=new MediaRecorder(stream);
+    audioChunks=[];
+    isRecording=true;
+    recordSeconds=0;
+    const btn=document.getElementById('record-btn');
+    if(btn){btn.classList.add('recording');btn.textContent='⏹';}
+    recordTimer=setInterval(()=>{
+      recordSeconds++;
+      const btn=document.getElementById('record-btn');
+      if(btn)btn.title=recordSeconds+'s — clique pour arrêter';
+      if(recordSeconds>=60)stopRecord(); // max 60s
+    },1000);
+    mediaRecorder.ondataavailable=e=>audioChunks.push(e.data);
+    mediaRecorder.onstop=async()=>{
+      stream.getTracks().forEach(t=>t.stop());
+      const blob=new Blob(audioChunks,{type:'audio/webm'});
+      if(blob.size>0)await sendVoice(blob);
+    };
+    mediaRecorder.start();
+  }catch(e){
+    alert('Micro non disponible : '+e.message);
+  }
+}
+
+function stopRecord(){
+  if(!mediaRecorder||!isRecording)return;
+  isRecording=false;
+  clearInterval(recordTimer);
+  mediaRecorder.stop();
+  const btn=document.getElementById('record-btn');
+  if(btn){btn.classList.remove('recording');btn.textContent='🎤';btn.title='Message vocal';}
+}
+
+async function sendVoice(blob){
+  const p=peers.get(activePid);
+  if(!p||!p.conn||!p.conn.open){alert('Pair hors ligne');return;}
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const b64=e.target.result;
+    const dur=recordSeconds;
+    p.conn.send(JSON.stringify({type:'voice',data:b64,dur,ts:Date.now()}));
+    appendVoiceMsg(b64,dur,'me');
+    const msg={from:'me',text:'[Vocal '+dur+'s]',ts:Date.now(),valid:true};
+    p.msgs.push(msg);updateSbInfo();
+  };
+  reader.readAsDataURL(blob);
+}
+
+function appendVoiceMsg(b64, dur, from){
+  const el=document.getElementById('msg-list');if(!el)return;
+  const isMe=from==='me';
+  const p=peers.get(activePid);
+  const senderName=isMe?(myPseudo||'Moi'):(p?p.name:'Pair');
+  const id='v'+Date.now()+Math.random().toString(36).substring(2,6);
+  const wrap=document.createElement('div');
+  wrap.className='bwrap '+(isMe?'me':'them');
+  const durStr=dur?dur+'s':'…';
+  wrap.innerHTML=`
+    <div style="font-size:10px;font-weight:700;color:${isMe?'var(--p3)':'var(--muted)'};margin-bottom:3px;padding:0 4px;">
+      ${isMe?'🟣':'🔵'} ${esc(senderName)}
+    </div>
+    <div class="voice-bubble">
+      <button class="voice-play" onclick="playVoice('${id}')" id="btn-${id}">▶</button>
+      <div class="voice-bar" onclick="seekVoice(event,'${id}')">
+        <div class="voice-progress" id="prog-${id}"></div>
+      </div>
+      <span class="voice-dur" id="dur-${id}">${durStr}</span>
+    </div>
+    <audio id="${id}" src="${b64}" onended="resetVoice('${id}','${durStr}')" ontimeupdate="updateVoiceProgress('${id}')"></audio>
+    <div class="bmeta"><span>${ft(Date.now())}</span>${isMe?'<span class="tick">✓✓</span>':''}<span class="chip p2p">🎤</span></div>`;
+  el.appendChild(wrap);scrollBottom();
+}
+
+function playVoice(id){
+  const audio=document.getElementById(id);
+  const btn=document.getElementById('btn-'+id);
+  if(!audio||!btn)return;
+  if(audio.paused){audio.play();btn.textContent='⏸';}
+  else{audio.pause();btn.textContent='▶';}
+}
+function updateVoiceProgress(id){
+  const audio=document.getElementById(id);
+  const prog=document.getElementById('prog-'+id);
+  const dur=document.getElementById('dur-'+id);
+  if(!audio||!prog)return;
+  const pct=audio.duration?(audio.currentTime/audio.duration*100):0;
+  prog.style.width=pct+'%';
+  if(dur&&audio.duration){
+    const rem=Math.ceil(audio.duration-audio.currentTime);
+    dur.textContent=rem+'s';
+  }
+}
+function resetVoice(id,durStr){
+  const btn=document.getElementById('btn-'+id);
+  const prog=document.getElementById('prog-'+id);
+  const dur=document.getElementById('dur-'+id);
+  if(btn)btn.textContent='▶';
+  if(prog)prog.style.width='0%';
+  if(dur)dur.textContent=durStr;
+}
+function seekVoice(e,id){
+  const audio=document.getElementById(id);
+  const bar=e.currentTarget;
+  if(!audio||!bar||!audio.duration)return;
+  const pct=e.offsetX/bar.offsetWidth;
+  audio.currentTime=pct*audio.duration;
+}
+
+/* ════════════════════════════════════════
+   4. YOUTUBE SYNCHRONISÉ
+   ════════════════════════════════════════ */
+let ytPlayer=null;
+let ytSyncing=false;
+
+function toggleYTBar(){
+  const bar=document.getElementById('yt-bar');
+  if(bar)bar.style.display=bar.style.display==='none'?'flex':'none';
+}
+
+function extractYTId(url){
+  const m=url.match(/(?:v=|youtu\.be\/|embed\/)([A-Za-z0-9_-]{11})/);
+  return m?m[1]:null;
+}
+
+function sendYT(){
+  if(!activePid)return;
+  const input=document.getElementById('yt-url');if(!input)return;
+  const url=input.value.trim();if(!url)return;
+  const ytId=extractYTId(url);
+  if(!ytId){alert('Lien YouTube invalide');return;}
+  const p=peers.get(activePid);
+  if(p&&p.conn&&p.conn.open){
+    p.conn.send(JSON.stringify({type:'yt-sync',ytId,action:'load',ts:Date.now()}));
+  }
+  loadYTPlayer(ytId);
+  input.value='';
+  document.getElementById('yt-bar').style.display='none';
+  sysMsg(activePid,'🎵 YouTube synchronisé envoyé');
+}
+
+function loadYTPlayer(ytId){
+  const wrap=document.getElementById('yt-player-wrap')||createYTWrap();
+  wrap.classList.add('show');
+  const iframe=document.getElementById('yt-iframe');
+  if(iframe){
+    iframe.src=`https://www.youtube.com/embed/${ytId}?autoplay=1&enablejsapi=1`;
+  }
+  const info=document.getElementById('yt-sync-info');
+  if(info)info.textContent='🎵 Écoute synchronisée avec '+(peers.get(activePid)?.name||'Pair');
+}
+
+function createYTWrap(){
+  const wrap=document.createElement('div');
+  wrap.id='yt-player-wrap';wrap.className='yt-player-wrap';
+  wrap.innerHTML=`
+    <div class="yt-header">
+      <span class="yt-title">🎵 YouTube Synchronisé</span>
+      <button class="yt-close" onclick="document.getElementById('yt-player-wrap').classList.remove('show');document.getElementById('yt-iframe').src='';">✕</button>
+    </div>
+    <iframe id="yt-iframe" class="yt-iframe" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <div id="yt-sync-info" class="yt-sync-info">En attente…</div>`;
+  document.body.appendChild(wrap);
+  return wrap;
 }
 
 function renderChatHeader(pid){

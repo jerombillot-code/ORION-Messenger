@@ -195,6 +195,22 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:10px 1
 ::-webkit-scrollbar{width:3px;}
 ::-webkit-scrollbar-thumb{background:rgba(184,0,255,.3);border-radius:2px;}
 @media(max-width:560px){.sidebar{width:160px;}.room-input{width:110px;}.quiz-choices{grid-template-columns:1fr;}.theme-grid{grid-template-columns:1fr;}}
+
+/* ── BOT ── */
+.bot-bubble{align-self:flex-start;max-width:80%;background:linear-gradient(135deg,rgba(0,255,179,.05),rgba(0,212,255,.05));
+  border:1px solid rgba(0,255,179,.2);border-radius:18px;border-bottom-left-radius:4px;
+  padding:10px 14px;animation:msgIn .25s ease;}
+.bot-header{display:flex;align-items:center;gap:7px;margin-bottom:6px;}
+.bot-avatar{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#00ffb3,#00d4ff);
+  display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
+.bot-name{font-size:10px;font-weight:800;color:var(--green);letter-spacing:1px;}
+.bot-text{font-size:13px;line-height:1.6;color:var(--text);white-space:pre-wrap;}
+.bot-hint{font-size:9px;color:var(--muted);margin-top:4px;}
+.bot-typing{display:flex;align-items:center;gap:4px;padding:4px 0;}
+.bot-typing span{width:6px;height:6px;border-radius:50%;background:var(--green);opacity:.4;animation:bot-dot 1.2s infinite;}
+.bot-typing span:nth-child(2){animation-delay:.2s;}
+.bot-typing span:nth-child(3){animation-delay:.4s;}
+@keyframes bot-dot{0%,80%,100%{opacity:.2;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
 </style>
 </head>
 <body>
@@ -626,12 +642,199 @@ async function sendMessage(){
   const ta=document.getElementById('msg-input');if(!ta)return;
   const text=ta.value.trim();if(!text)return;
   ta.value='';ta.style.height='auto';
+
+  // Bot command — @bot ou /bot
+  if(text.toLowerCase().startsWith('@bot ')||text.toLowerCase().startsWith('/bot ')){
+    const query=text.substring(5).trim();
+    const msg={from:'me',text,ts:Date.now(),valid:true};
+    const p2=peers.get(activePid);if(p2)p2.msgs.push(msg);
+    msgCount++;appendMsg(msg);scrollBottom();
+    await askBot(query);
+    return;
+  }
+
   const p=peers.get(activePid);
   if(!p||!p.conn||!p.conn.open){sysMsg(activePid,'⚠ Canal fermé');return;}
   const sig=await sign(text);
   p.conn.send(JSON.stringify({type:'msg',text,ts:Date.now(),sig}));
   const msg={from:'me',text,ts:Date.now(),valid:true};
   p.msgs.push(msg);msgCount++;appendMsg(msg);scrollBottom();updateSbInfo();
+}
+
+/* ════════════════════════════════════
+   CHATBOT LOCAL — Zéro API, zéro internet
+   ════════════════════════════════════ */
+
+const TRANSLATIONS={
+  'bonjour':{anglais:'Hello',espagnol:'Hola',japonais:'Konnichiwa (こんにちは)',allemand:'Guten Tag',italien:'Ciao',arabe:'Marhaba (مرحبا)',chinois:'Ni hao (你好)',russe:'Privet (Привет)',portugais:'Olá'},
+  'merci':{anglais:'Thank you',espagnol:'Gracias',japonais:'Arigatou (ありがとう)',allemand:'Danke',italien:'Grazie',arabe:'Shukran (شكرا)',chinois:'Xiexie (谢谢)',russe:'Spasibo (Спасибо)',portugais:'Obrigado'},
+  'au revoir':{anglais:'Goodbye',espagnol:'Adios',japonais:'Sayounara (さようなら)',allemand:'Auf Wiedersehen',italien:'Arrivederci',arabe:'Ma salam (مع السلامة)',chinois:'Zaijian (再见)',russe:'Do svidaniya (До свидания)',portugais:'Adeus'},
+  'oui':{anglais:'Yes',espagnol:'Si',japonais:'Hai (はい)',allemand:'Ja',italien:'Si',arabe:'Naam (نعم)',chinois:'Shi (是)',russe:'Da (Да)',portugais:'Sim'},
+  'non':{anglais:'No',espagnol:'No',japonais:'Iie (いいえ)',allemand:'Nein',italien:'No',arabe:'La (لا)',chinois:'Bu (不)',russe:'Nyet (Нет)',portugais:'Nao'},
+  'je taime':{anglais:'I love you',espagnol:'Te quiero',japonais:'Aishiteru (愛してる)',allemand:'Ich liebe dich',italien:'Ti amo',arabe:'Uhibbuka (أحبك)',chinois:'Wo ai ni (我爱你)',russe:'Ya tebya lyublyu',portugais:'Eu te amo'},
+  'comment vas tu':{anglais:'How are you?',espagnol:'Como estas?',japonais:'Ogenki desu ka?',allemand:'Wie geht es dir?',italien:'Come stai?',arabe:'Kayfa haluk (كيف حالك)',chinois:'Ni hao ma? (你好吗)',russe:'Kak dela?',portugais:'Como vai?'},
+};
+
+const WHO_IS={
+  messi:['Lionel Messi - Footballeur argentin, 8x Ballon d Or, champion du monde 2022. Le GOAT pour beaucoup ! 🐐'],
+  ronaldo:['Cristiano Ronaldo - Footballeur portugais, 5x Ballon d Or, l un des meilleurs joueurs de l histoire. ⚽'],
+  einstein:['Albert Einstein - Physicien (1879-1955), pere de la relativite generale, Prix Nobel 1921. 🧠'],
+  napoleon:['Napoleon Bonaparte - General et Empereur des Francais (1769-1821), grand stratege militaire. ⚔️'],
+  'elon musk':['Elon Musk - PDG de Tesla et SpaceX, fondateur de X (ex-Twitter), parmi les plus riches du monde. 🚀'],
+  'bill gates':['Bill Gates - Co-fondateur de Microsoft, philanthrope, icone de la tech mondiale. 💻'],
+  macron:['Emmanuel Macron - President de la Republique francaise depuis 2017. 🇫🇷'],
+  zuckerberg:['Mark Zuckerberg - Co-fondateur et PDG de Meta (Facebook, Instagram, WhatsApp). 📱'],
+  drake:['Drake - Rappeur canadien, l un des artistes les plus streames de l histoire. 🎵'],
+  beyonce:['Beyonce - Chanteuse americaine, icone mondiale de la pop et du R&B. 👑'],
+  obama:['Barack Obama - 44e president des Etats-Unis (2009-2017), premier president afro-americain. 🇺🇸'],
+  shakespeare:['William Shakespeare - Dramaturge et poete anglais (1564-1616), auteur de Hamlet, Romeo et Juliette... 📖'],
+};
+
+const CAPITALS={
+  france:'Paris',espagne:'Madrid',italie:'Rome',allemagne:'Berlin',japon:'Tokyo',
+  chine:'Pekin (Beijing)',usa:'Washington D.C.',bresil:'Brasilia',maroc:'Rabat',
+  algerie:'Alger',portugal:'Lisbonne',belgique:'Bruxelles',suisse:'Berne',
+  canada:'Ottawa',australie:'Canberra',russie:'Moscou',inde:'New Delhi',
+  mexique:'Mexico',argentine:'Buenos Aires',egypte:'Le Caire',
+};
+
+const BLAGUES=[
+  'Pourquoi les plongeurs plongent-ils en arriere ? Parce que sinon ils tomberaient dans le bateau ! 😂',
+  'Qu est-ce qu un crocodile qui surveille les serveurs ? Un maintenancier ! 😄',
+  'Comment appelle-t-on un chat tombe dans un pot de peinture le jour de Noel ? Un chat-peint de Noel ! 🎄😂',
+  'Qu est-ce qu une abeille mafieuse ? Un bourdon... 🐝😂',
+  'Pourquoi les elephants ne jouent pas aux cartes dans la jungle ? Parce qu il y a trop de tricheurs... 🐘',
+  'C est l histoire d une vague qui dit a une autre : tu as l air d etre en forme ! L autre repond : oui, je me sens deferlee ! 🌊',
+  'Qu est-ce qu un os cache dans un ordinateur ? Le disque dur ! 🦴💻',
+  'Pourquoi Peter Pan vole-t-il ? Parce que Wendy ne peut pas ! 😂',
+];
+
+function processBot(query){
+  const q = query.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
+
+  // Heure / Date
+  if(q.match(/heure|quelle heure/)){
+    return '⏰ Il est ' + new Date().toLocaleTimeString('fr-FR');
+  }
+  if(q.match(/date|quel jour|aujourd.?hui/)){
+    return '📅 ' + new Date().toLocaleDateString('fr-FR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  }
+
+  // Calcul
+  const calc = q.match(/calcul[aer]{0,2}[e]?\s+(.+)/);
+  if(calc){
+    try{
+      let expr = calc[1]
+        .replace(/plus/g,'+').replace(/moins/g,'-')
+        .replace(/fois/g,'*').replace(/divise par/g,'/')
+        .replace(/(\d+)\s*%\s*de\s*(\d+)/g,'($1/100*$2)')
+        .replace(/(\d+)\s*pourcent\s*de\s*(\d+)/g,'($1/100*$2)');
+      if(!/[^0-9+\-*/(). ]/.test(expr)){
+        const r = Function('"use strict";return ('+expr+')')();
+        return '🔢 ' + calc[1] + ' = ' + (Math.round(r*10000)/10000);
+      }
+    }catch(e){}
+    return 'Je ne sais pas calculer ca. Essaie : @bot calcule 15% de 200';
+  }
+
+  // Traduction : traduis X en Y
+  const trad = q.match(/tradui[st]?\s+"?([^"]+?)"?\s+en\s+(\w+)/);
+  if(trad){
+    const word = trad[1].toLowerCase().replace(/[\u0300-\u036f]/g,'').trim();
+    const lang  = trad[2].toLowerCase().trim();
+    if(TRANSLATIONS[word] && TRANSLATIONS[word][lang])
+      return '🌍 "' + trad[1] + '" en ' + lang + ' : ' + TRANSLATIONS[word][lang];
+    if(TRANSLATIONS[word])
+      return '🌍 Je connais "' + trad[1] + '" en : ' + Object.keys(TRANSLATIONS[word]).join(', ');
+    return 'Je ne connais pas "' + trad[1] + '". Mots connus : ' + Object.keys(TRANSLATIONS).join(', ');
+  }
+
+  // Capitale
+  const cap = q.match(/capitale\s+d[eu'el]?\s*(\w+)/);
+  if(cap){
+    const pays = cap[1].toLowerCase();
+    if(CAPITALS[pays]) return '🌍 La capitale de ' + cap[1] + ' est ' + CAPITALS[pays];
+    return 'Je ne connais pas la capitale de "' + cap[1] + '".';
+  }
+
+  // Qui est
+  const who = q.match(/qui\s+est\s+(.+)/);
+  if(who){
+    const name = who[1].toLowerCase().trim();
+    for(const [k,v] of Object.entries(WHO_IS)){
+      if(name.includes(k)) return v[0];
+    }
+    return 'Je ne connais pas "' + who[1] + '" dans ma base.';
+  }
+
+  // Blague
+  if(q.match(/blague|drole|marrant|rigol|joke/)){
+    return BLAGUES[Math.floor(Math.random()*BLAGUES.length)];
+  }
+
+  // Pile ou face
+  if(q.match(/pile|face|coin/)){
+    return '🪙 ' + (Math.random()<.5 ? 'PILE !' : 'FACE !');
+  }
+
+  // Nombre aléatoire
+  const rand = q.match(/nombre.{0,10}entre\s+(\d+)\s+et\s+(\d+)/);
+  if(rand){
+    const min=parseInt(rand[1]), max=parseInt(rand[2]);
+    return '🎲 ' + (Math.floor(Math.random()*(max-min+1))+min);
+  }
+  if(q.match(/nombre.{0,15}al[eé]atoire|chiffre.{0,10}hasard/)){
+    return '🎲 ' + (Math.floor(Math.random()*100)+1);
+  }
+
+  // Bonjour / salut
+  if(q.match(/^(bonjour|salut|hello|hey|coucou|yo)/)){
+    const g=['Salut ! 👋 Tape @bot + ta question.','Hey ! 😊 Comment je peux aider ?','Coucou ! 🤖'];
+    return g[Math.floor(Math.random()*g.length)];
+  }
+
+  // Aide
+  if(q.match(/aide|help|commande|que sais|tu peux/)){
+    return 'Commandes disponibles :\n• @bot blague\n• @bot traduis X en Y\n• @bot calcule X\n• @bot capitale de X\n• @bot qui est X\n• @bot pile ou face\n• @bot nombre entre X et Y\n• @bot heure / date';;
+  }
+
+  // Merci
+  if(q.match(/^merci|thanks|thx/)){
+    return ['De rien ! 😊','Avec plaisir !','C est fait pour ca ! 🤖'][Math.floor(Math.random()*3)];
+  }
+
+  // Qui suis-je / tu es qui
+  if(q.match(/tu es qui|qui es.tu|tu t.appelles/)){
+    return 'Je suis ORION BOT 🤖 — ton assistant integre dans ORION Messenger. Sans API, sans internet, 100% local ! Tape @bot aide pour mes commandes.';
+  }
+
+  // Default
+  const defs=[
+    'Je ne suis pas sur de comprendre. Tape @bot aide pour voir mes commandes ! 🤖',
+    'Ca depasse mes capacites hors-ligne. Tape @bot aide ! 🤔',
+    'Hmm... Essaie @bot aide pour la liste de mes commandes 😊',
+  ];
+  return defs[Math.floor(Math.random()*defs.length)];
+}
+
+function askBot(query){
+  const el=document.getElementById('msg-list');if(!el)return;
+  const typing=document.createElement('div');
+  typing.className='bot-bubble';typing.id='bot-typing';
+  typing.innerHTML='<div class="bot-header"><div class="bot-avatar">🤖</div><div class="bot-name">ORION BOT</div></div><div class="bot-typing"><span></span><span></span><span></span></div>';
+  el.appendChild(typing);scrollBottom();
+  setTimeout(()=>{
+    document.getElementById('bot-typing')?.remove();
+    addBotBubble(processBot(query));
+  }, 500+Math.random()*400);
+}
+function addBotBubble(text){
+  const el=document.getElementById('msg-list');if(!el)return;
+  const d=document.createElement('div');d.className='bot-bubble';
+  d.innerHTML=`<div class="bot-header"><div class="bot-avatar">🤖</div><div class="bot-name">ORION BOT</div></div>
+    <div class="bot-text">${esc(text)}</div>
+    <div class="bot-hint">Visible uniquement par toi · tape @bot [question]</div>`;
+  el.appendChild(d);scrollBottom();
 }
 
 // ── QUIZ ──
@@ -792,12 +995,13 @@ function openChat(pid){
       </div>
       <div class="header-actions">
         <button class="act-btn glow" onclick="showThemePicker()">🧠 Quiz</button>
+        <button class="act-btn" onclick="focusBotInput()">🤖 Bot</button>
         <button class="act-btn" onclick="doScreenShare()">📺 Écran</button>
       </div>
     </div>
     <div class="messages" id="msg-list"><div class="sys">🔒 Chiffré E2E · P2P · 200 questions · 8 thèmes</div></div>
     <div class="chat-input">
-      <textarea id="msg-input" placeholder="Message…" rows="1"
+      <textarea id="msg-input" placeholder="Message… (tape @bot pour l'assistant)" rows="1"
         onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}"
         oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
       <button class="send" onclick="sendMessage()">➤</button>
@@ -806,6 +1010,12 @@ function openChat(pid){
   document.getElementById('msg-input').focus();
 }
 
+function focusBotInput(){
+  const ta=document.getElementById('msg-input');
+  if(!ta)return;
+  ta.value='@bot ';ta.focus();
+  ta.selectionStart=ta.selectionEnd=ta.value.length;
+}
 async function doScreenShare(){
   if(!activePid)return;
   try{const stream=await navigator.mediaDevices.getDisplayMedia({video:{frameRate:30},audio:true});
